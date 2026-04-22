@@ -1,12 +1,149 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FlowPilot – AI Workspace for Freelancers</title>
-  <link rel="stylesheet" href="css/styles.css" />
-</head>
-<body>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Catalogo Demo</title>
+    <meta name="description" content="Landing catalogo para tiendas que venden por WhatsApp e Instagram." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="#top" aria-label="Inicio de la tienda">
+          <span class="brand-mark" id="brand-mark">NK</span>
+          <span class="brand-copy">
+            <strong id="brand-name">Nova Kicks</strong>
+            <small id="brand-tagline">Drop urbano 2026</small>
+          </span>
+        </a>
 
-</body>
+        <nav class="site-nav" aria-label="Principal">
+          <a href="#catalogo">Catalogo</a>
+          <a href="#beneficios">Beneficios</a>
+          <a href="#reviews">Reviews</a>
+          <a href="#contacto">Contacto</a>
+        </nav>
+
+        <a class="button button-dark" id="header-whatsapp" href="#contacto">Pedir por WhatsApp</a>
+      </header>
+
+      <section class="demo-switcher" aria-label="Demos disponibles">
+        <p>Base reutilizable para distintos rubros:</p>
+        <div class="demo-switcher-actions" id="demo-switcher"></div>
+      </section>
+
+      <main id="top">
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow" id="hero-eyebrow">Tienda lista para vender mas</p>
+            <h1 id="hero-title">Zapatillas que entran por los ojos y se consultan en dos toques.</h1>
+            <p class="hero-text" id="hero-text">
+              Una landing pensada para negocios chicos que venden por Instagram, WhatsApp y recomendacion.
+            </p>
+
+            <div class="hero-actions">
+              <a class="button button-accent" href="#catalogo">Ver destacados</a>
+              <a class="button button-light" href="#contacto" id="secondary-cta">Quiero esta web</a>
+            </div>
+
+            <ul class="hero-points" id="hero-points" aria-label="Beneficios rapidos"></ul>
+          </div>
+
+          <div class="hero-visual">
+            <article class="featured-card featured-card-main">
+              <span class="pill" id="featured-pill">Nuevo drop</span>
+              <h2 id="featured-name">Urban Sprint 04</h2>
+              <p id="featured-description">Diseno retro-running para uso diario con base liviana y suela de alto agarre.</p>
+              <div class="price-row">
+                <strong id="featured-price">$89.900</strong>
+                <span id="featured-note">6 cuotas sin interes</span>
+              </div>
+            </article>
+
+            <article class="featured-card featured-card-side">
+              <p class="mini-label" id="mini-label">Mas buscadas</p>
+              <ul class="mini-stats" id="mini-stats"></ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="trust-strip" aria-label="Prueba social">
+          <p id="trust-copy">Elegidas por tiendas multimarca, revendedores y clientes que compran por redes.</p>
+          <div class="trust-items" id="trust-items"></div>
+        </section>
+
+        <section class="catalog" id="catalogo">
+          <div class="section-heading">
+            <p class="eyebrow" id="catalog-eyebrow">Catalogo destacado</p>
+            <h2 id="catalog-title">Pares pensados para convertir vistas en consultas.</h2>
+            <p id="catalog-text">
+              Esta estructura te deja mostrar lo importante sin marear al cliente: foto, precio, beneficios y salida rapida a WhatsApp.
+            </p>
+          </div>
+
+          <div class="filter-bar" id="filter-bar" role="tablist" aria-label="Filtrar productos"></div>
+          <div class="product-grid" id="product-grid"></div>
+        </section>
+
+        <section class="benefits" id="beneficios">
+          <div class="section-heading">
+            <p class="eyebrow" id="benefits-eyebrow">Por que funciona</p>
+            <h2 id="benefits-title">Una web simple vende mejor que una tienda confusa.</h2>
+          </div>
+
+          <div class="benefit-grid" id="benefit-grid"></div>
+        </section>
+
+        <section class="reviews" id="reviews">
+          <div class="section-heading">
+            <p class="eyebrow" id="reviews-eyebrow">Confianza</p>
+            <h2 id="reviews-title">Textos cortos, reales y faciles de escanear.</h2>
+          </div>
+
+          <div class="review-grid" id="review-grid"></div>
+        </section>
+
+        <section class="cta-banner">
+          <div>
+            <p class="eyebrow" id="cta-eyebrow">Lista para ofrecer</p>
+            <h2 id="cta-title">La misma estructura te sirve para vender esta web a varios clientes.</h2>
+          </div>
+          <a class="button button-dark" href="#contacto" id="cta-button">Quiero personalizarla</a>
+        </section>
+
+        <section class="contact" id="contacto">
+          <div class="section-heading">
+            <p class="eyebrow" id="contact-eyebrow">Contacto</p>
+            <h2 id="contact-title">Ideal para cerrar desde anuncios, Instagram o referencia directa.</h2>
+          </div>
+
+          <div class="contact-layout">
+            <article class="contact-card">
+              <h3 id="contact-card-title">Datos del local</h3>
+              <ul id="contact-list"></ul>
+            </article>
+
+            <article class="contact-card">
+              <h3 id="contact-actions-title">Canales rapidos</h3>
+              <div class="contact-actions">
+                <a class="button button-accent" id="contact-whatsapp" href="#contacto">WhatsApp</a>
+                <a class="button button-light" id="contact-instagram" href="#contacto">Instagram</a>
+              </div>
+              <p class="contact-note" id="contact-note">Cambia estos enlaces por los del cliente y ya queda lista para publicar.</p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="content.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>

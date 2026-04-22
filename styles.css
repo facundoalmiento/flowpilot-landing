@@ -1,0 +1,701 @@
+:root {
+  --bg: #f4efe7;
+  --surface: rgba(255, 255, 255, 0.78);
+  --surface-strong: #fffaf4;
+  --text: #1d160f;
+  --muted: #6a5d52;
+  --line: rgba(54, 40, 26, 0.12);
+  --accent: #ff6b2c;
+  --accent-strong: #d84c12;
+  --dark: #16110d;
+  --sand: #e8ddcf;
+  --radius-xl: 32px;
+  --radius-lg: 24px;
+  --radius-md: 18px;
+  --shadow-soft: 0 24px 60px rgba(54, 34, 15, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(255, 138, 78, 0.18), transparent 28%),
+    radial-gradient(circle at top right, rgba(255, 214, 153, 0.35), transparent 22%),
+    linear-gradient(180deg, #f8f2ea 0%, var(--bg) 48%, #efe4d6 100%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+.page-shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 24px 0 56px;
+}
+
+.site-header,
+.demo-switcher,
+.hero,
+.trust-strip,
+.catalog,
+.benefits,
+.reviews,
+.cta-banner,
+.contact {
+  animation: rise-in 0.75s ease both;
+}
+
+.site-header {
+  position: sticky;
+  top: 14px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 28px;
+  padding: 14px 18px;
+  background: rgba(255, 248, 240, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 14px 30px rgba(59, 35, 11, 0.08);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--dark), #453224);
+  color: #fff;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.brand-logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.brand-copy {
+  display: grid;
+  gap: 2px;
+}
+
+.brand-copy strong,
+.site-nav a,
+.button,
+.eyebrow,
+.product-topline,
+.pill,
+.mini-label {
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.brand-copy small {
+  color: var(--muted);
+}
+
+.site-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  color: var(--muted);
+}
+
+.site-nav a:hover {
+  color: var(--text);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.button:hover,
+.filter-chip:hover {
+  transform: translateY(-2px);
+}
+
+.button-accent {
+  background: linear-gradient(135deg, #ff7c43, var(--accent-strong));
+  color: #fff;
+  box-shadow: 0 16px 30px rgba(216, 76, 18, 0.24);
+}
+
+.button-dark {
+  background: var(--dark);
+  color: #fff;
+}
+
+.button-light {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: var(--line);
+}
+
+.hero,
+.cta-banner,
+.trust-strip,
+.demo-switcher,
+.catalog,
+.benefits,
+.reviews,
+.contact {
+  margin-bottom: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow-soft);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 28px;
+  padding: 32px;
+  overflow: hidden;
+}
+
+.hero-copy h1,
+.section-heading h2,
+.cta-banner h2 {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
+.hero-copy h1 {
+  max-width: 11ch;
+  font-size: clamp(3rem, 8vw, 5.8rem);
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--accent-strong);
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.hero-text,
+.section-heading p,
+.benefit-grid p,
+.review-card p,
+.contact-card,
+.featured-card p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.hero-text {
+  max-width: 58ch;
+  margin: 22px 0 0;
+  font-size: 1.05rem;
+}
+
+.hero-actions,
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.hero-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+  margin: 30px 0 0;
+  list-style: none;
+}
+
+.hero-points li,
+.trust-items span,
+.tag,
+.stock,
+.pill,
+.filter-chip {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(67, 49, 27, 0.08);
+}
+
+.hero-visual {
+  position: relative;
+  min-height: 480px;
+  border-radius: calc(var(--radius-xl) - 6px);
+  padding: 18px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 179, 102, 0.42), transparent 28%),
+    linear-gradient(145deg, #20150f 0%, #473024 52%, #b45f2a 100%);
+}
+
+.hero-visual::after {
+  content: "";
+  position: absolute;
+  inset: auto -48px -58px auto;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 221, 179, 0.46), transparent 68%);
+}
+
+.featured-card {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 248, 240, 0.12);
+  color: #fff7ee;
+  backdrop-filter: blur(12px);
+}
+
+.featured-card-main {
+  left: 24px;
+  right: 84px;
+  bottom: 26px;
+  padding: 24px;
+}
+
+.featured-card-main h2 {
+  margin: 14px 0 10px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 2rem;
+}
+
+.featured-card-side {
+  top: 24px;
+  right: 24px;
+  width: 200px;
+  padding: 18px;
+}
+
+.pill {
+  display: inline-flex;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.mini-label {
+  margin: 0 0 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8rem;
+}
+
+.mini-stats {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mini-stats strong,
+.price-row strong,
+.product-footer strong {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.5rem;
+}
+
+.price-row {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.trust-strip,
+.cta-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 28px;
+}
+
+.demo-switcher {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 26px;
+  padding: 16px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  background: rgba(255, 249, 242, 0.7);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 14px 30px rgba(59, 35, 11, 0.06);
+}
+
+.demo-switcher p {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.demo-switcher-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.demo-chip {
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.68);
+  font-family: "Space Grotesk", sans-serif;
+  cursor: pointer;
+}
+
+.demo-chip.is-active {
+  background: var(--dark);
+  color: #fff;
+}
+
+.trust-strip p {
+  margin: 0;
+  max-width: 420px;
+  font-weight: 600;
+}
+
+.trust-items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.catalog,
+.benefits,
+.reviews,
+.contact {
+  padding: 30px;
+}
+
+.section-heading {
+  max-width: 660px;
+  margin-bottom: 24px;
+}
+
+.section-heading h2,
+.cta-banner h2 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.filter-chip {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+}
+
+.filter-chip.is-active {
+  background: var(--dark);
+  color: #fff;
+}
+
+.product-grid,
+.benefit-grid,
+.review-grid,
+.contact-layout {
+  display: grid;
+  gap: 18px;
+}
+
+.product-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.product-card,
+.benefit-grid article,
+.review-card,
+.contact-card {
+  overflow: hidden;
+  border: 1px solid rgba(53, 37, 20, 0.1);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 252, 247, 0.82);
+}
+
+.product-card.is-hidden {
+  display: none;
+}
+
+.product-art {
+  min-height: 220px;
+  background-size: cover;
+  background-position: center;
+}
+
+.product-art-image {
+  background-size: cover;
+  background-position: center;
+}
+
+.product-art-sunset {
+  background:
+    radial-gradient(circle at 65% 30%, rgba(255, 230, 180, 0.9), transparent 18%),
+    linear-gradient(145deg, #342117 0%, #b55d2a 52%, #ffd19f 100%);
+}
+
+.product-art-mint {
+  background:
+    radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.8), transparent 18%),
+    linear-gradient(145deg, #15332d 0%, #50a394 52%, #d4fff2 100%);
+}
+
+.product-art-night {
+  background:
+    radial-gradient(circle at 62% 28%, rgba(255, 255, 255, 0.38), transparent 18%),
+    linear-gradient(145deg, #111111 0%, #363636 50%, #8f8f8f 100%);
+}
+
+.product-art-sky {
+  background:
+    radial-gradient(circle at 68% 26%, rgba(255, 250, 240, 0.9), transparent 18%),
+    linear-gradient(145deg, #1f3552 0%, #71a2d7 52%, #eff7ff 100%);
+}
+
+.product-copy {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.product-topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.84rem;
+}
+
+.tag,
+.stock {
+  padding: 6px 10px;
+}
+
+.product-copy h3,
+.benefit-grid h3,
+.contact-card h3 {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.product-copy p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.product-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.product-footer a {
+  color: var(--accent-strong);
+  font-weight: 700;
+}
+
+.benefit-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.benefit-grid article,
+.contact-card {
+  padding: 22px;
+}
+
+.review-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.review-card {
+  margin: 0;
+  padding: 22px;
+}
+
+.review-card footer {
+  margin-top: 18px;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.cta-banner {
+  background:
+    linear-gradient(135deg, rgba(255, 121, 58, 0.95), rgba(50, 28, 16, 0.95)),
+    var(--dark);
+  color: #fff;
+}
+
+.cta-banner .eyebrow {
+  color: rgba(255, 236, 222, 0.8);
+}
+
+.contact-layout {
+  grid-template-columns: 0.85fr 1.15fr;
+}
+
+.contact-card ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.contact-note {
+  color: var(--muted);
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .site-header,
+  .demo-switcher,
+  .hero,
+  .trust-strip,
+  .cta-banner,
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .site-header,
+  .demo-switcher,
+  .trust-strip,
+  .cta-banner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .site-nav {
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .hero {
+    padding: 24px;
+  }
+
+  .hero-visual {
+    min-height: 360px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .benefit-grid,
+  .review-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .page-shell {
+    width: min(100% - 18px, 100%);
+    padding-top: 14px;
+  }
+
+  .site-header,
+  .catalog,
+  .benefits,
+  .reviews,
+  .contact,
+  .hero,
+  .demo-switcher,
+  .trust-strip,
+  .cta-banner {
+    padding: 18px;
+    border-radius: 24px;
+  }
+
+  .site-nav {
+    gap: 12px;
+    font-size: 0.95rem;
+  }
+
+  .hero-copy h1 {
+    max-width: 100%;
+    font-size: clamp(2.5rem, 14vw, 4rem);
+  }
+
+  .hero-visual {
+    min-height: 320px;
+  }
+
+  .featured-card-main {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .featured-card-side {
+    display: none;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-footer,
+  .price-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
