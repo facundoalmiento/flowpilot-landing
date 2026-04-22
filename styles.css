@@ -13,6 +13,7 @@
   --radius-lg: 24px;
   --radius-md: 18px;
   --shadow-soft: 0 24px 60px rgba(54, 34, 15, 0.12);
+  --shadow-card: 0 16px 40px rgba(54, 34, 15, 0.08);
 }
 
 * {
@@ -27,9 +28,10 @@ body {
   margin: 0;
   font-family: "Manrope", sans-serif;
   color: var(--text);
+  min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(255, 138, 78, 0.18), transparent 28%),
-    radial-gradient(circle at top right, rgba(255, 214, 153, 0.35), transparent 22%),
+    radial-gradient(circle at 8% 0%, rgba(255, 138, 78, 0.2), transparent 26rem),
+    radial-gradient(circle at 94% 10%, rgba(255, 214, 153, 0.4), transparent 22rem),
     linear-gradient(180deg, #f8f2ea 0%, var(--bg) 48%, #efe4d6 100%);
 }
 
@@ -43,13 +45,12 @@ button {
 }
 
 .page-shell {
-  width: min(1180px, calc(100% - 32px));
+  width: min(1160px, calc(100% - 40px));
   margin: 0 auto;
-  padding: 24px 0 56px;
+  padding: 20px 0 64px;
 }
 
 .site-header,
-.demo-switcher,
 .hero,
 .trust-strip,
 .catalog,
@@ -69,8 +70,8 @@ button {
   justify-content: space-between;
   gap: 20px;
   margin-bottom: 28px;
-  padding: 14px 18px;
-  background: rgba(255, 248, 240, 0.72);
+  padding: 12px 14px 12px 16px;
+  background: rgba(255, 248, 240, 0.84);
   border: 1px solid rgba(255, 255, 255, 0.75);
   border-radius: 999px;
   backdrop-filter: blur(18px);
@@ -125,11 +126,17 @@ button {
 .site-nav {
   display: inline-flex;
   align-items: center;
-  gap: 22px;
+  gap: 6px;
   color: var(--muted);
 }
 
+.site-nav a {
+  padding: 10px 12px;
+  border-radius: 999px;
+}
+
 .site-nav a:hover {
+  background: rgba(255, 255, 255, 0.55);
   color: var(--text);
 }
 
@@ -138,7 +145,7 @@ button {
   align-items: center;
   justify-content: center;
   min-height: 48px;
-  padding: 0 22px;
+  padding: 0 20px;
   border-radius: 999px;
   border: 1px solid transparent;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
@@ -168,7 +175,6 @@ button {
 .hero,
 .cta-banner,
 .trust-strip,
-.demo-switcher,
 .catalog,
 .benefits,
 .reviews,
@@ -183,9 +189,10 @@ button {
 
 .hero {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 28px;
-  padding: 32px;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.82fr);
+  align-items: stretch;
+  gap: 24px;
+  padding: clamp(22px, 4vw, 42px);
   overflow: hidden;
 }
 
@@ -200,8 +207,8 @@ button {
 }
 
 .hero-copy h1 {
-  max-width: 11ch;
-  font-size: clamp(3rem, 8vw, 5.8rem);
+  max-width: 12.5ch;
+  font-size: clamp(3.2rem, 7.2vw, 5.7rem);
 }
 
 .eyebrow {
@@ -223,8 +230,8 @@ button {
 }
 
 .hero-text {
-  max-width: 58ch;
-  margin: 22px 0 0;
+  max-width: 62ch;
+  margin: 20px 0 0;
   font-size: 1.05rem;
 }
 
@@ -233,7 +240,7 @@ button {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
-  margin-top: 28px;
+  margin-top: 26px;
 }
 
 .hero-points {
@@ -241,7 +248,7 @@ button {
   flex-wrap: wrap;
   gap: 10px;
   padding: 0;
-  margin: 30px 0 0;
+  margin: 28px 0 0;
   list-style: none;
 }
 
@@ -259,12 +266,28 @@ button {
 
 .hero-visual {
   position: relative;
-  min-height: 480px;
+  min-height: 460px;
   border-radius: calc(var(--radius-xl) - 6px);
-  padding: 18px;
+  overflow: hidden;
   background:
-    radial-gradient(circle at 20% 20%, rgba(255, 179, 102, 0.42), transparent 28%),
+    radial-gradient(circle at 24% 16%, rgba(255, 224, 167, 0.42), transparent 17rem),
+    radial-gradient(circle at 78% 12%, rgba(255, 255, 255, 0.16), transparent 11rem),
     linear-gradient(145deg, #20150f 0%, #473024 52%, #b45f2a 100%);
+}
+
+.hero-visual::before {
+  content: "";
+  position: absolute;
+  left: 8%;
+  top: 18%;
+  width: 76%;
+  height: 34%;
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0)),
+    rgba(255, 255, 255, 0.08);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.24);
+  transform: rotate(-16deg);
 }
 
 .hero-visual::after {
@@ -287,9 +310,9 @@ button {
 }
 
 .featured-card-main {
-  left: 24px;
-  right: 84px;
-  bottom: 26px;
+  left: 22px;
+  right: 68px;
+  bottom: 22px;
   padding: 24px;
 }
 
@@ -300,9 +323,9 @@ button {
 }
 
 .featured-card-side {
-  top: 24px;
-  right: 24px;
-  width: 200px;
+  top: 22px;
+  right: 22px;
+  width: min(210px, calc(100% - 44px));
   padding: 18px;
 }
 
@@ -349,47 +372,7 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 22px 28px;
-}
-
-.demo-switcher {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 26px;
-  padding: 16px 22px;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 999px;
-  background: rgba(255, 249, 242, 0.7);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 14px 30px rgba(59, 35, 11, 0.06);
-}
-
-.demo-switcher p {
-  margin: 0;
-  color: var(--muted);
-  font-weight: 600;
-}
-
-.demo-switcher-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.demo-chip {
-  padding: 10px 16px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.68);
-  font-family: "Space Grotesk", sans-serif;
-  cursor: pointer;
-}
-
-.demo-chip.is-active {
-  background: var(--dark);
-  color: #fff;
+  padding: 24px 30px;
 }
 
 .trust-strip p {
@@ -409,24 +392,27 @@ button {
 .benefits,
 .reviews,
 .contact {
-  padding: 30px;
+  padding: clamp(22px, 4vw, 38px);
 }
 
 .section-heading {
-  max-width: 660px;
-  margin-bottom: 24px;
+  display: grid;
+  gap: 10px;
+  max-width: 720px;
+  margin-bottom: 26px;
 }
 
 .section-heading h2,
 .cta-banner h2 {
-  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-size: clamp(2rem, 4vw, 3.35rem);
+  line-height: 1.02;
 }
 
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
 .filter-chip {
@@ -450,6 +436,7 @@ button {
 
 .product-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
 }
 
 .product-card,
@@ -460,6 +447,18 @@ button {
   border: 1px solid rgba(53, 37, 20, 0.1);
   border-radius: var(--radius-lg);
   background: rgba(255, 252, 247, 0.82);
+  box-shadow: var(--shadow-card);
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 22px 48px rgba(54, 34, 15, 0.13);
 }
 
 .product-card.is-hidden {
@@ -467,7 +466,7 @@ button {
 }
 
 .product-art {
-  min-height: 220px;
+  min-height: 190px;
   background-size: cover;
   background-position: center;
 }
@@ -503,13 +502,17 @@ button {
 
 .product-copy {
   display: grid;
-  gap: 14px;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 13px;
+  height: 100%;
   padding: 18px;
 }
 
 .product-topline {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
   gap: 10px;
   font-size: 0.84rem;
 }
@@ -535,6 +538,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 4px;
   gap: 12px;
 }
 
@@ -549,7 +553,7 @@ button {
 
 .benefit-grid article,
 .contact-card {
-  padding: 22px;
+  padding: 24px;
 }
 
 .review-grid {
@@ -558,7 +562,7 @@ button {
 
 .review-card {
   margin: 0;
-  padding: 22px;
+  padding: 24px;
 }
 
 .review-card footer {
@@ -568,10 +572,15 @@ button {
 }
 
 .cta-banner {
+  align-items: center;
   background:
     linear-gradient(135deg, rgba(255, 121, 58, 0.95), rgba(50, 28, 16, 0.95)),
     var(--dark);
   color: #fff;
+}
+
+.cta-banner > div {
+  max-width: 760px;
 }
 
 .cta-banner .eyebrow {
@@ -579,7 +588,7 @@ button {
 }
 
 .contact-layout {
-  grid-template-columns: 0.85fr 1.15fr;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
 }
 
 .contact-card ul {
@@ -607,7 +616,6 @@ button {
 
 @media (max-width: 1024px) {
   .site-header,
-  .demo-switcher,
   .hero,
   .trust-strip,
   .cta-banner,
@@ -616,7 +624,6 @@ button {
   }
 
   .site-header,
-  .demo-switcher,
   .trust-strip,
   .cta-banner {
     flex-direction: column;
@@ -629,11 +636,11 @@ button {
   }
 
   .hero {
-    padding: 24px;
+    grid-template-columns: 1fr;
   }
 
   .hero-visual {
-    min-height: 360px;
+    min-height: 390px;
   }
 
   .product-grid {
@@ -648,8 +655,12 @@ button {
 
 @media (max-width: 680px) {
   .page-shell {
-    width: min(100% - 18px, 100%);
-    padding-top: 14px;
+    width: min(100% - 20px, 100%);
+    padding-top: 10px;
+  }
+
+  .site-header {
+    position: static;
   }
 
   .site-header,
@@ -658,25 +669,38 @@ button {
   .reviews,
   .contact,
   .hero,
-  .demo-switcher,
   .trust-strip,
   .cta-banner {
     padding: 18px;
     border-radius: 24px;
   }
 
+  .brand {
+    justify-content: center;
+  }
+
   .site-nav {
-    gap: 12px;
+    justify-content: center;
+    gap: 4px;
     font-size: 0.95rem;
+  }
+
+  .site-header .button {
+    width: 100%;
   }
 
   .hero-copy h1 {
     max-width: 100%;
-    font-size: clamp(2.5rem, 14vw, 4rem);
+    font-size: clamp(2.65rem, 13vw, 4rem);
+    line-height: 1;
+  }
+
+  .hero-actions .button {
+    width: 100%;
   }
 
   .hero-visual {
-    min-height: 320px;
+    min-height: 340px;
   }
 
   .featured-card-main {
@@ -691,6 +715,10 @@ button {
 
   .product-grid {
     grid-template-columns: 1fr;
+  }
+
+  .product-art {
+    min-height: 230px;
   }
 
   .product-footer,
