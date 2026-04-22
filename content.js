@@ -7,7 +7,7 @@ const DEMOS = {
   sneakers: {
     meta: {
       title: "Nova Kicks | Catalogo para tienda de zapatillas",
-      description: "Landing catalogo para tiendas de zapatillas que venden por WhatsApp e Instagram."
+      description: "Catalogo online de zapatillas con modelos destacados, talles y consultas por WhatsApp."
     },
     brand: {
       name: "Nova Kicks",
@@ -21,8 +21,8 @@ const DEMOS = {
       eyebrow: "Tienda lista para vender mas",
       title: "Zapatillas que entran por los ojos y se consultan en dos toques.",
       text:
-        "Una landing pensada para negocios chicos que venden por Instagram, WhatsApp y recomendacion. Mostra tus pares destacados, genera confianza y recibi pedidos sin friccion.",
-      secondaryCta: "Quiero esta web",
+        "Modelos seleccionados para uso diario, entrenamiento y salidas. Mira los destacados, consulta talles y pedi tu par por WhatsApp sin vueltas.",
+      secondaryCta: "Hablar con ventas",
       points: [
         "Envios a todo el pais",
         "Pagos por transferencia y efectivo",
@@ -49,7 +49,7 @@ const DEMOS = {
       eyebrow: "Catalogo destacado",
       title: "Pares pensados para convertir vistas en consultas.",
       text:
-        "Esta estructura te deja mostrar lo importante sin marear al cliente: foto, precio, beneficios y salida rapida a WhatsApp.",
+        "Elegimos modelos con buena presencia, talles consultables y atencion directa para que comprar sea simple desde el primer mensaje.",
       filters: [
         { label: "Todos", value: "all" },
         { label: "Urbanas", value: "urbano" },
@@ -109,7 +109,7 @@ const DEMOS = {
         },
         {
           title: "Se adapta a otros rubros",
-          text: "Con esta misma base podes vender a ropa, accesorios, cosmetica o regalos."
+          text: "Actualizamos destacados, precios y disponibilidad para que siempre encuentres opciones vigentes."
         }
       ]
     },
@@ -122,7 +122,7 @@ const DEMOS = {
           author: "Lucia, tienda multimarca"
         },
         {
-          text: "Nos sirvio porque no queriamos un ecommerce complejo. Con esta web mostramos el catalogo y cerramos por WhatsApp.",
+          text: "Nos sirvio porque no queriamos un ecommerce complejo. Con el catalogo mostramos modelos y cerramos por WhatsApp.",
           author: "Marcos, local de sneakers"
         },
         {
@@ -132,9 +132,9 @@ const DEMOS = {
       ]
     },
     cta: {
-      eyebrow: "Lista para ofrecer",
-      title: "La misma estructura te sirve para vender esta web a varios clientes.",
-      button: "Quiero personalizarla"
+      eyebrow: "Compra sin vueltas",
+      title: "Encontrar tu proximo par puede ser mucho mas simple.",
+      button: "Consultar disponibilidad"
     },
     contact: {
       eyebrow: "Contacto",
@@ -146,13 +146,13 @@ const DEMOS = {
         "Envios a Argentina y retiro en punto"
       ],
       actionsTitle: "Canales rapidos",
-      note: "Cambia estos enlaces por los del cliente y ya queda lista para publicar."
+      note: "Respondemos consultas de talles, disponibilidad y formas de envio."
     }
   },
   lifestyle: {
     meta: {
       title: "Casa Brava | Catalogo para moda y accesorios",
-      description: "Landing catalogo para tiendas de ropa, accesorios y lifestyle que venden por WhatsApp e Instagram."
+      description: "Catalogo online de moda, accesorios y productos seleccionados con consultas por WhatsApp."
     },
     brand: {
       name: "Casa Brava",
@@ -167,7 +167,7 @@ const DEMOS = {
       title: "Una vidriera online simple para ropa, accesorios y productos con estilo.",
       text:
         "Pensada para marcas chicas que quieren verse mas prolijas, mostrar destacados y cerrar pedidos por WhatsApp sin montar un ecommerce complejo.",
-      secondaryCta: "Quiero esta version",
+      secondaryCta: "Consultar productos",
       points: [
         "Ideal para Instagram Ads",
         "Se adapta a ropa, regalos o deco",
@@ -187,14 +187,14 @@ const DEMOS = {
       ]
     },
     trust: {
-      copy: "Funciona muy bien para moda, accesorios, regalos, beauty y tiendas curadas.",
-      items: ["Visual", "Facil de editar", "Lista para pauta", "Cierre por WhatsApp"]
+      copy: "Una seleccion pensada para quienes buscan productos lindos, utiles y faciles de regalar.",
+      items: ["Curado semanal", "Atencion rapida", "Envios disponibles", "Compra por WhatsApp"]
     },
     catalog: {
       eyebrow: "Destacados de la semana",
-      title: "La misma estructura se adapta a cualquier tienda de producto simple.",
+      title: "Una seleccion curada para comprar facil y regalar mejor.",
       text:
-        "Cambia nombres, fotos, categorias y links en un solo archivo. Eso te permite vender la misma base a distintos rubros sin rehacer todo.",
+        "Productos elegidos por estilo, utilidad y buena presentacion. Consulta disponibilidad, colores y envios por WhatsApp.",
       filters: [
         { label: "Todos", value: "all" },
         { label: "Bolsos", value: "bags" },
@@ -241,26 +241,26 @@ const DEMOS = {
       ]
     },
     benefits: {
-      eyebrow: "Pensada para vender",
-      title: "Una sola base, varios rubros y menos trabajo por cliente.",
+      eyebrow: "Compra simple",
+      title: "Productos lindos, informacion clara y atencion sin vueltas.",
       items: [
         {
-          title: "Cambio express de branding",
-          text: "Nombre, logo, links y textos salen de un solo archivo para adaptar la demo en minutos."
+          title: "Seleccion curada",
+          text: "Destacamos productos con buena salida, presentacion cuidada y opciones faciles de combinar."
         },
         {
           title: "No depende de ecommerce complejo",
           text: "Sirve perfecto para negocios que venden por mensajes, reserva o pago coordinado."
         },
         {
-          title: "Visual y reutilizable",
-          text: "Te da una demo fuerte para mostrar a indumentaria, deco, regalos y accesorios."
+          title: "Catalogo actualizado",
+          text: "Renovamos destacados por temporada, stock y productos que mas consultan nuestros clientes."
         }
       ]
     },
     reviews: {
       eyebrow: "Percepcion de marca",
-      title: "Ideal para negocios que necesitan verse mas premium sin complicarse.",
+      title: "Una experiencia simple para descubrir productos y consultar rapido.",
       items: [
         {
           text: "Pasamos de vender solo por historias a tener una vidriera ordenada para mandar en campañas y responder mas rapido.",
@@ -277,9 +277,9 @@ const DEMOS = {
       ]
     },
     cta: {
-      eyebrow: "Demo multiproposito",
-      title: "Puedes vender esta misma landing a moda, accesorios, regalos o deco.",
-      button: "Quiero usar esta base"
+      eyebrow: "Novedades listas",
+      title: "Descubri productos con estilo para tu dia a dia o para regalar.",
+      button: "Ver disponibilidad"
     },
     contact: {
       eyebrow: "Canales",
@@ -291,7 +291,7 @@ const DEMOS = {
         "Envios a todo el pais"
       ],
       actionsTitle: "Links clave",
-      note: "Tambien puedes cambiarla para beauty, regalos, bazar o productos de nicho."
+      note: "Escribinos para consultar colores, stock, envios y opciones de regalo."
     }
   }
 };
