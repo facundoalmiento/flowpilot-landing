@@ -1,147 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Morga | Seleccion curada</title>
     <meta
       name="description"
-      content="Morga es una tienda con seleccion curada de accesorios, objetos y esenciales de estilo contemporaneo."
+      content="Morga es una web app personal para ordenar proyectos, tareas, foco semanal y decisiones."
     />
+    <meta name="theme-color" content="#171311" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <title>Morga</title>
   </head>
   <body>
-    <div class="page-shell">
-      <header class="site-header">
-        <a class="brand" href="#top" aria-label="Inicio de Morga">
-          <span class="brand-mark" id="brand-mark">M</span>
-          <span class="brand-copy">
-            <strong id="brand-name">Morga</strong>
-            <small id="brand-tagline">seleccion curada</small>
-          </span>
-        </a>
-
-        <nav class="site-nav" aria-label="Principal">
-          <a href="#catalogo">Coleccion</a>
-          <a href="#beneficios">Detalles</a>
-          <a href="#reviews">Miradas</a>
-          <a href="#contacto">Contacto</a>
-        </nav>
-
-        <a class="button button-dark" id="header-whatsapp" href="#contacto">Consultar por WhatsApp</a>
-      </header>
-
-      <main id="top">
-        <section class="hero">
-          <div class="hero-copy">
-            <p class="eyebrow" id="hero-eyebrow">Morga seleccion</p>
-            <h1 id="hero-title">Objetos, accesorios y piezas que se eligen por presencia.</h1>
-            <p class="hero-text" id="hero-text">
-              Curamos una coleccion simple y visual para quienes buscan regalar, renovar o encontrar algo con estilo sin perder tiempo.
-            </p>
-
-            <div class="hero-actions">
-              <a class="button button-accent" href="#catalogo">Ver coleccion</a>
-              <a class="button button-light" href="#contacto" id="secondary-cta">Consultar stock</a>
-            </div>
-
-            <ul class="hero-points" id="hero-points" aria-label="Beneficios rapidos"></ul>
-          </div>
-
-          <div class="hero-visual">
-            <div class="hero-visual-copy">
-              <span class="hero-visual-kicker" id="featured-pill">edicion destacada</span>
-              <h2 id="featured-name">Canvas Weekend Bag</h2>
-              <p id="featured-description">Bolso de lona amplia con presencia sobria y detalles cuidados para escapadas, ciudad o regalo.</p>
-              <div class="price-row">
-                <strong id="featured-price">$58.900</strong>
-                <span id="featured-note">envios a todo el pais</span>
-              </div>
-            </div>
-
-            <article class="featured-card featured-card-side">
-              <p class="mini-label" id="mini-label">Lo que mas consultan</p>
-              <ul class="mini-stats" id="mini-stats"></ul>
-            </article>
-          </div>
-        </section>
-
-        <section class="trust-strip" aria-label="Prueba social">
-          <p id="trust-copy">Una tienda pensada para mirar rapido, elegir con claridad y resolver por WhatsApp.</p>
-          <div class="trust-items" id="trust-items"></div>
-        </section>
-
-        <section class="catalog" id="catalogo">
-          <div class="section-heading">
-            <p class="eyebrow" id="catalog-eyebrow">Coleccion actual</p>
-            <h2 id="catalog-title">Piezas faciles de combinar, regalar o sumar al dia a dia.</h2>
-            <p id="catalog-text">
-              Texturas limpias, tonos nobles y productos elegidos para verse bien en foto y funcionar mejor en la vida real.
-            </p>
-          </div>
-
-          <div class="filter-bar" id="filter-bar" role="tablist" aria-label="Filtrar productos"></div>
-          <div class="product-grid" id="product-grid"></div>
-        </section>
-
-        <section class="benefits" id="beneficios">
-          <div class="section-heading">
-            <p class="eyebrow" id="benefits-eyebrow">El criterio</p>
-            <h2 id="benefits-title">Menos ruido, mejores elecciones.</h2>
-          </div>
-
-          <div class="benefit-grid" id="benefit-grid"></div>
-        </section>
-
-        <section class="reviews" id="reviews">
-          <div class="section-heading">
-            <p class="eyebrow" id="reviews-eyebrow">Lo que dicen</p>
-            <h2 id="reviews-title">Una experiencia mas clara, visual y agradable para comprar.</h2>
-          </div>
-
-          <div class="review-grid" id="review-grid"></div>
-        </section>
-
-        <section class="cta-banner">
-          <div>
-            <p class="eyebrow" id="cta-eyebrow">Morga online</p>
-            <h2 id="cta-title">Consultanos por colores, stock, envios y opciones para regalo.</h2>
-          </div>
-          <a class="button button-dark" href="#contacto" id="cta-button">Hablar ahora</a>
-        </section>
-
-        <section class="contact" id="contacto">
-          <div class="section-heading">
-            <p class="eyebrow" id="contact-eyebrow">Contacto</p>
-            <h2 id="contact-title">Atencion directa para resolver rapido y comprar sin vueltas.</h2>
-          </div>
-
-          <div class="contact-layout">
-            <article class="contact-card">
-              <h3 id="contact-card-title">Info util</h3>
-              <ul id="contact-list"></ul>
-            </article>
-
-            <article class="contact-card">
-              <h3 id="contact-actions-title">Escribinos</h3>
-              <div class="contact-actions">
-                <a class="button button-accent" id="contact-whatsapp" href="#contacto">WhatsApp</a>
-                <a class="button button-light" id="contact-instagram" href="#contacto">Instagram</a>
-              </div>
-              <p class="contact-note" id="contact-note">Respondemos consultas de stock, medios de pago, envios y regalos.</p>
-            </article>
-          </div>
-        </section>
-      </main>
-    </div>
-
-    <script src="content.js"></script>
-    <script src="script.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

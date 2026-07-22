@@ -1,0 +1,17 @@
+{
+  "name": "Morga",
+  "short_name": "Morga",
+  "description": "Web app personal para organizar proyectos, tareas y foco semanal.",
+  "theme_color": "#171311",
+  "background_color": "#f5f0e8",
+  "display": "standalone",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/icons/morga-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

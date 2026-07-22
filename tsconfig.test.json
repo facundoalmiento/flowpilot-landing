@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "outDir": "tests/dist",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "src/features/finance/financeLedger.ts",
+    "src/features/finance/financeCalculations.ts",
+    "src/features/decisions/decisionEngine.ts",
+    "src/features/decisions/decisionFilters.ts",
+    "src/features/decisions/decisionConversions.ts",
+    "src/features/finance/financeHistoryRelations.ts",
+    "src/features/finance/financeNavigation.ts",
+    "src/services/storage/planningStorage.ts",
+    "src/data/mock/seed.ts",
+    "src/features/relations/entityIntegrity.ts",
+    "src/features/relations/entityReferences.ts",
+    "src/features/tasks/taskFromDecision.ts",
+    "src/features/tasks/taskDerivations.ts",
+    "src/utils/dates.ts",
+    "src/types/domain.ts"
+  ]
+}

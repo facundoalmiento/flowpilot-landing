@@ -1,83 +1,147 @@
-# Landing Catalogo Reutilizable
+# Morga
 
-Landing/catalogo estatica orientada a tiendas de zapatillas, moda, accesorios u otros negocios chicos que venden por WhatsApp e Instagram.
+Morga es una web app personal para organizar proyectos, tareas, foco semanal y decisiones inmediatas con una interfaz responsive pensada para escritorio y celular.
+
+## Qué se implementó en esta etapa
+
+- Migración desde la landing estática a React + Vite + TypeScript.
+- TailwindCSS y React Router.
+- Respaldo de la versión anterior en `legacy-landing/`.
+- Layout responsive con sidebar de escritorio y navegación inferior móvil.
+- Dashboard inicial calculado desde datos reales guardados.
+- Modelo de datos de proyectos y tareas.
+- Datos mock realistas.
+- Página de proyectos con:
+  - creación,
+  - edición,
+  - eliminación con confirmación,
+  - búsqueda,
+  - filtros,
+  - ordenamiento.
+- Persistencia temporal con `localStorage`.
+- Estados vacíos y validaciones básicas.
 
 ## Stack
 
-- HTML semantico
-- CSS custom responsive
-- JavaScript para renderizar contenido y filtros
+- React 18
+- Vite
+- TypeScript
+- TailwindCSS
+- React Router
 
-## Objetivo
+## Estructura principal
 
-Usarla como base comercial reutilizable para vender a:
+```text
+src/
+├── app/
+├── components/
+│   ├── brand/
+│   ├── projects/
+│   └── ui/
+├── data/
+│   └── mock/
+├── features/
+│   ├── dashboard/
+│   ├── navigation/
+│   ├── planning/
+│   └── projects/
+├── layouts/
+├── pages/
+├── services/
+│   └── storage/
+├── styles/
+├── types/
+└── utils/
+```
 
-- tiendas de zapatillas
-- indumentaria
-- accesorios
-- negocios locales con catalogo simple
+## Cómo ejecutar
 
-## Archivos
+1. Instalar dependencias:
 
-- `index.html`: estructura base
-- `content.js`: contenido editable del cliente
-- `styles.css`: estilos y responsive
-- `script.js`: render del contenido y filtros
+```bash
+npm install
+```
 
-## Demos incluidas
+2. Iniciar el entorno de desarrollo:
 
-Dentro de `content.js` ya tienes dos bases:
+```bash
+npm run dev
+```
 
-- `sneakers`: tienda de zapatillas
-- `lifestyle`: moda, accesorios, regalos o deco
+3. Crear build de producción:
 
-Para cambiar la demo principal, modifica:
+```bash
+npm run build
+```
 
-- `const ACTIVE_DEMO = "sneakers";`
+4. Ejecutar lint:
 
-## Como personalizar rapido
+```bash
+npm run lint
+```
 
-Edita solo `content.js` para cambiar:
+## Cómo probar las funciones
 
-- demo base activa
-- nombre de marca y logo (`brand`)
-- WhatsApp e Instagram
-- textos del hero
-- producto destacado
-- filtros
-- productos del catalogo
-- testimonios
-- datos de contacto
+### Dashboard
 
-## Logo
+- Abrí la app en `/`.
+- Verificá que:
+  - las prioridades salgan de tareas pendientes,
+  - los vencimientos salgan de tareas y proyectos,
+  - el dinero disponible estimado use `settings` + costos de tareas,
+  - las alertas cambien según fechas, bloqueos y costos.
 
-- Si quieres logo de texto, usa `logoText`
-- Si quieres logo de imagen, pega la URL o ruta en `logoImage`
+### CRUD de proyectos
 
-## Productos
+- Entrá a `/projects`.
+- Creá un proyecto nuevo.
+- Editalo.
+- Eliminá uno con confirmación.
+- Recargá la página y comprobá que siga guardado.
 
-Cada producto acepta:
+### Filtros
 
-- `category`
-- `tag`
-- `stock`
-- `name`
-- `description`
-- `price`
-- `artClass` para usar fondos visuales ya creados
-- `image` si quieres reemplazar el fondo por una foto real
+- Probá búsqueda por nombre, descripción y próxima acción.
+- Filtrá por categoría, prioridad y estado.
+- Probá ordenar por actualización, fecha, prioridad, nombre y avance.
 
-## Flujo recomendado para venderla
+### Responsive
 
-1. Elige la demo mas parecida al cliente.
-2. Cambia `brand`, `hero`, `catalog.products` y `contact`.
-3. Si el cliente tiene fotos, usa `image` en los productos.
-4. Si no tiene fotos, deja los fondos abstractos y cambia solo textos y precios.
+- Revisá en 360 px, 390 px, 768 px, 1024 px, 1440 px y 1920 px.
+- En escritorio debe verse sidebar lateral.
+- En móvil debe verse navegación inferior.
 
-## Como visualizarla
+## Persistencia
 
-Abre este archivo en el navegador:
+La app usa `localStorage` con la clave:
 
-- `C:\Users\Facun\Desktop\flowpilot-landing\flowpilot-landing\index.html`
+```text
+morga-planning-store-v1
+```
 
-Si usas Visual Studio Code, tambien puedes abrir esa carpeta y usar Live Server sobre `index.html`.
+Si querés resetear el estado, podés borrar esa clave desde el navegador.
+
+## Legado preservado
+
+La landing previa quedó guardada en:
+
+```text
+legacy-landing/
+```
+
+## Limitaciones actuales
+
+- No hay backend ni Supabase.
+- No hay autenticación.
+- No hay módulo financiero completo todavía.
+- No hay CRUD visual de tareas independiente.
+- No hay decisiones de compra implementadas como módulo propio.
+- El manifest PWA es básico y no incluye instalación avanzada ni service worker.
+
+## Próxima etapa sugerida
+
+- Página completa de tareas.
+- Módulo de decisiones de compra con reglas determinísticas.
+- Finanzas básicas reales con métricas reutilizables.
+- Mejoras de accesibilidad y atajos de teclado.
+- PWA más completa.
