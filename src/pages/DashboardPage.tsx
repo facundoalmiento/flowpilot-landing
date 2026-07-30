@@ -1,3 +1,5 @@
+import { BriefcaseBusiness, CalendarPlus2, CircleDollarSign, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Badge } from "../components/ui/Badge";
 import { EmptyState } from "../components/ui/EmptyState";
 import {
@@ -59,6 +61,40 @@ export function DashboardPage() {
   const approvedDecision = activeDecisions.find((decision) => decision.status === "approved");
   const moneyTone =
     finances.availableToDecide < 0 ? "text-[#9f5f49]" : "text-morga-text";
+  const isFreshAccount =
+    projects.length === 0 &&
+    tasks.length === 0 &&
+    decisions.items.length === 0 &&
+    finance.incomes.length === 0 &&
+    finance.expenses.length === 0 &&
+    finance.creditCards.length === 0;
+
+  const gettingStartedSteps = [
+    {
+      label: "Cargar un proyecto",
+      description: "Algo que quieras avanzar: un tramite, un curso, una reparacion.",
+      to: "/projects?compose=1",
+      icon: BriefcaseBusiness
+    },
+    {
+      label: "Cargar una tarea",
+      description: "Un paso concreto, con fecha si la tiene.",
+      to: "/week?compose=1",
+      icon: CalendarPlus2
+    },
+    {
+      label: "Cargar tu sueldo o ingreso",
+      description: "Para que Morga sepa con cuanto contas.",
+      to: "/finances?tab=movements&compose=income",
+      icon: CircleDollarSign
+    },
+    {
+      label: "Cargar un gasto o compromiso",
+      description: "Alquiler, tarjeta, algo que tengas que pagar.",
+      to: "/finances?tab=movements&compose=expense",
+      icon: Sparkles
+    }
+  ];
 
   return (
     <div className="space-y-8 lg:space-y-10">
@@ -71,10 +107,52 @@ export function DashboardPage() {
             className="mt-3 max-w-[19ch] font-display text-[2.35rem] font-semibold leading-[0.98] tracking-[-0.04em] text-morga-text md:text-[3rem] xl:text-[3.25rem]"
             style={{ textWrap: "balance" }}
           >
-            Un panorama sereno para decidir que mover primero.
+            {isFreshAccount
+              ? "Tu cuenta esta vacia. Empecemos a cargar tus datos."
+              : "Un panorama sereno para decidir que mover primero."}
           </h1>
         </div>
       </section>
+
+      {isFreshAccount ? (
+        <section className="rounded-[28px] border border-morga-line bg-white px-5 py-6 md:px-7">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
+            Primeros pasos
+          </p>
+          <h2 className="mt-2 font-display text-2xl font-semibold text-morga-text">
+            Cuatro cosas para arrancar
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-morga-muted">
+            No hace falta cargar todo de una. Con uno de estos ya vas a ver el dashboard tomar
+            forma.
+          </p>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            {gettingStartedSteps.map((step) => {
+              const Icon = step.icon;
+              return (
+                <Link
+                  key={step.to}
+                  to={step.to}
+                  className="flex items-start gap-3 rounded-[20px] border border-morga-line bg-morga-surfaceAlt/40 px-4 py-4 transition hover:bg-morga-surfaceAlt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
+                >
+                  <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-morga-text">
+                    <Icon className="h-4 w-4" />
+                  </span>
+                  <span>
+                    <span className="block text-sm font-semibold text-morga-text">
+                      {step.label}
+                    </span>
+                    <span className="mt-1 block text-sm leading-6 text-morga-muted">
+                      {step.description}
+                    </span>
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      ) : null}
 
       <section className="overflow-hidden rounded-[28px] border border-morga-line bg-white">
         <div className="grid sm:grid-cols-2 xl:grid-cols-[1.05fr_0.95fr_1.15fr_0.95fr]">
