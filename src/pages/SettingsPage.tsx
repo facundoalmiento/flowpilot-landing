@@ -109,12 +109,12 @@ export function SettingsPage() {
 
   const handleReset = () => {
     const firstCheck = window.confirm(
-      "Vas a restaurar los datos iniciales de Morga. Queres seguir?"
+      "Vas a borrar todos tus proyectos, tareas y datos financieros de Morga. Queres seguir?"
     );
     if (!firstCheck) return;
 
     const secondCheck = window.confirm(
-      "Ultima confirmacion: esto reemplaza tus datos locales actuales por la base inicial."
+      "Ultima confirmacion: esto vacia tu cuenta por completo y no se puede deshacer."
     );
     if (!secondCheck) return;
 
@@ -122,7 +122,7 @@ export function SettingsPage() {
     setImportPreview(null);
     setFeedback({
       tone: "success",
-      text: "Se restauraron los datos iniciales."
+      text: "Se vacio tu cuenta. Podes volver a cargar todo desde cero."
     });
   };
 
@@ -235,7 +235,7 @@ export function SettingsPage() {
             className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-morga-line px-5 py-3 text-sm font-semibold text-morga-text transition hover:bg-morga-surfaceAlt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
           >
             <RotateCcw className="h-4 w-4" />
-            Restaurar datos iniciales
+            Vaciar todos los datos
           </button>
         </div>
 

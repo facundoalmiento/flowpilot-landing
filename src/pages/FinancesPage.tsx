@@ -621,7 +621,10 @@ export function FinancesPage() {
     if (selectedMonth) {
       ensureCommitmentOccurrencesForMonth(selectedMonth);
     }
-  }, [ensureCommitmentOccurrencesForMonth, selectedMonth]);
+    // ensureCommitmentOccurrencesForMonth is a new dispatch wrapper on every store
+    // update, so including it here re-fires this effect on every render and loops.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedMonth]);
 
   useEffect(() => {
     const requestedTab = parseFinanceTab(searchParams.get("tab"));

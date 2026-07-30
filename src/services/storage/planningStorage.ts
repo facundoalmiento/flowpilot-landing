@@ -1,9 +1,11 @@
 import {
   createDefaultDecisionsState,
   createDefaultFinanceState,
+  createEmptyPlanningStore,
   seedStore
 } from "../../data/mock/seed";
 import { syncProjectsProgress } from "../../features/tasks/taskDerivations";
+import { supabase } from "../supabase/client";
 import {
   Commitment,
   CommitmentOccurrence,
@@ -956,6 +958,58 @@ export function parsePlanningBackup(raw: string) {
     store,
     summary: buildBackupSummary(store)
   };
+}
+
+export async function loadRemotePlanningStore(userId: string): Promise<PlanningStore> {
+  const { data, error } = await supabase
+    .from("planning_stores")
+    .select("data")
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+
+  if (!data) {
+    const initialStore = createEmptyPlanningStore();
+    const { error: insertError } = await supabase.from("planning_stores").insert({
+      user_id: userId,
+      data: initialStore,
+      schema_version: PLANNING_SCHEMA_VERSION
+    });
+
+    if (insertError) {
+      throw insertError;
+    }
+
+    return initialStore;
+  }
+
+  try {
+    const migrated = migratePlanningStore(data.data);
+    validateRelationships(migrated);
+    return migrated;
+  } catch {
+    return createEmptyPlanningStore();
+  }
+}
+
+export async function saveRemotePlanningStore(userId: string, store: PlanningStore) {
+  const { error } = await supabase
+    .from("planning_stores")
+    .upsert(
+      {
+        user_id: userId,
+        data: store,
+        schema_version: PLANNING_SCHEMA_VERSION
+      },
+      { onConflict: "user_id" }
+    );
+
+  if (error) {
+    throw error;
+  }
 }
 
 export { STORAGE_KEY };

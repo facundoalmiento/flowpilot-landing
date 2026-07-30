@@ -3,6 +3,7 @@ import {
   CalendarPlus2,
   CircleDollarSign,
   FolderKanban,
+  LogOut,
   Plus,
   Settings2,
   Sparkles
@@ -11,6 +12,7 @@ import { useMemo, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { MorgaLogo } from "../components/brand/MorgaLogo";
 import { Modal } from "../components/ui/Modal";
+import { useAuth } from "../features/auth/useAuth";
 import {
   mobileNavigationItems,
   navigationItems
@@ -22,8 +24,13 @@ const navLinkClass =
 export function AppShell() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, signOut } = useAuth();
   const [quickMenuOpen, setQuickMenuOpen] = useState(false);
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   const quickActions = useMemo(
     () => [
@@ -80,13 +87,32 @@ export function AppShell() {
               );
             })}
           </div>
-          <button
-            type="button"
-            onClick={handleQuickAction}
-            className="mt-auto rounded-full bg-morga-dark px-5 py-4 text-sm font-semibold text-white transition hover:translate-y-[-1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
-          >
-            Nuevo proyecto
-          </button>
+
+          <div className="mt-auto space-y-3">
+            {user ? (
+              <div className="flex items-center justify-between gap-2 rounded-xl border border-morga-line/80 bg-morga-surfaceAlt/40 px-3 py-2.5">
+                <p className="min-w-0 flex-1 truncate text-xs font-medium text-morga-muted" title={user.email ?? ""}>
+                  {user.email}
+                </p>
+                <button
+                  type="button"
+                  onClick={handleSignOut}
+                  className="flex shrink-0 items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold text-morga-muted transition hover:bg-white hover:text-morga-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
+                  aria-label="Cerrar sesion"
+                >
+                  <LogOut className="h-3.5 w-3.5" />
+                  Salir
+                </button>
+              </div>
+            ) : null}
+            <button
+              type="button"
+              onClick={handleQuickAction}
+              className="w-full rounded-full bg-morga-dark px-5 py-4 text-sm font-semibold text-white transition hover:translate-y-[-1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
+            >
+              Nuevo proyecto
+            </button>
+          </div>
         </aside>
 
         <div className="flex min-h-screen flex-1 flex-col">
@@ -215,6 +241,20 @@ export function AppShell() {
               </button>
             );
           })}
+
+          {user ? (
+            <button
+              type="button"
+              onClick={() => {
+                setMoreMenuOpen(false);
+                handleSignOut();
+              }}
+              className="flex min-h-[44px] items-center gap-3 rounded-2xl border border-morga-line bg-white px-4 py-3 text-left text-sm font-semibold text-morga-text transition hover:bg-morga-surfaceAlt"
+            >
+              <LogOut className="h-4 w-4 text-morga-muted" />
+              Cerrar sesion
+            </button>
+          ) : null}
         </div>
       </Modal>
     </div>

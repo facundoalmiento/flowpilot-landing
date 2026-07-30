@@ -6,3 +6,5 @@ vite.config.d.ts
 tailwind.config.js
 tailwind.config.d.ts
 .tmp-edge-profile/
+.env
+.env.local

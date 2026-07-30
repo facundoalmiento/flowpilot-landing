@@ -566,6 +566,51 @@ export function createDefaultDecisionsState(): DecisionsState {
   };
 }
 
+export function createEmptyFinanceState(): FinanceState {
+  return {
+    settings: {
+      currency: "ARS",
+      currentBalance: 0,
+      minimumReserve: 0,
+      salaryPayday: 5,
+      allowancePayday: 20
+    },
+    creditCards: [],
+    incomes: [],
+    expenses: [],
+    commitments: [],
+    installmentPlans: [],
+    reserves: [],
+    confirmedRecords: [],
+    commitmentOccurrences: [],
+    manualAdjustments: [],
+    monthlyClosures: []
+  };
+}
+
+export function createEmptyDecisionsState(): DecisionsState {
+  return {
+    rulesConfig: {
+      minimumPostPurchaseMargin: 40000,
+      maxNewInstallmentIncomeRatio: 0.18,
+      maxFutureInstallmentDebt: 900000,
+      longFinancingMonths: 9,
+      safetyHealthPriorityBoost: 20
+    },
+    comparisons: [],
+    items: []
+  };
+}
+
+export function createEmptyPlanningStore(): PlanningStore {
+  return {
+    projects: [],
+    tasks: [],
+    finance: createEmptyFinanceState(),
+    decisions: createEmptyDecisionsState()
+  };
+}
+
 export const seedStore: PlanningStore = {
   finance: createDefaultFinanceState(),
   decisions: createDefaultDecisionsState(),

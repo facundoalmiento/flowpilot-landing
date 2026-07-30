@@ -1,5 +1,6 @@
-import { PropsWithChildren, useEffect, useMemo, useReducer } from "react";
-import { createDefaultDecisionsState, seedStore } from "../../data/mock/seed";
+import { PropsWithChildren, useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { createEmptyPlanningStore } from "../../data/mock/seed";
+import { useAuth } from "../auth/useAuth";
 import {
   createComparison,
   evaluateDecision as evaluateDecisionWithRules
@@ -22,7 +23,7 @@ import {
 } from "../../features/finance/financeLedger";
 import { syncProjectsProgress } from "../../features/tasks/taskDerivations";
 import { createTaskFromDecisionTask } from "../../features/tasks/taskFromDecision";
-import { loadPlanningStore, savePlanningStore } from "../../services/storage/planningStorage";
+import { loadRemotePlanningStore, saveRemotePlanningStore } from "../../services/storage/planningStorage";
 import {
   Commitment,
   CommitmentFormValues,
@@ -1244,11 +1245,55 @@ function planningReducer(state: PlanningStore, action: PlanningAction): Planning
 }
 
 export function PlanningProvider({ children }: PropsWithChildren) {
-  const [store, dispatch] = useReducer(planningReducer, undefined, loadPlanningStore);
+  const { user } = useAuth();
+  const [store, dispatch] = useReducer(planningReducer, createEmptyPlanningStore());
+  const [isReady, setIsReady] = useState(false);
+  const saveTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
-    savePlanningStore(store);
-  }, [store]);
+    if (!user) {
+      setIsReady(false);
+      return;
+    }
+
+    let cancelled = false;
+    setIsReady(false);
+
+    loadRemotePlanningStore(user.id)
+      .then((remoteStore) => {
+        if (cancelled) return;
+        dispatch({ type: "replace-store", payload: remoteStore });
+        setIsReady(true);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setIsReady(true);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
+
+  useEffect(() => {
+    if (!isReady || !user) return;
+
+    if (saveTimeoutRef.current !== null) {
+      window.clearTimeout(saveTimeoutRef.current);
+    }
+
+    saveTimeoutRef.current = window.setTimeout(() => {
+      saveRemotePlanningStore(user.id, store).catch(() => {
+        // Se reintenta con el proximo cambio de estado.
+      });
+    }, 600);
+
+    return () => {
+      if (saveTimeoutRef.current !== null) {
+        window.clearTimeout(saveTimeoutRef.current);
+      }
+    };
+  }, [store, isReady, user]);
 
   const value = useMemo<PlanningContextValue>(
     () => ({
@@ -1479,12 +1524,20 @@ export function PlanningProvider({ children }: PropsWithChildren) {
       resetStore() {
         dispatch({
           type: "replace-store",
-          payload: { ...seedStore, decisions: createDefaultDecisionsState() }
+          payload: createEmptyPlanningStore()
         });
       }
     }),
     [store]
   );
+
+  if (!isReady) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-morga-bg">
+        <p className="text-sm font-medium text-morga-muted">Cargando tus datos...</p>
+      </div>
+    );
+  }
 
   return <PlanningContext.Provider value={value}>{children}</PlanningContext.Provider>;
 }
