@@ -70,20 +70,34 @@ const textareaClassName =
 function InputField({
   label,
   error,
+  hint,
   children
 }: {
   label: string;
   error?: string;
+  hint?: string;
   children: React.ReactNode;
 }) {
   return (
     <label className="grid gap-2">
       <span className="text-sm font-semibold text-morga-text">{label}</span>
       {children}
-      {error ? <span className="text-sm text-red-700">{error}</span> : null}
+      {error ? (
+        <span className="text-sm text-red-700">{error}</span>
+      ) : hint ? (
+        <span className="text-xs text-morga-muted">{hint}</span>
+      ) : null}
     </label>
   );
 }
+
+const paymentOptionTypeHints: Record<DecisionPaymentOptionType, string> = {
+  "one-time": "Pagas todo de una vez, en una sola fecha.",
+  installments: "Lo financias con tarjeta en varias cuotas.",
+  "save-first": "Juntas la plata antes de comprarlo, todavia no sale de tu bolsillo.",
+  mixed: "Pagas una parte ahora (anticipo) y financias el resto en cuotas.",
+  "use-reserve": "Lo pagas con una reserva que ya tenias armada."
+};
 
 interface DecisionFormModalProps {
   open: boolean;
@@ -205,7 +219,7 @@ export function DecisionFormModal({
             </select>
           </InputField>
 
-          <InputField label="Urgencia">
+          <InputField label="Urgencia" hint="Que tan pronto hace falta resolver esto.">
             <select
               value={values.urgency}
               onChange={(event) =>
@@ -224,7 +238,7 @@ export function DecisionFormModal({
             </select>
           </InputField>
 
-          <InputField label="Impacto">
+          <InputField label="Impacto" hint="Cuanto mejora tu vida o tu bienestar si lo haces.">
             <select
               value={values.impact}
               onChange={(event) =>
@@ -243,7 +257,7 @@ export function DecisionFormModal({
             </select>
           </InputField>
 
-          <InputField label="Necesidad">
+          <InputField label="Necesidad" hint="Que tan imprescindible es, comparado con un gusto.">
             <select
               value={values.necessity}
               onChange={(event) =>
@@ -387,7 +401,7 @@ export function DecisionFormModal({
                   </div>
 
                   <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                    <InputField label="Tipo">
+                    <InputField label="Tipo" hint={paymentOptionTypeHints[option.type]}>
                       <select
                         value={option.type}
                         onChange={(event) =>
@@ -416,9 +430,11 @@ export function DecisionFormModal({
                     <InputField
                       label="Total de la opcion"
                       error={showError(`paymentOptions.${index}.totalAmount`)}
+                      hint="El costo completo de esto, sin importar como lo pagues."
                     >
                       <input
                         inputMode="numeric"
+                        placeholder="Ej: 250000"
                         value={option.totalAmount}
                         onChange={(event) =>
                           setValues((current) => ({
@@ -432,187 +448,203 @@ export function DecisionFormModal({
                       />
                     </InputField>
 
-                    <InputField
-                      label="Anticipo"
-                      error={showError(`paymentOptions.${index}.upfrontAmount`)}
-                    >
-                      <input
-                        inputMode="numeric"
-                        value={option.upfrontAmount}
-                        onChange={(event) =>
-                          setValues((current) => ({
-                            ...current,
-                            paymentOptions: current.paymentOptions.map((item, itemIndex) =>
-                              itemIndex === index ? { ...item, upfrontAmount: event.target.value } : item
-                            )
-                          }))
-                        }
-                        className={inputClassName}
-                        placeholder="Opcional"
-                      />
-                    </InputField>
-
-                    <InputField
-                      label="Interes"
-                      error={showError(`paymentOptions.${index}.interestAmount`)}
-                    >
-                      <input
-                        inputMode="numeric"
-                        value={option.interestAmount}
-                        onChange={(event) =>
-                          setValues((current) => ({
-                            ...current,
-                            paymentOptions: current.paymentOptions.map((item, itemIndex) =>
-                              itemIndex === index ? { ...item, interestAmount: event.target.value } : item
-                            )
-                          }))
-                        }
-                        className={inputClassName}
-                        placeholder="Opcional"
-                      />
-                    </InputField>
-                  </div>
-
-                  <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                    <InputField
-                      label="Cantidad de cuotas"
-                      error={showError(`paymentOptions.${index}.installmentCount`)}
-                    >
-                      <input
-                        inputMode="numeric"
-                        value={option.installmentCount}
-                        onChange={(event) =>
-                          setValues((current) => ({
-                            ...current,
-                            paymentOptions: current.paymentOptions.map((item, itemIndex) =>
-                              itemIndex === index
-                                ? { ...item, installmentCount: event.target.value }
-                                : item
-                            )
-                          }))
-                        }
-                        className={inputClassName}
-                        placeholder="Opcional"
-                      />
-                    </InputField>
-
-                    <InputField
-                      label="Valor de cuota"
-                      error={showError(`paymentOptions.${index}.installmentAmount`)}
-                    >
-                      <div className="flex gap-2">
+                    {option.type === "mixed" ? (
+                      <InputField
+                        label="Anticipo"
+                        error={showError(`paymentOptions.${index}.upfrontAmount`)}
+                        hint="Cuanto pagas ahora, antes de empezar con las cuotas."
+                      >
                         <input
                           inputMode="numeric"
-                          value={option.installmentAmount}
+                          value={option.upfrontAmount}
+                          onChange={(event) =>
+                            setValues((current) => ({
+                              ...current,
+                              paymentOptions: current.paymentOptions.map((item, itemIndex) =>
+                                itemIndex === index ? { ...item, upfrontAmount: event.target.value } : item
+                              )
+                            }))
+                          }
+                          className={inputClassName}
+                          placeholder="Ej: 50000"
+                        />
+                      </InputField>
+                    ) : null}
+
+                    {option.type === "installments" || option.type === "mixed" ? (
+                      <InputField
+                        label="Interes"
+                        error={showError(`paymentOptions.${index}.interestAmount`)}
+                        hint="Opcional, solo si la financiacion tiene recargo."
+                      >
+                        <input
+                          inputMode="numeric"
+                          value={option.interestAmount}
+                          onChange={(event) =>
+                            setValues((current) => ({
+                              ...current,
+                              paymentOptions: current.paymentOptions.map((item, itemIndex) =>
+                                itemIndex === index ? { ...item, interestAmount: event.target.value } : item
+                              )
+                            }))
+                          }
+                          className={inputClassName}
+                          placeholder="Opcional"
+                        />
+                      </InputField>
+                    ) : null}
+                  </div>
+
+                  {option.type === "installments" || option.type === "mixed" ? (
+                    <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                      <InputField
+                        label="Cantidad de cuotas"
+                        error={showError(`paymentOptions.${index}.installmentCount`)}
+                        hint="Ej: 12"
+                      >
+                        <input
+                          inputMode="numeric"
+                          value={option.installmentCount}
                           onChange={(event) =>
                             setValues((current) => ({
                               ...current,
                               paymentOptions: current.paymentOptions.map((item, itemIndex) =>
                                 itemIndex === index
-                                  ? { ...item, installmentAmount: event.target.value }
+                                  ? { ...item, installmentCount: event.target.value }
                                   : item
                               )
                             }))
                           }
-                          className={`${inputClassName} flex-1`}
-                          placeholder="Opcional"
+                          className={inputClassName}
+                          placeholder="Ej: 12"
                         />
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const total = Number(option.totalAmount);
-                            const count = Number(option.installmentCount);
-                            if (!Number.isFinite(total) || !Number.isFinite(count) || count <= 0) return;
+                      </InputField>
+
+                      <InputField
+                        label="Valor de cuota"
+                        error={showError(`paymentOptions.${index}.installmentAmount`)}
+                        hint="Usa 'Calcular' si no la sabes de memoria."
+                      >
+                        <div className="flex gap-2">
+                          <input
+                            inputMode="numeric"
+                            value={option.installmentAmount}
+                            onChange={(event) =>
+                              setValues((current) => ({
+                                ...current,
+                                paymentOptions: current.paymentOptions.map((item, itemIndex) =>
+                                  itemIndex === index
+                                    ? { ...item, installmentAmount: event.target.value }
+                                    : item
+                                )
+                              }))
+                            }
+                            className={`${inputClassName} flex-1`}
+                            placeholder="Opcional"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const total = Number(option.totalAmount);
+                              const count = Number(option.installmentCount);
+                              if (!Number.isFinite(total) || !Number.isFinite(count) || count <= 0) return;
+                              setValues((current) => ({
+                                ...current,
+                                paymentOptions: current.paymentOptions.map((item, itemIndex) =>
+                                  itemIndex === index
+                                    ? { ...item, installmentAmount: String(Math.round(total / count)) }
+                                    : item
+                                )
+                              }));
+                            }}
+                            className="min-h-[44px] rounded-2xl border border-morga-line px-3 text-sm font-semibold text-morga-text transition hover:bg-morga-surfaceAlt"
+                          >
+                            Calcular
+                          </button>
+                        </div>
+                      </InputField>
+
+                      <InputField
+                        label="Primer vencimiento"
+                        error={showError(`paymentOptions.${index}.firstDueDate`)}
+                      >
+                        <input
+                          type="date"
+                          value={option.firstDueDate}
+                          onChange={(event) =>
                             setValues((current) => ({
                               ...current,
                               paymentOptions: current.paymentOptions.map((item, itemIndex) =>
-                                itemIndex === index
-                                  ? { ...item, installmentAmount: String(Math.round(total / count)) }
-                                  : item
+                                itemIndex === index ? { ...item, firstDueDate: event.target.value } : item
                               )
-                            }));
-                          }}
-                          className="min-h-[44px] rounded-2xl border border-morga-line px-3 text-sm font-semibold text-morga-text transition hover:bg-morga-surfaceAlt"
+                            }))
+                          }
+                          className={inputClassName}
+                        />
+                      </InputField>
+
+                      <InputField
+                        label="Tarjeta"
+                        error={showError(`paymentOptions.${index}.creditCardId`)}
+                      >
+                        <select
+                          value={option.creditCardId}
+                          onChange={(event) =>
+                            setValues((current) => ({
+                              ...current,
+                              paymentOptions: current.paymentOptions.map((item, itemIndex) =>
+                                itemIndex === index ? { ...item, creditCardId: event.target.value } : item
+                              )
+                            }))
+                          }
+                          className={inputClassName}
                         >
-                          Calcular
-                        </button>
-                      </div>
-                    </InputField>
+                          <option value="">Elegi una tarjeta</option>
+                          {creditCards.map((card) => (
+                            <option key={card.id} value={card.id}>
+                              {card.name}
+                            </option>
+                          ))}
+                        </select>
+                      </InputField>
+                    </div>
+                  ) : null}
 
-                    <InputField
-                      label="Primer vencimiento"
-                      error={showError(`paymentOptions.${index}.firstDueDate`)}
-                    >
-                      <input
-                        type="date"
-                        value={option.firstDueDate}
-                        onChange={(event) =>
-                          setValues((current) => ({
-                            ...current,
-                            paymentOptions: current.paymentOptions.map((item, itemIndex) =>
-                              itemIndex === index ? { ...item, firstDueDate: event.target.value } : item
-                            )
-                          }))
-                        }
-                        className={inputClassName}
-                      />
-                    </InputField>
-
-                    <InputField
-                      label="Tarjeta"
-                      error={showError(`paymentOptions.${index}.creditCardId`)}
-                    >
-                      <select
-                        value={option.creditCardId}
-                        onChange={(event) =>
-                          setValues((current) => ({
-                            ...current,
-                            paymentOptions: current.paymentOptions.map((item, itemIndex) =>
-                              itemIndex === index ? { ...item, creditCardId: event.target.value } : item
-                            )
-                          }))
-                        }
-                        className={inputClassName}
+                  {option.type === "use-reserve" ? (
+                    <div className="mt-4 grid gap-4 md:grid-cols-2">
+                      <InputField
+                        label="Reserva"
+                        error={showError(`paymentOptions.${index}.reserveId`)}
+                        hint="La reserva de donde va a salir la plata."
                       >
-                        <option value="">No aplica</option>
-                        {creditCards.map((card) => (
-                          <option key={card.id} value={card.id}>
-                            {card.name}
-                          </option>
-                        ))}
-                      </select>
-                    </InputField>
-                  </div>
+                        <select
+                          value={option.reserveId}
+                          onChange={(event) =>
+                            setValues((current) => ({
+                              ...current,
+                              paymentOptions: current.paymentOptions.map((item, itemIndex) =>
+                                itemIndex === index ? { ...item, reserveId: event.target.value } : item
+                              )
+                            }))
+                          }
+                          className={inputClassName}
+                        >
+                          <option value="">Elegi una reserva</option>
+                          {reserves.map((reserve) => (
+                            <option key={reserve.id} value={reserve.id}>
+                              {reserve.name}
+                            </option>
+                          ))}
+                        </select>
+                      </InputField>
+                    </div>
+                  ) : null}
 
-                  <div className="mt-4 grid gap-4 md:grid-cols-2">
-                    <InputField
-                      label="Reserva"
-                      error={showError(`paymentOptions.${index}.reserveId`)}
-                    >
-                      <select
-                        value={option.reserveId}
-                        onChange={(event) =>
-                          setValues((current) => ({
-                            ...current,
-                            paymentOptions: current.paymentOptions.map((item, itemIndex) =>
-                              itemIndex === index ? { ...item, reserveId: event.target.value } : item
-                            )
-                          }))
-                        }
-                        className={inputClassName}
-                      >
-                        <option value="">No aplica</option>
-                        {reserves.map((reserve) => (
-                          <option key={reserve.id} value={reserve.id}>
-                            {reserve.name}
-                          </option>
-                        ))}
-                      </select>
-                    </InputField>
-
+                  <div className="mt-4">
                     <InputField label="Notas">
                       <textarea
                         value={option.notes}
+                        placeholder="Opcional: cualquier detalle que te ayude a recordar el contexto."
                         onChange={(event) =>
                           setValues((current) => ({
                             ...current,

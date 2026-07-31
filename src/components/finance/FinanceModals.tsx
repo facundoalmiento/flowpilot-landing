@@ -96,9 +96,14 @@ export function FinanceSettingsForm({
         <InputField label="Moneda">
           <input value="ARS" disabled className={`${inputClassName} bg-morga-surfaceAlt/50`} />
         </InputField>
-        <InputField label="Saldo actual" error={submitted ? errors.currentBalance : undefined}>
+        <InputField
+          label="Saldo actual"
+          error={submitted ? errors.currentBalance : undefined}
+          hint="Cuanta plata tenes disponible hoy en total."
+        >
           <input
             inputMode="numeric"
+            placeholder="Ej: 540000"
             value={values.currentBalance}
             onChange={(event) =>
               setValues((current) => ({ ...current, currentBalance: event.target.value }))
@@ -106,9 +111,14 @@ export function FinanceSettingsForm({
             className={inputClassName}
           />
         </InputField>
-        <InputField label="Reserva minima" error={submitted ? errors.minimumReserve : undefined}>
+        <InputField
+          label="Reserva minima"
+          error={submitted ? errors.minimumReserve : undefined}
+          hint="Un colchon que no queres gastar; se resta de lo disponible."
+        >
           <input
             inputMode="numeric"
+            placeholder="Ej: 80000"
             value={values.minimumReserve}
             onChange={(event) =>
               setValues((current) => ({ ...current, minimumReserve: event.target.value }))
@@ -116,9 +126,17 @@ export function FinanceSettingsForm({
             className={inputClassName}
           />
         </InputField>
-        <InputField label="Dia de sueldo" error={submitted ? errors.salaryPayday : undefined}>
+        <InputField
+          label="Dia de sueldo"
+          error={submitted ? errors.salaryPayday : undefined}
+          hint="Solo el numero del dia del mes (1 a 31)."
+        >
           <input
+            type="number"
+            min={1}
+            max={31}
             inputMode="numeric"
+            placeholder="Ej: 5"
             value={values.salaryPayday}
             onChange={(event) =>
               setValues((current) => ({ ...current, salaryPayday: event.target.value }))
@@ -132,9 +150,14 @@ export function FinanceSettingsForm({
         <InputField
           label="Dia de viatico"
           error={submitted ? errors.allowancePayday : undefined}
+          hint="Solo el numero del dia del mes (1 a 31), si cobras viatico aparte."
         >
           <input
+            type="number"
+            min={1}
+            max={31}
             inputMode="numeric"
+            placeholder="Ej: 20"
             value={values.allowancePayday}
             onChange={(event) =>
               setValues((current) => ({ ...current, allowancePayday: event.target.value }))
@@ -343,7 +366,10 @@ export function IncomeFormModal({
               ))}
             </select>
           </InputField>
-          <InputField label="Estado">
+          <InputField
+            label="Estado"
+            hint="'Cobrado' actualiza tu saldo real al instante. 'Esperado' todavia no."
+          >
             <select
               value={values.status}
               onChange={(event) =>
@@ -363,6 +389,7 @@ export function IncomeFormModal({
           <InputField label="Nombre" error={submitted ? errors.name : undefined}>
             <input
               value={values.name}
+              placeholder="Ej: Sueldo julio"
               onChange={(event) =>
                 setValues((current) => ({ ...current, name: event.target.value }))
               }
@@ -372,6 +399,7 @@ export function IncomeFormModal({
           <InputField label="Importe" error={submitted ? errors.amount : undefined}>
             <input
               inputMode="numeric"
+              placeholder="Ej: 800000"
               value={values.amount}
               onChange={(event) =>
                 setValues((current) => ({ ...current, amount: event.target.value }))
@@ -381,7 +409,11 @@ export function IncomeFormModal({
           </InputField>
         </div>
         <div className="grid gap-4 md:grid-cols-3">
-          <InputField label="Fecha esperada" error={submitted ? errors.expectedDate : undefined}>
+          <InputField
+            label="Fecha esperada"
+            error={submitted ? errors.expectedDate : undefined}
+            hint="Cuando pensas que te lo van a pagar."
+          >
             <input
               type="date"
               value={values.expectedDate}
@@ -391,7 +423,11 @@ export function IncomeFormModal({
               className={inputClassName}
             />
           </InputField>
-          <InputField label="Fecha cobrada" error={submitted ? errors.receivedDate : undefined}>
+          <InputField
+            label="Fecha cobrada"
+            error={submitted ? errors.receivedDate : undefined}
+            hint="Solo completala si ya elegiste 'Cobrado' arriba."
+          >
             <input
               type="date"
               value={values.receivedDate}
@@ -495,6 +531,7 @@ export function ExpenseFormModal({
           <InputField label="Nombre" error={submitted ? errors.name : undefined}>
             <input
               value={values.name}
+              placeholder="Ej: Resumen VISA agosto"
               onChange={(event) =>
                 setValues((current) => ({ ...current, name: event.target.value }))
               }
@@ -504,6 +541,7 @@ export function ExpenseFormModal({
           <InputField label="Importe" error={submitted ? errors.amount : undefined}>
             <input
               inputMode="numeric"
+              placeholder="Ej: 165000"
               value={values.amount}
               onChange={(event) =>
                 setValues((current) => ({ ...current, amount: event.target.value }))
@@ -523,7 +561,7 @@ export function ExpenseFormModal({
               className={inputClassName}
             />
           </InputField>
-          <InputField label="Pagado">
+          <InputField label="Pagado" hint="Solo si ya elegiste 'Pagado' en Estado.">
             <input
               type="date"
               value={values.paidDate}
@@ -533,7 +571,10 @@ export function ExpenseFormModal({
               className={inputClassName}
             />
           </InputField>
-          <InputField label="Estado">
+          <InputField
+            label="Estado"
+            hint="'Pagado' descuenta el saldo real al instante."
+          >
             <select
               value={values.status}
               onChange={(event) =>
@@ -586,7 +627,11 @@ export function ExpenseFormModal({
               ))}
             </select>
           </InputField>
-          <InputField label="Tarjeta" error={submitted ? errors.creditCardId : undefined}>
+          <InputField
+            label="Tarjeta"
+            error={submitted ? errors.creditCardId : undefined}
+            hint="Opcional. Solo para vincularlo con una tarjeta cargada."
+          >
             <select
               value={values.creditCardId}
               onChange={(event) =>
@@ -687,6 +732,7 @@ export function CommitmentFormModal({
           <InputField label="Nombre" error={submitted ? errors.name : undefined}>
             <input
               value={values.name}
+              placeholder="Ej: Prestamo personal"
               onChange={(event) =>
                 setValues((current) => ({ ...current, name: event.target.value }))
               }
@@ -696,6 +742,7 @@ export function CommitmentFormModal({
           <InputField label="Importe" error={submitted ? errors.amount : undefined}>
             <input
               inputMode="numeric"
+              placeholder="Ej: 165000"
               value={values.amount}
               onChange={(event) =>
                 setValues((current) => ({ ...current, amount: event.target.value }))
@@ -705,10 +752,14 @@ export function CommitmentFormModal({
           </InputField>
         </div>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <InputField label="Frecuencia">
+          <InputField label="Frecuencia" hint="Los compromisos se repiten todos los meses.">
             <input value="Mensual" disabled className={`${inputClassName} bg-morga-surfaceAlt/50`} />
           </InputField>
-          <InputField label="Proximo vencimiento" error={submitted ? errors.nextDueDate : undefined}>
+          <InputField
+            label="Proximo vencimiento"
+            error={submitted ? errors.nextDueDate : undefined}
+            hint="La proxima fecha en que hay que pagarlo."
+          >
             <input
               type="date"
               value={values.nextDueDate}
@@ -728,7 +779,11 @@ export function CommitmentFormModal({
               className={inputClassName}
             />
           </InputField>
-          <InputField label="Fin" error={submitted ? errors.endDate : undefined}>
+          <InputField
+            label="Fin"
+            error={submitted ? errors.endDate : undefined}
+            hint="Opcional. Dejalo vacio si no tiene fecha de fin (ej: un servicio)."
+          >
             <input
               type="date"
               value={values.endDate}
@@ -743,9 +798,11 @@ export function CommitmentFormModal({
           <InputField
             label="Cantidad total de cuotas"
             error={submitted ? errors.totalInstallments : undefined}
+            hint="Opcional. Solo si tiene un final conocido, ej: prestamo a 12 meses."
           >
             <input
               inputMode="numeric"
+              placeholder="Ej: 12"
               value={values.totalInstallments}
               onChange={(event) =>
                 setValues((current) => ({ ...current, totalInstallments: event.target.value }))
@@ -753,9 +810,14 @@ export function CommitmentFormModal({
               className={inputClassName}
             />
           </InputField>
-          <InputField label="Cuota actual" error={submitted ? errors.currentInstallment : undefined}>
+          <InputField
+            label="Cuota actual"
+            error={submitted ? errors.currentInstallment : undefined}
+            hint="Opcional. En que cuota vas si ya empezaste a pagarlo."
+          >
             <input
               inputMode="numeric"
+              placeholder="Ej: 5"
               value={values.currentInstallment}
               onChange={(event) =>
                 setValues((current) => ({ ...current, currentInstallment: event.target.value }))
@@ -855,6 +917,7 @@ export function InstallmentPlanFormModal({
           <InputField label="Descripcion" error={submitted ? errors.description : undefined}>
             <input
               value={values.description}
+              placeholder="Ej: Notebook en 6 cuotas"
               onChange={(event) =>
                 setValues((current) => ({ ...current, description: event.target.value }))
               }
@@ -882,6 +945,7 @@ export function InstallmentPlanFormModal({
           <InputField label="Importe total" error={submitted ? errors.totalAmount : undefined}>
             <input
               inputMode="numeric"
+              placeholder="Ej: 720000"
               value={values.totalAmount}
               onChange={(event) =>
                 setValues((current) => ({ ...current, totalAmount: event.target.value }))
@@ -895,6 +959,7 @@ export function InstallmentPlanFormModal({
           >
             <input
               inputMode="numeric"
+              placeholder="Ej: 6"
               value={values.totalInstallments}
               onChange={(event) =>
                 setValues((current) => ({
@@ -908,6 +973,7 @@ export function InstallmentPlanFormModal({
           <InputField label="Valor de cuota" error={submitted ? errors.installmentAmount : undefined}>
             <input
               inputMode="numeric"
+              placeholder="Ej: 120000"
               value={values.installmentAmount}
               onChange={(event) =>
                 setValues((current) => ({
@@ -918,7 +984,11 @@ export function InstallmentPlanFormModal({
               className={inputClassName}
             />
           </InputField>
-          <InputField label="Primera fecha" error={submitted ? errors.firstDueDate : undefined}>
+          <InputField
+            label="Primera fecha"
+            error={submitted ? errors.firstDueDate : undefined}
+            hint="Cuando vence la primera cuota."
+          >
             <input
               type="date"
               value={values.firstDueDate}
@@ -930,9 +1000,14 @@ export function InstallmentPlanFormModal({
           </InputField>
         </div>
         <div className="grid gap-4 md:grid-cols-2">
-          <InputField label="Cuota actual" error={submitted ? errors.currentInstallment : undefined}>
+          <InputField
+            label="Cuota actual"
+            error={submitted ? errors.currentInstallment : undefined}
+            hint="En que cuota vas. Si es nueva, poné 1."
+          >
             <input
               inputMode="numeric"
+              placeholder="Ej: 1"
               value={values.currentInstallment}
               onChange={(event) =>
                 setValues((current) => ({
@@ -1016,15 +1091,21 @@ export function ReserveFormModal({
           <InputField label="Nombre" error={submitted ? errors.name : undefined}>
             <input
               value={values.name}
+              placeholder="Ej: Reserva para viaje"
               onChange={(event) =>
                 setValues((current) => ({ ...current, name: event.target.value }))
               }
               className={inputClassName}
             />
           </InputField>
-          <InputField label="Objetivo" error={submitted ? errors.targetAmount : undefined}>
+          <InputField
+            label="Objetivo"
+            error={submitted ? errors.targetAmount : undefined}
+            hint="Cuanto queres juntar en total."
+          >
             <input
               inputMode="numeric"
+              placeholder="Ej: 250000"
               value={values.targetAmount}
               onChange={(event) =>
                 setValues((current) => ({ ...current, targetAmount: event.target.value }))
@@ -1034,9 +1115,14 @@ export function ReserveFormModal({
           </InputField>
         </div>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <InputField label="Guardado" error={submitted ? errors.savedAmount : undefined}>
+          <InputField
+            label="Guardado"
+            error={submitted ? errors.savedAmount : undefined}
+            hint="Cuanto ya juntaste para esto (es informativo, no toca tu saldo)."
+          >
             <input
               inputMode="numeric"
+              placeholder="Ej: 90000"
               value={values.savedAmount}
               onChange={(event) =>
                 setValues((current) => ({ ...current, savedAmount: event.target.value }))
@@ -1044,7 +1130,11 @@ export function ReserveFormModal({
               className={inputClassName}
             />
           </InputField>
-          <InputField label="Fecha objetivo" error={submitted ? errors.targetDate : undefined}>
+          <InputField
+            label="Fecha objetivo"
+            error={submitted ? errors.targetDate : undefined}
+            hint="Opcional. Para cuando queres tenerlo listo."
+          >
             <input
               type="date"
               value={values.targetDate}

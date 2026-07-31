@@ -23,17 +23,23 @@ interface TaskFormModalProps {
 function InputField({
   label,
   error,
+  hint,
   children
 }: {
   label: string;
   error?: string;
+  hint?: string;
   children: React.ReactNode;
 }) {
   return (
     <label className="grid gap-2">
       <span className="text-sm font-semibold text-morga-text">{label}</span>
       {children}
-      {error ? <span className="text-sm text-red-700">{error}</span> : null}
+      {error ? (
+        <span className="text-sm text-red-700">{error}</span>
+      ) : hint ? (
+        <span className="text-xs text-morga-muted">{hint}</span>
+      ) : null}
     </label>
   );
 }
@@ -97,6 +103,7 @@ export function TaskFormModal({
           <InputField label="Título" error={showError("title")}>
             <input
               value={values.title}
+              placeholder="Ej: Pedir presupuesto del limpiaparabrisas"
               onChange={(event) =>
                 setValues((current) => ({ ...current, title: event.target.value }))
               }
@@ -170,7 +177,11 @@ export function TaskFormModal({
             </select>
           </InputField>
 
-          <InputField label="Fecha límite" error={showError("dueDate")}>
+          <InputField
+            label="Fecha límite"
+            error={showError("dueDate")}
+            hint="Opcional. Si no tiene fecha, va a aparecer en 'Sin fecha'."
+          >
             <input
               type="date"
               value={values.dueDate}
@@ -198,7 +209,10 @@ export function TaskFormModal({
             />
           </InputField>
 
-          <label className="flex min-h-[44px] items-center gap-3 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text">
+          <label
+            className="flex min-h-[44px] items-center gap-3 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text"
+            title="Solo puede haber una por proyecto; es la que se destaca como la mas urgente de resolver."
+          >
             <input
               type="checkbox"
               checked={values.isNextAction}

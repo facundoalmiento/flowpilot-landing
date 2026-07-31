@@ -42,17 +42,23 @@ interface ProjectFormModalProps {
 function InputField({
   label,
   error,
+  hint,
   children
 }: {
   label: string;
   error?: string;
+  hint?: string;
   children: React.ReactNode;
 }) {
   return (
     <label className="grid gap-2">
       <span className="text-sm font-semibold text-morga-text">{label}</span>
       {children}
-      {error ? <span className="text-sm text-red-700">{error}</span> : null}
+      {error ? (
+        <span className="text-sm text-red-700">{error}</span>
+      ) : hint ? (
+        <span className="text-xs text-morga-muted">{hint}</span>
+      ) : null}
     </label>
   );
 }
@@ -104,6 +110,7 @@ export function ProjectFormModal({
           <InputField label="Nombre" error={showError("name")}>
             <input
               value={values.name}
+              placeholder="Ej: Terminar el portfolio"
               onChange={(event) =>
                 setValues((current) => ({ ...current, name: event.target.value }))
               }
@@ -134,6 +141,7 @@ export function ProjectFormModal({
         <InputField label="Descripción" error={showError("description")}>
           <textarea
             value={values.description}
+            placeholder="En pocas palabras, de que se trata este proyecto."
             onChange={(event) =>
               setValues((current) => ({
                 ...current,
@@ -183,7 +191,11 @@ export function ProjectFormModal({
             </select>
           </InputField>
 
-          <InputField label="Fecha objetivo" error={showError("targetDate")}>
+          <InputField
+            label="Fecha objetivo"
+            error={showError("targetDate")}
+            hint="Opcional. Para cuando te gustaria tenerlo resuelto."
+          >
             <input
               type="date"
               value={values.targetDate}
@@ -199,7 +211,11 @@ export function ProjectFormModal({
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <InputField label="Costo estimado" error={showError("costEstimated")}>
+          <InputField
+            label="Costo estimado"
+            error={showError("costEstimated")}
+            hint="Opcional. Cuanto pensas que te va a costar en total."
+          >
             <input
               inputMode="numeric"
               value={values.costEstimated}
@@ -232,9 +248,14 @@ export function ProjectFormModal({
           </InputField>
         </div>
 
-        <InputField label="Próxima acción" error={showError("nextAction")}>
+        <InputField
+          label="Próxima acción"
+          error={showError("nextAction")}
+          hint="Lo primero y mas concreto que hay que hacer para avanzar. Ej: Pedir tres presupuestos."
+        >
           <textarea
             value={values.nextAction}
+            placeholder="Ej: Pedir tres presupuestos"
             onChange={(event) =>
               setValues((current) => ({
                 ...current,
