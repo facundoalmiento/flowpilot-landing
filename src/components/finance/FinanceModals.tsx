@@ -44,17 +44,23 @@ const textareaClassName =
 function InputField({
   label,
   error,
+  hint,
   children
 }: {
   label: string;
   error?: string;
+  hint?: string;
   children: React.ReactNode;
 }) {
   return (
     <label className="grid gap-2">
       <span className="text-sm font-semibold text-morga-text">{label}</span>
       {children}
-      {error ? <span className="text-sm text-red-700">{error}</span> : null}
+      {error ? (
+        <span className="text-sm text-red-700">{error}</span>
+      ) : hint ? (
+        <span className="text-xs text-morga-muted">{hint}</span>
+      ) : null}
     </label>
   );
 }
@@ -211,8 +217,16 @@ export function CreditCardFormModal({
           </InputField>
         </div>
         <div className="grid gap-4 md:grid-cols-3">
-          <InputField label="Dia de cierre" error={submitted ? errors.closeDay : undefined}>
+          <InputField
+            label="Dia de cierre"
+            error={submitted ? errors.closeDay : undefined}
+            hint="Solo el numero del dia del mes (1 a 31). Ej: 23"
+          >
             <input
+              type="number"
+              min={1}
+              max={31}
+              placeholder="Ej: 23"
               inputMode="numeric"
               value={values.closeDay}
               onChange={(event) =>
@@ -221,8 +235,16 @@ export function CreditCardFormModal({
               className={inputClassName}
             />
           </InputField>
-          <InputField label="Dia de vencimiento" error={submitted ? errors.dueDay : undefined}>
+          <InputField
+            label="Dia de vencimiento"
+            error={submitted ? errors.dueDay : undefined}
+            hint="Tambien es solo el numero del dia. Puede caer en el mes siguiente. Ej: 3"
+          >
             <input
+              type="number"
+              min={1}
+              max={31}
+              placeholder="Ej: 3"
               inputMode="numeric"
               value={values.dueDay}
               onChange={(event) =>
