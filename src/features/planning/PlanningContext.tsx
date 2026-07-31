@@ -23,7 +23,7 @@ import {
 } from "../../features/finance/financeLedger";
 import { syncProjectsProgress } from "../../features/tasks/taskDerivations";
 import { createTaskFromDecisionTask } from "../../features/tasks/taskFromDecision";
-import { loadRemotePlanningStore, saveRemotePlanningStore } from "../../services/storage/planningStorage";
+import { loadRemotePlanningStore, saveRemotePlanningStore } from "../../services/storage/remotePlanningStore";
 import {
   Commitment,
   CommitmentFormValues,
@@ -849,18 +849,55 @@ function planningReducer(state: PlanningStore, action: PlanningAction): Planning
           creditCards: state.finance.creditCards.filter((card) => card.id !== action.payload.cardId)
         }
       });
-    case "create-income":
-      return finalizeState({ ...state, finance: { ...state.finance, incomes: [action.payload, ...state.finance.incomes] } });
-    case "update-income":
-      return finalizeState({
-        ...state,
-        finance: {
-          ...state.finance,
-          incomes: state.finance.incomes.map((income) =>
-            income.id === action.payload.id ? action.payload : income
-          )
-        }
-      });
+    case "create-income": {
+      const shouldSettle = action.payload.status === "received";
+      const storedIncome: Income = shouldSettle
+        ? { ...action.payload, status: "expected", receivedDate: null }
+        : action.payload;
+
+      let nextFinance = {
+        ...state.finance,
+        incomes: [storedIncome, ...state.finance.incomes]
+      };
+
+      if (shouldSettle) {
+        nextFinance = markIncomeReceivedInLedger(nextFinance, storedIncome.id, {
+          effectiveDate: action.payload.receivedDate || action.payload.expectedDate,
+          effectiveAmount: String(action.payload.amount)
+        });
+      }
+
+      return finalizeState({ ...state, finance: nextFinance });
+    }
+    case "update-income": {
+      const previousIncome = state.finance.incomes.find(
+        (income) => income.id === action.payload.id
+      );
+      const wasReceived = previousIncome?.status === "received";
+      const willBeReceived = action.payload.status === "received";
+      const storedIncome: Income =
+        willBeReceived && !wasReceived
+          ? { ...action.payload, status: "expected", receivedDate: null }
+          : action.payload;
+
+      let nextFinance = {
+        ...state.finance,
+        incomes: state.finance.incomes.map((income) =>
+          income.id === storedIncome.id ? storedIncome : income
+        )
+      };
+
+      if (willBeReceived && !wasReceived) {
+        nextFinance = markIncomeReceivedInLedger(nextFinance, action.payload.id, {
+          effectiveDate: action.payload.receivedDate || action.payload.expectedDate,
+          effectiveAmount: String(action.payload.amount)
+        });
+      } else if (!willBeReceived && wasReceived) {
+        nextFinance = reopenIncomeInLedger(nextFinance, action.payload.id);
+      }
+
+      return finalizeState({ ...state, finance: nextFinance });
+    }
     case "mark-income-received":
       return finalizeState({
         ...state,
@@ -876,18 +913,55 @@ function planningReducer(state: PlanningStore, action: PlanningAction): Planning
           incomes: state.finance.incomes.filter((income) => income.id !== action.payload.incomeId)
         }
       });
-    case "create-expense":
-      return finalizeState({ ...state, finance: { ...state.finance, expenses: [action.payload, ...state.finance.expenses] } });
-    case "update-expense":
-      return finalizeState({
-        ...state,
-        finance: {
-          ...state.finance,
-          expenses: state.finance.expenses.map((expense) =>
-            expense.id === action.payload.id ? action.payload : expense
-          )
-        }
-      });
+    case "create-expense": {
+      const shouldSettle = action.payload.status === "paid";
+      const storedExpense: Expense = shouldSettle
+        ? { ...action.payload, status: "pending", paidDate: null }
+        : action.payload;
+
+      let nextFinance = {
+        ...state.finance,
+        expenses: [storedExpense, ...state.finance.expenses]
+      };
+
+      if (shouldSettle) {
+        nextFinance = markExpensePaidInLedger(nextFinance, storedExpense.id, {
+          effectiveDate: action.payload.paidDate || action.payload.dueDate,
+          effectiveAmount: String(action.payload.amount)
+        });
+      }
+
+      return finalizeState({ ...state, finance: nextFinance });
+    }
+    case "update-expense": {
+      const previousExpense = state.finance.expenses.find(
+        (expense) => expense.id === action.payload.id
+      );
+      const wasPaid = previousExpense?.status === "paid";
+      const willBePaid = action.payload.status === "paid";
+      const storedExpense: Expense =
+        willBePaid && !wasPaid
+          ? { ...action.payload, status: "pending", paidDate: null }
+          : action.payload;
+
+      let nextFinance = {
+        ...state.finance,
+        expenses: state.finance.expenses.map((expense) =>
+          expense.id === storedExpense.id ? storedExpense : expense
+        )
+      };
+
+      if (willBePaid && !wasPaid) {
+        nextFinance = markExpensePaidInLedger(nextFinance, action.payload.id, {
+          effectiveDate: action.payload.paidDate || action.payload.dueDate,
+          effectiveAmount: String(action.payload.amount)
+        });
+      } else if (!willBePaid && wasPaid) {
+        nextFinance = reopenExpenseInLedger(nextFinance, action.payload.id);
+      }
+
+      return finalizeState({ ...state, finance: nextFinance });
+    }
     case "mark-expense-paid":
       return finalizeState({
         ...state,
