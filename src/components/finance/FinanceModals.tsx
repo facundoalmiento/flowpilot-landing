@@ -37,9 +37,9 @@ import {
 } from "../../features/finance/financeForm";
 
 const inputClassName =
-  "h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent";
+  "h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent";
 const textareaClassName =
-  "min-h-[104px] rounded-2xl border border-morga-line bg-white px-4 py-3 text-sm text-morga-text outline-none transition focus:border-morga-accent";
+  "min-h-[104px] rounded-2xl border border-morga-line bg-morga-surface px-4 py-3 text-sm text-morga-text outline-none transition focus:border-morga-accent";
 
 function InputField({
   label,

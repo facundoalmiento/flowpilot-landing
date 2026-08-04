@@ -16,6 +16,21 @@
       rel="stylesheet"
     />
     <title>Morga</title>
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("morga-theme");
+          var prefersDark =
+            window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var isDark = stored ? stored === "dark" : prefersDark;
+          if (isDark) {
+            document.documentElement.classList.add("dark");
+          }
+        } catch (error) {
+          // Si falla, se queda con el tema claro por defecto.
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

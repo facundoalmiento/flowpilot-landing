@@ -68,7 +68,7 @@ export function ProjectCard({
   const hasBlockedReason = project.blockedReason.trim() !== "";
 
   return (
-    <article className="rounded-panel border border-morga-line bg-white p-4 shadow-soft md:p-5">
+    <article className="rounded-panel border border-morga-line bg-morga-surface p-4 shadow-soft md:p-5">
       <div className="flex flex-col gap-4 border-b border-morga-line/70 pb-4">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0 flex-1">
@@ -106,7 +106,7 @@ export function ProjectCard({
                 <span className="sr-only">Abrir acciones del proyecto</span>
                 <EllipsisVertical className="h-4 w-4" />
               </summary>
-              <div className="absolute right-0 top-[calc(100%+0.5rem)] z-10 w-48 rounded-2xl border border-morga-line bg-white p-2 shadow-panel">
+              <div className="absolute right-0 top-[calc(100%+0.5rem)] z-10 w-48 rounded-2xl border border-morga-line bg-morga-surface p-2 shadow-panel">
                 <button
                   type="button"
                   onClick={() => onEdit(project)}
@@ -161,7 +161,7 @@ export function ProjectCard({
               {project.progress}%
             </p>
             <div
-              className="mt-2 h-2 rounded-full bg-white"
+              className="mt-2 h-2 rounded-full bg-morga-surface"
               role="progressbar"
               aria-label={`Avance del proyecto: ${project.progress}%`}
               aria-valuemin={0}

@@ -71,7 +71,7 @@ export function ProjectsPage() {
 
   return (
     <div className="space-y-4 lg:space-y-5">
-      <section className="flex flex-col gap-4 rounded-panel border border-morga-line bg-white px-5 py-5 shadow-soft md:px-6 md:py-5 lg:flex-row lg:items-end lg:justify-between">
+      <section className="flex flex-col gap-4 rounded-panel border border-morga-line bg-morga-surface px-5 py-5 shadow-soft md:px-6 md:py-5 lg:flex-row lg:items-end lg:justify-between">
         <div className="space-y-2">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
             Proyectos

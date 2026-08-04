@@ -63,9 +63,9 @@ const optionTypes: DecisionPaymentOptionType[] = [
 ];
 
 const inputClassName =
-  "h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent";
+  "h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent";
 const textareaClassName =
-  "min-h-[96px] rounded-2xl border border-morga-line bg-white px-4 py-3 text-sm text-morga-text outline-none transition focus:border-morga-accent";
+  "min-h-[96px] rounded-2xl border border-morga-line bg-morga-surface px-4 py-3 text-sm text-morga-text outline-none transition focus:border-morga-accent";
 
 function InputField({
   label,
@@ -334,7 +334,7 @@ export function DecisionFormModal({
             <button
               type="button"
               onClick={addPaymentOption}
-              className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-morga-line px-4 py-2 text-sm font-semibold text-morga-text transition hover:bg-white"
+              className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-morga-line px-4 py-2 text-sm font-semibold text-morga-text transition hover:bg-morga-surface"
             >
               <Plus className="h-4 w-4" />
               Agregar opcion
@@ -351,7 +351,7 @@ export function DecisionFormModal({
               const optionId = option.id ?? `option-${index}`;
 
               return (
-                <article key={optionId} className="rounded-[22px] border border-morga-line bg-white p-4">
+                <article key={optionId} className="rounded-[22px] border border-morga-line bg-morga-surface p-4">
                   <div className="flex flex-col gap-3 border-b border-morga-line/70 pb-4 md:flex-row md:items-start md:justify-between">
                     <label className="flex items-start gap-3">
                       <input

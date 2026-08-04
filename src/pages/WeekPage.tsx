@@ -88,7 +88,7 @@ export function WeekPage() {
 
   return (
     <div className="space-y-5">
-      <section className="flex flex-col gap-4 rounded-panel border border-morga-line bg-white px-5 py-5 shadow-soft md:px-6 md:py-5 lg:flex-row lg:items-end lg:justify-between">
+      <section className="flex flex-col gap-4 rounded-panel border border-morga-line bg-morga-surface px-5 py-5 shadow-soft md:px-6 md:py-5 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
             Planificación
@@ -119,7 +119,7 @@ export function WeekPage() {
         {feedback}
       </div>
 
-      <section className="rounded-panel border border-morga-line bg-white p-4 shadow-soft md:p-5">
+      <section className="rounded-panel border border-morga-line bg-morga-surface p-4 shadow-soft md:p-5">
         <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-[minmax(0,1.2fr)_repeat(2,minmax(0,1fr))_auto] xl:items-end">
           <label className="grid gap-2">
             <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
@@ -130,7 +130,7 @@ export function WeekPage() {
               onChange={(event) =>
                 setFilters((current) => ({ ...current, projectId: event.target.value }))
               }
-              className="h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text"
+              className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
             >
               <option value="all">Todos</option>
               {projects.map((project) => (
@@ -153,7 +153,7 @@ export function WeekPage() {
                   category: event.target.value as typeof current.category
                 }))
               }
-              className="h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text"
+              className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
             >
               <option value="Todas">Todas</option>
               {[...new Set(projects.map((project) => project.category))].map((category) => (
@@ -176,7 +176,7 @@ export function WeekPage() {
                   priority: event.target.value as typeof current.priority
                 }))
               }
-              className="h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text"
+              className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
             >
               <option value="all">Todas</option>
               <option value="critical">{formatTaskPriority("critical")}</option>
@@ -186,7 +186,7 @@ export function WeekPage() {
             </select>
           </label>
 
-          <label className="flex min-h-[44px] items-center gap-3 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text">
+          <label className="flex min-h-[44px] items-center gap-3 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text">
             <input
               type="checkbox"
               checked={filters.showCompleted}

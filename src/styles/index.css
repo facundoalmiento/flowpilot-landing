@@ -3,6 +3,30 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --morga-bg: 245 240 232;
+    --morga-surface: 252 248 242;
+    --morga-surface-alt: 240 230 217;
+    --morga-text: 32 25 19;
+    --morga-muted: 110 98 87;
+    --morga-line: 217 202 188;
+    --morga-accent: 139 94 60;
+    --morga-accent-soft: 219 195 174;
+    --morga-dark: 23 19 17;
+  }
+
+  .dark {
+    --morga-bg: 24 20 16;
+    --morga-surface: 32 27 21;
+    --morga-surface-alt: 41 34 27;
+    --morga-text: 240 231 219;
+    --morga-muted: 176 161 144;
+    --morga-line: 61 51 41;
+    --morga-accent: 208 168 126;
+    --morga-accent-soft: 74 60 47;
+    --morga-dark: 184 124 82;
+  }
+
   * {
     @apply box-border;
   }
@@ -12,7 +36,7 @@
   }
 
   body {
-    @apply overflow-x-hidden bg-morga-bg text-morga-text antialiased;
+    @apply overflow-x-hidden bg-morga-bg text-morga-text antialiased transition-colors duration-200;
   }
 
   button,

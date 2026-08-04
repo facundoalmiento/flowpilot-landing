@@ -85,7 +85,7 @@ export function DecisionCard({
     null;
 
   return (
-    <article className="rounded-panel border border-morga-line bg-white p-4 shadow-soft md:p-5">
+    <article className="rounded-panel border border-morga-line bg-morga-surface p-4 shadow-soft md:p-5">
       <div className="flex flex-col gap-4 border-b border-morga-line/70 pb-4">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0 flex-1">
@@ -135,7 +135,7 @@ export function DecisionCard({
                 <span className="sr-only">Abrir acciones de la decision</span>
                 <EllipsisVertical className="h-4 w-4" />
               </summary>
-              <div className="absolute right-0 top-[calc(100%+0.5rem)] z-10 w-56 rounded-2xl border border-morga-line bg-white p-2 shadow-panel">
+              <div className="absolute right-0 top-[calc(100%+0.5rem)] z-10 w-56 rounded-2xl border border-morga-line bg-morga-surface p-2 shadow-panel">
                 <button
                   type="button"
                   onClick={() => onEdit(decision)}
@@ -222,7 +222,10 @@ export function DecisionCard({
                 : "Sin cuotas"}
             </p>
           </div>
-          <div className="rounded-[18px] border border-morga-line/80 bg-morga-surfaceAlt/45 p-3">
+          <div
+            className="rounded-[18px] border border-morga-line/80 bg-morga-surfaceAlt/45 p-3"
+            title="Un puntaje que combina urgencia, impacto y necesidad para ordenar que mirar primero. Mas puntos, mas prioridad."
+          >
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
               Prioridad
             </p>
@@ -254,7 +257,7 @@ export function DecisionCard({
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="inline-flex min-h-[44px] items-center gap-3 rounded-[18px] border border-morga-line bg-white px-4 py-3 text-sm font-semibold text-morga-text">
+          <label className="inline-flex min-h-[44px] items-center gap-3 rounded-[18px] border border-morga-line bg-morga-surface px-4 py-3 text-sm font-semibold text-morga-text">
             <input
               type="checkbox"
               checked={selectedForCompare}
@@ -274,7 +277,10 @@ export function DecisionCard({
             {decision.convertedEntity ? "Ya convertida" : "Convertir"}
           </button>
 
-          <div className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-[18px] border border-morga-line bg-white px-4 py-3 text-sm font-semibold text-morga-muted">
+          <div
+            className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-[18px] border border-morga-line bg-morga-surface px-4 py-3 text-sm font-semibold text-morga-muted"
+            title="Que tan segura esta la app de esta recomendacion, segun cuantos datos tiene cargados."
+          >
             <Scale className="h-4 w-4" />
             Confianza {evaluation.confidenceLabel}
           </div>

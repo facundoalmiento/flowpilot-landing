@@ -59,7 +59,7 @@ export function TaskRow({
   compact = false
 }: TaskRowProps) {
   return (
-    <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+    <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap gap-2">

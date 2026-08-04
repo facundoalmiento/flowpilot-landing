@@ -117,7 +117,7 @@ export function ProjectDetailPage() {
 
   return (
     <div className="space-y-5">
-      <section className="rounded-panel border border-morga-line bg-white p-5 shadow-soft md:p-6">
+      <section className="rounded-panel border border-morga-line bg-morga-surface p-5 shadow-soft md:p-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0 flex-1">
             <Link
@@ -182,7 +182,7 @@ export function ProjectDetailPage() {
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
-        <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+        <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
             Fecha objetivo
           </p>
@@ -193,7 +193,7 @@ export function ProjectDetailPage() {
             {formatRelativeDeadline(project.targetDate)}
           </p>
         </article>
-        <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+        <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
             Costo estimado
           </p>
@@ -203,7 +203,7 @@ export function ProjectDetailPage() {
               : "Sin costo"}
           </p>
         </article>
-        <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+        <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
             Progreso
           </p>
@@ -212,7 +212,7 @@ export function ProjectDetailPage() {
             <div className="h-2 rounded-full bg-morga-dark" style={{ width: `${project.progress}%` }} />
           </div>
         </article>
-        <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+        <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
             Próxima acción
           </p>
@@ -220,7 +220,7 @@ export function ProjectDetailPage() {
             {nextActionText || "Todavía no hay próxima acción definida."}
           </p>
         </article>
-        <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+        <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
             Motivo de bloqueo
           </p>
@@ -228,7 +228,7 @@ export function ProjectDetailPage() {
             {project.blockedReason || "Sin bloqueos activos."}
           </p>
         </article>
-        <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+        <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
             Última actualización
           </p>
@@ -242,7 +242,7 @@ export function ProjectDetailPage() {
       </section>
 
       <section className="space-y-4">
-        <div className="rounded-panel border border-morga-line bg-white p-5 shadow-soft">
+        <div className="rounded-panel border border-morga-line bg-morga-surface p-5 shadow-soft">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
@@ -271,7 +271,7 @@ export function ProjectDetailPage() {
             {projectDecisions.map((decision) => (
               <article
                 key={decision.id}
-                className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft"
+                className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft"
               >
                 <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                   <div className="min-w-0">
@@ -306,7 +306,7 @@ export function ProjectDetailPage() {
       </section>
 
       <section className="space-y-4">
-        <div className="rounded-panel border border-morga-line bg-white p-5 shadow-soft">
+        <div className="rounded-panel border border-morga-line bg-morga-surface p-5 shadow-soft">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
@@ -334,7 +334,7 @@ export function ProjectDetailPage() {
           />
         ) : (
           <div className="grid gap-4 xl:grid-cols-3">
-            <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+            <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
               <p className="text-sm font-semibold text-morga-text">Gastos relacionados</p>
               <div className="mt-3 space-y-3">
                 {linkedFinance.expenses.length === 0 ? (
@@ -356,7 +356,7 @@ export function ProjectDetailPage() {
               </div>
             </article>
 
-            <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+            <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
               <p className="text-sm font-semibold text-morga-text">Planes de cuotas</p>
               <div className="mt-3 space-y-3">
                 {linkedFinance.installmentPlans.length === 0 ? (
@@ -378,7 +378,7 @@ export function ProjectDetailPage() {
               </div>
             </article>
 
-            <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+            <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
               <p className="text-sm font-semibold text-morga-text">Reservas</p>
               <div className="mt-3 space-y-3">
                 {linkedFinance.reserves.length === 0 ? (
@@ -404,7 +404,7 @@ export function ProjectDetailPage() {
       </section>
 
       <section className="space-y-4">
-        <div className="flex flex-col gap-2 rounded-panel border border-morga-line bg-white p-5 shadow-soft md:flex-row md:items-end md:justify-between">
+        <div className="flex flex-col gap-2 rounded-panel border border-morga-line bg-morga-surface p-5 shadow-soft md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
               Tareas

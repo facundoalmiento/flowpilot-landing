@@ -63,7 +63,7 @@ function BaseSelect({
       aria-label={ariaLabel}
       value={value}
       onChange={(event) => onChange(event.target.value)}
-      className="h-11 w-full rounded-2xl border border-morga-line bg-white px-4 text-sm font-medium text-morga-text outline-none transition focus:border-morga-accent focus-visible:ring-2 focus-visible:ring-morga-accent/30"
+      className="h-11 w-full rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm font-medium text-morga-text outline-none transition focus:border-morga-accent focus-visible:ring-2 focus-visible:ring-morga-accent/30"
     >
       {options.map((option) => (
         <option
@@ -94,7 +94,7 @@ export function ProjectFiltersBar({
   const showReset = hasActiveFilters(filters);
 
   return (
-    <div className="rounded-[20px] border border-morga-line bg-white p-4 shadow-soft">
+    <div className="rounded-[20px] border border-morga-line bg-morga-surface p-4 shadow-soft">
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-[minmax(0,1.35fr)_repeat(4,minmax(0,1fr))_auto] xl:items-end">
         <label className="block space-y-2">
           <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">

@@ -115,7 +115,7 @@ export function DashboardPage() {
       </section>
 
       {isFreshAccount ? (
-        <section className="rounded-[28px] border border-morga-line bg-white px-5 py-6 md:px-7">
+        <section className="rounded-[28px] border border-morga-line bg-morga-surface px-5 py-6 md:px-7">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
             Primeros pasos
           </p>
@@ -136,7 +136,7 @@ export function DashboardPage() {
                   to={step.to}
                   className="flex items-start gap-3 rounded-[20px] border border-morga-line bg-morga-surfaceAlt/40 px-4 py-4 transition hover:bg-morga-surfaceAlt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
                 >
-                  <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-morga-text">
+                  <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-morga-surface text-morga-text">
                     <Icon className="h-4 w-4" />
                   </span>
                   <span>
@@ -154,7 +154,7 @@ export function DashboardPage() {
         </section>
       ) : null}
 
-      <section className="overflow-hidden rounded-[28px] border border-morga-line bg-white">
+      <section className="overflow-hidden rounded-[28px] border border-morga-line bg-morga-surface">
         <div className="grid sm:grid-cols-2 xl:grid-cols-[1.05fr_0.95fr_1.15fr_0.95fr]">
           <article className="border-b border-morga-line px-5 py-5 sm:border-r xl:border-b-0">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
@@ -211,7 +211,7 @@ export function DashboardPage() {
               description="Cuando agregues tareas pendientes con fechas y prioridad, este bloque se ordena solo."
             />
           ) : (
-            <div className="divide-y divide-morga-line rounded-[24px] border border-morga-line bg-white">
+            <div className="divide-y divide-morga-line rounded-[24px] border border-morga-line bg-morga-surface">
               {weeklyPriorities.map((item, index) => (
                 <article
                   key={item.id}
@@ -240,7 +240,7 @@ export function DashboardPage() {
           )}
         </div>
 
-        <div className="rounded-[26px] border border-morga-line bg-[#fbf7f0] px-5 py-5">
+        <div className="rounded-[26px] border border-morga-line bg-morga-surfaceAlt px-5 py-5">
           <div className="border-b border-morga-line/70 pb-3">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
               Atencion
@@ -265,7 +265,7 @@ export function DashboardPage() {
                 return (
                   <article
                     key={alert.id}
-                    className={`rounded-[20px] bg-white/80 px-4 py-4 ${tone.border}`}
+                    className={`rounded-[20px] bg-morga-surface/80 px-4 py-4 ${tone.border}`}
                   >
                     <div className="flex items-start gap-3">
                       <span
@@ -288,7 +288,7 @@ export function DashboardPage() {
       </section>
 
       <section className="grid gap-8 xl:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)]">
-        <div className="rounded-[26px] border border-morga-line bg-white px-5 py-5">
+        <div className="rounded-[26px] border border-morga-line bg-morga-surface px-5 py-5">
           <div className="border-b border-morga-line/70 pb-3">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
               Agenda
@@ -346,7 +346,7 @@ export function DashboardPage() {
             </h2>
           </div>
 
-          <div className="rounded-[26px] border border-morga-line bg-white px-5 py-5">
+          <div className="rounded-[26px] border border-morga-line bg-morga-surface px-5 py-5">
             <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
               <article className="border-b border-morga-line pb-4 sm:border-b-0 sm:border-r sm:pb-0 sm:pr-5">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">

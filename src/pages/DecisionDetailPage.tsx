@@ -165,7 +165,7 @@ export function DecisionDetailPage() {
 
   return (
     <div className="space-y-5">
-      <section className="rounded-panel border border-morga-line bg-white p-5 shadow-soft md:p-6">
+      <section className="rounded-panel border border-morga-line bg-morga-surface p-5 shadow-soft md:p-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0 flex-1">
             <Link
@@ -209,21 +209,21 @@ export function DecisionDetailPage() {
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2 xl:grid-cols-4">
-        <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+        <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Recomendacion</p>
           <p className="mt-2 text-sm font-semibold text-morga-text">{formatDecisionRecommendation(evaluation.recommendationCode)}</p>
           <p className="mt-1 text-sm text-morga-muted">{evaluation.confidenceLabel} confianza</p>
         </article>
-        <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+        <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Fecha objetivo</p>
           <p className="mt-2 text-sm font-semibold text-morga-text">{formatDate(decision.desiredDate)}</p>
           <p className="mt-1 text-sm text-morga-muted">{formatRelativeDeadline(decision.desiredDate)}</p>
         </article>
-        <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+        <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Disponible despues</p>
           <p className="mt-2 text-sm font-semibold text-morga-text">{formatMoney(simulation.availableAfterDecision)}</p>
         </article>
-        <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+        <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Proyeccion de mes</p>
           <p className="mt-2 text-sm font-semibold text-morga-text">{formatMoney(simulation.projectedMonthEndAfterDecision)}</p>
         </article>
@@ -259,7 +259,7 @@ export function DecisionDetailPage() {
           <SectionCard title="Opciones de pago" description="Cada alternativa se evalua con los mismos datos financieros actuales.">
             <div className="space-y-4">
               {optionEvaluations.map(({ option, evaluation: optionEvaluation, simulation: optionSimulation, selected }) => (
-                <article key={option.id} className="rounded-[22px] border border-morga-line bg-white p-4">
+                <article key={option.id} className="rounded-[22px] border border-morga-line bg-morga-surface p-4">
                   <div className="flex flex-wrap items-center gap-2">
                     <p className="text-sm font-semibold text-morga-text">{formatDecisionPaymentOptionType(option.type)}</p>
                     {selected ? <Badge tone="info">Opcion principal</Badge> : null}
@@ -309,7 +309,7 @@ export function DecisionDetailPage() {
             </div>
 
             {project ? (
-              <Link to={`/projects/${project.id}`} className="mt-4 inline-flex rounded-full border border-morga-line px-4 py-2 text-sm font-semibold text-morga-text transition hover:bg-white">
+              <Link to={`/projects/${project.id}`} className="mt-4 inline-flex rounded-full border border-morga-line px-4 py-2 text-sm font-semibold text-morga-text transition hover:bg-morga-surface">
                 Ver proyecto relacionado
               </Link>
             ) : decision.projectId ? (
@@ -317,7 +317,7 @@ export function DecisionDetailPage() {
             ) : null}
 
             {relatedTask ? (
-              <Link to={`/projects/${relatedTask.projectId}`} className="mt-3 inline-flex rounded-full border border-morga-line px-4 py-2 text-sm font-semibold text-morga-text transition hover:bg-white">
+              <Link to={`/projects/${relatedTask.projectId}`} className="mt-3 inline-flex rounded-full border border-morga-line px-4 py-2 text-sm font-semibold text-morga-text transition hover:bg-morga-surface">
                 Ver tarea dentro del proyecto
               </Link>
             ) : null}

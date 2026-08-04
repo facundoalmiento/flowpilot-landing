@@ -43,7 +43,7 @@ export function LoginPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-morga-bg px-4">
-      <div className="w-full max-w-sm rounded-panel border border-morga-line bg-white p-8 shadow-panel">
+      <div className="w-full max-w-sm rounded-panel border border-morga-line bg-morga-surface p-8 shadow-panel">
         <MorgaLogo />
 
         <p className="mt-8 text-sm leading-6 text-morga-muted">
@@ -55,7 +55,7 @@ export function LoginPage() {
           type="button"
           onClick={handleGoogleSignIn}
           disabled={isRedirecting}
-          className="mt-6 inline-flex min-h-[48px] w-full items-center justify-center gap-3 rounded-full border border-morga-line bg-white px-5 py-3 text-sm font-semibold text-morga-text shadow-soft transition hover:bg-morga-surfaceAlt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent disabled:opacity-60"
+          className="mt-6 inline-flex min-h-[48px] w-full items-center justify-center gap-3 rounded-full border border-morga-line bg-morga-surface px-5 py-3 text-sm font-semibold text-morga-text shadow-soft transition hover:bg-morga-surfaceAlt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent disabled:opacity-60"
         >
           <GoogleIcon />
           {isRedirecting ? "Redirigiendo..." : "Continuar con Google"}

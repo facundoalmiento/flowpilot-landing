@@ -46,7 +46,7 @@ const compareMetrics: Array<{ id: CompareMetric; label: string }> = [
 ];
 
 const inputClassName =
-  "h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent";
+  "h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent";
 
 function DecisionFiltersForm({
   filters,
@@ -403,7 +403,7 @@ export function DecisionsPage() {
         {feedback}
       </div>
 
-      <section className="flex flex-col gap-4 rounded-panel border border-morga-line bg-white px-5 py-5 shadow-soft md:px-6 md:py-5 lg:flex-row lg:items-end lg:justify-between">
+      <section className="flex flex-col gap-4 rounded-panel border border-morga-line bg-morga-surface px-5 py-5 shadow-soft md:px-6 md:py-5 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
             Planificacion
@@ -412,7 +412,7 @@ export function DecisionsPage() {
             Decisiones
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-morga-muted">
-            Evalua compras importantes con reglas claras, impacto financiero real y comparaciones explicables.
+            Anota una compra que estas pensando hacer, y Morga te dice si conviene pagarla ahora, financiarla o esperar, segun tu plata real.
           </p>
         </div>
 
@@ -436,23 +436,23 @@ export function DecisionsPage() {
       </section>
 
       <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-        <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+        <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Activas</p>
           <p className="mt-2 text-2xl font-semibold text-morga-text">{activeEntries.length}</p>
         </article>
-        <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+        <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Urgentes</p>
           <p className="mt-2 text-2xl font-semibold text-morga-text">{urgentEntries.length}</p>
         </article>
-        <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+        <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Viables hoy</p>
           <p className="mt-2 text-2xl font-semibold text-morga-text">{viableEntries.length}</p>
         </article>
-        <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+        <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Monto en evaluacion</p>
           <p className="mt-2 text-2xl font-semibold text-morga-text">{formatMoney(totalInEvaluation)}</p>
         </article>
-        <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+        <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Impacto mensual potencial</p>
           <p className="mt-2 text-2xl font-semibold text-morga-text">{formatMoney(monthlyImpactPotential)}</p>
         </article>
@@ -466,8 +466,8 @@ export function DecisionsPage() {
             onClick={() => setTab(item.id)}
             className={`min-h-[44px] rounded-full px-4 py-2 text-sm font-semibold transition ${
               tab === item.id
-                ? "bg-[#f1e6d8] text-morga-text"
-                : "border border-morga-line bg-white text-morga-muted hover:bg-morga-surfaceAlt"
+                ? "bg-morga-accentSoft text-morga-text"
+                : "border border-morga-line bg-morga-surface text-morga-muted hover:bg-morga-surfaceAlt"
             }`}
           >
             {item.label}
@@ -477,7 +477,7 @@ export function DecisionsPage() {
 
       {(tab === "all" || tab === "archived") && (
         <>
-          <section className="hidden rounded-panel border border-morga-line bg-white p-4 shadow-soft md:block">
+          <section className="hidden rounded-panel border border-morga-line bg-morga-surface p-4 shadow-soft md:block">
             <DecisionFiltersForm
               filters={tab === "archived" ? { ...filters, archived: "archived" } : filters}
               onChange={setFilters}
@@ -490,7 +490,7 @@ export function DecisionsPage() {
             <button
               type="button"
               onClick={() => setFiltersOpen(true)}
-              className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-morga-line bg-white px-4 py-2 text-sm font-semibold text-morga-text"
+              className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-morga-line bg-morga-surface px-4 py-2 text-sm font-semibold text-morga-text"
             >
               <Filter className="h-4 w-4" />
               Filtros
@@ -590,7 +590,7 @@ export function DecisionsPage() {
                         <button
                           type="button"
                           onClick={() => removeDecisionComparison(comparison.id)}
-                          className="rounded-full border border-morga-line px-4 py-2 text-sm font-semibold text-morga-text transition hover:bg-white"
+                          className="rounded-full border border-morga-line px-4 py-2 text-sm font-semibold text-morga-text transition hover:bg-morga-surface"
                         >
                           Quitar
                         </button>
@@ -601,36 +601,51 @@ export function DecisionsPage() {
               )}
             </SectionCard>
 
-            <SectionCard title="Reglas de recomendacion" description="Parametros simples para ajustar el margen de seguridad de tus decisiones.">
-              <form className="grid gap-4" onSubmit={handleRulesSubmit}>
-                <div className="grid gap-4 sm:grid-cols-2">
+            <SectionCard
+              title="Reglas de recomendacion"
+              description="Como de estricta es la recomendacion automatica. No hace falta tocar esto para usar Morga."
+            >
+              <details className="group">
+                <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between rounded-2xl border border-morga-line bg-morga-surfaceAlt/40 px-4 text-sm font-semibold text-morga-text">
+                  <span>Ver ajustes avanzados</span>
+                  <span className="text-xs font-normal text-morga-muted group-open:hidden">Mostrar</span>
+                  <span className="hidden text-xs font-normal text-morga-muted group-open:inline">Ocultar</span>
+                </summary>
+                <form className="mt-4 grid gap-4" onSubmit={handleRulesSubmit}>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <label className="grid gap-2">
+                      <span className="text-sm font-semibold text-morga-text">Margen minimo despues de comprar</span>
+                      <span className="text-xs text-morga-muted">Cuanta plata queres que te quede si o si despues de cualquier compra.</span>
+                      <input value={rulesValues.minimumPostPurchaseMargin} onChange={(event) => setRulesValues((current) => ({ ...current, minimumPostPurchaseMargin: event.target.value }))} className={inputClassName} />
+                    </label>
+                    <label className="grid gap-2">
+                      <span className="text-sm font-semibold text-morga-text">Maximo de ingreso para nuevas cuotas</span>
+                      <span className="text-xs text-morga-muted">Que porcentaje de tu ingreso mensual aceptas comprometer en cuotas nuevas.</span>
+                      <input value={rulesValues.maxNewInstallmentIncomeRatio} onChange={(event) => setRulesValues((current) => ({ ...current, maxNewInstallmentIncomeRatio: event.target.value }))} className={inputClassName} />
+                    </label>
+                    <label className="grid gap-2">
+                      <span className="text-sm font-semibold text-morga-text">Maximo de deuda futura</span>
+                      <span className="text-xs text-morga-muted">El techo total de cuotas pendientes que estas dispuesto a acumular.</span>
+                      <input value={rulesValues.maxFutureInstallmentDebt} onChange={(event) => setRulesValues((current) => ({ ...current, maxFutureInstallmentDebt: event.target.value }))} className={inputClassName} />
+                    </label>
+                    <label className="grid gap-2">
+                      <span className="text-sm font-semibold text-morga-text">Financiacion extensa desde</span>
+                      <span className="text-xs text-morga-muted">A partir de cuantos meses de cuotas se considera "financiacion larga".</span>
+                      <input value={rulesValues.longFinancingMonths} onChange={(event) => setRulesValues((current) => ({ ...current, longFinancingMonths: event.target.value }))} className={inputClassName} />
+                    </label>
+                  </div>
                   <label className="grid gap-2">
-                    <span className="text-sm font-semibold text-morga-text">Margen minimo despues de comprar</span>
-                    <input value={rulesValues.minimumPostPurchaseMargin} onChange={(event) => setRulesValues((current) => ({ ...current, minimumPostPurchaseMargin: event.target.value }))} className={inputClassName} />
+                    <span className="text-sm font-semibold text-morga-text">Prioridad extra para seguridad y salud</span>
+                    <span className="text-xs text-morga-muted">Puntos extra que suman las decisiones de salud o seguridad para aparecer primero.</span>
+                    <input value={rulesValues.safetyHealthPriorityBoost} onChange={(event) => setRulesValues((current) => ({ ...current, safetyHealthPriorityBoost: event.target.value }))} className={inputClassName} />
                   </label>
-                  <label className="grid gap-2">
-                    <span className="text-sm font-semibold text-morga-text">Maximo de ingreso para nuevas cuotas</span>
-                    <input value={rulesValues.maxNewInstallmentIncomeRatio} onChange={(event) => setRulesValues((current) => ({ ...current, maxNewInstallmentIncomeRatio: event.target.value }))} className={inputClassName} />
-                  </label>
-                  <label className="grid gap-2">
-                    <span className="text-sm font-semibold text-morga-text">Maximo de deuda futura</span>
-                    <input value={rulesValues.maxFutureInstallmentDebt} onChange={(event) => setRulesValues((current) => ({ ...current, maxFutureInstallmentDebt: event.target.value }))} className={inputClassName} />
-                  </label>
-                  <label className="grid gap-2">
-                    <span className="text-sm font-semibold text-morga-text">Financiacion extensa desde</span>
-                    <input value={rulesValues.longFinancingMonths} onChange={(event) => setRulesValues((current) => ({ ...current, longFinancingMonths: event.target.value }))} className={inputClassName} />
-                  </label>
-                </div>
-                <label className="grid gap-2">
-                  <span className="text-sm font-semibold text-morga-text">Prioridad extra para seguridad y salud</span>
-                  <input value={rulesValues.safetyHealthPriorityBoost} onChange={(event) => setRulesValues((current) => ({ ...current, safetyHealthPriorityBoost: event.target.value }))} className={inputClassName} />
-                </label>
-                <div className="flex justify-end">
-                  <button type="submit" className="rounded-full bg-morga-dark px-5 py-3 text-sm font-semibold text-white">
-                    Guardar reglas
-                  </button>
-                </div>
-              </form>
+                  <div className="flex justify-end">
+                    <button type="submit" className="rounded-full bg-morga-dark px-5 py-3 text-sm font-semibold text-white">
+                      Guardar reglas
+                    </button>
+                  </div>
+                </form>
+              </details>
             </SectionCard>
           </div>
         </div>
@@ -751,11 +766,16 @@ export function DecisionsPage() {
                   <button
                     key={metric.id}
                     type="button"
+                    title={
+                      metric.id === "viability"
+                        ? "Cuanto te queda disponible ese mes si la elegis."
+                        : undefined
+                    }
                     onClick={() => setCompareMetric(metric.id)}
                     className={`min-h-[44px] rounded-full px-4 py-2 text-sm font-semibold ${
                       compareMetric === metric.id
-                        ? "bg-[#f1e6d8] text-morga-text"
-                        : "border border-morga-line bg-white text-morga-muted"
+                        ? "bg-morga-accentSoft text-morga-text"
+                        : "border border-morga-line bg-morga-surface text-morga-muted"
                     }`}
                   >
                     {metric.label}
@@ -765,7 +785,7 @@ export function DecisionsPage() {
 
               <div className="mt-4 grid gap-4 lg:grid-cols-2">
                 {comparisonResult.entries.map((entry) => (
-                  <article key={entry.decisionId} className="rounded-[22px] border border-morga-line bg-white p-4">
+                  <article key={entry.decisionId} className="rounded-[22px] border border-morga-line bg-morga-surface p-4">
                     <div className="flex flex-wrap items-center gap-2">
                       <p className="text-base font-semibold text-morga-text">{entry.name}</p>
                       <Badge tone="muted">{formatDecisionCategory(entry.category)}</Badge>

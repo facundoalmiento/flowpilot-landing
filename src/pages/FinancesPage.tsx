@@ -169,7 +169,7 @@ function MetricCard({
   tone?: "default" | "warm";
 }) {
   return (
-    <article className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+    <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
       <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
         {label}
       </p>
@@ -212,7 +212,7 @@ function BreakdownList({
           {items.map((item) => (
             <article
               key={item.id}
-              className="rounded-[18px] border border-morga-line bg-white p-4"
+              className="rounded-[18px] border border-morga-line bg-morga-surface p-4"
             >
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="min-w-0">
@@ -302,7 +302,7 @@ function SettlementModal({
             onChange={(event) =>
               setValues((current) => ({ ...current, effectiveDate: event.target.value }))
             }
-            className="h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
+            className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
           />
           {submitted && !hasDate ? (
             <span className="text-sm text-red-700">Defini una fecha valida.</span>
@@ -317,7 +317,7 @@ function SettlementModal({
             onChange={(event) =>
               setValues((current) => ({ ...current, effectiveAmount: event.target.value }))
             }
-            className="h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
+            className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
           />
           {submitted && !hasAmount ? (
             <span className="text-sm text-red-700">Ingresa un importe mayor a cero.</span>
@@ -404,7 +404,7 @@ function ManualAdjustmentModal({
               onChange={(event) =>
                 setValues((current) => ({ ...current, amount: event.target.value }))
               }
-              className="h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
+              className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
             />
             {submitted && !hasAmount ? (
               <span className="text-sm text-red-700">Ingresa un importe mayor a cero.</span>
@@ -421,7 +421,7 @@ function ManualAdjustmentModal({
                   direction: event.target.value as typeof current.direction
                 }))
               }
-              className="h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
+              className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
             >
               <option value="credit">Suma saldo</option>
               <option value="debit">Resta saldo</option>
@@ -438,7 +438,7 @@ function ManualAdjustmentModal({
               onChange={(event) =>
                 setValues((current) => ({ ...current, effectiveDate: event.target.value }))
               }
-              className="h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
+              className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
             />
             {submitted && !hasDate ? (
               <span className="text-sm text-red-700">Define una fecha valida.</span>
@@ -455,7 +455,7 @@ function ManualAdjustmentModal({
                   reason: event.target.value as typeof current.reason
                 }))
               }
-              className="h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
+              className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
             >
               <option value="correction">Correccion</option>
               <option value="cash-found">Efectivo encontrado</option>
@@ -475,7 +475,7 @@ function ManualAdjustmentModal({
             onChange={(event) =>
               setValues((current) => ({ ...current, note: event.target.value }))
             }
-            className="min-h-[104px] rounded-2xl border border-morga-line bg-white px-4 py-3 text-sm text-morga-text outline-none transition focus:border-morga-accent"
+            className="min-h-[104px] rounded-2xl border border-morga-line bg-morga-surface px-4 py-3 text-sm text-morga-text outline-none transition focus:border-morga-accent"
           />
         </label>
 
@@ -778,7 +778,7 @@ export function FinancesPage() {
 
   return (
     <div className="space-y-5">
-      <section className="flex flex-col gap-4 rounded-panel border border-morga-line bg-white px-5 py-5 shadow-soft md:px-6 md:py-5">
+      <section className="flex flex-col gap-4 rounded-panel border border-morga-line bg-morga-surface px-5 py-5 shadow-soft md:px-6 md:py-5">
         <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
@@ -800,7 +800,7 @@ export function FinancesPage() {
               <select
                 value={periodMode}
                 onChange={(event) => setPeriodMode(event.target.value as FinancePeriodMode)}
-                className="h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text"
+                className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
               >
                 {periods.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -879,7 +879,7 @@ export function FinancesPage() {
                     {overview.pendingExpenses.map((expense) => (
                       <article
                         key={expense.id}
-                        className="flex flex-col gap-3 rounded-[20px] border border-morga-line bg-white p-4"
+                        className="flex flex-col gap-3 rounded-[20px] border border-morga-line bg-morga-surface p-4"
                       >
                         <div className="flex flex-wrap items-center gap-2">
                           <p className="text-sm font-semibold text-morga-text">{expense.name}</p>
@@ -899,7 +899,7 @@ export function FinancesPage() {
                     {overview.dueCommitments.map((commitment) => (
                       <article
                         key={commitment.id}
-                        className="flex flex-col gap-3 rounded-[20px] border border-morga-line bg-[#fbf7f0] p-4"
+                        className="flex flex-col gap-3 rounded-[20px] border border-morga-line bg-morga-surfaceAlt p-4"
                       >
                         <div className="flex flex-wrap items-center gap-2">
                           <p className="text-sm font-semibold text-morga-text">
@@ -921,7 +921,7 @@ export function FinancesPage() {
                     {overview.currentInstallments.map((installment) => (
                       <article
                         key={`${installment.planId}-${installment.installmentNumber}`}
-                        className="flex flex-col gap-3 rounded-[20px] border border-morga-line bg-white p-4"
+                        className="flex flex-col gap-3 rounded-[20px] border border-morga-line bg-morga-surface p-4"
                       >
                         <div className="flex flex-wrap items-center gap-2">
                           <p className="text-sm font-semibold text-morga-text">
@@ -957,7 +957,7 @@ export function FinancesPage() {
                     {overview.activeReserves.map((reserve) => (
                       <article
                         key={reserve.id}
-                        className="rounded-[20px] border border-morga-line bg-white p-4"
+                        className="rounded-[20px] border border-morga-line bg-morga-surface p-4"
                       >
                         <div className="flex flex-wrap items-center justify-between gap-3">
                           <div>
@@ -986,7 +986,7 @@ export function FinancesPage() {
                     {overview.upcomingCardEvents.map((event) => (
                       <article
                         key={event.id}
-                        className="rounded-[20px] border border-morga-line bg-white p-4"
+                        className="rounded-[20px] border border-morga-line bg-morga-surface p-4"
                       >
                         <p className="text-sm font-semibold text-morga-text">{event.cardName}</p>
                         <p className="mt-2 text-sm text-morga-muted">Cierre: {event.closeLabel}</p>
@@ -1024,7 +1024,7 @@ export function FinancesPage() {
             ) : (
               <div className="space-y-4">
                 {finance.incomes.map((income) => (
-                  <article key={income.id} className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+                  <article key={income.id} className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap gap-2">
@@ -1045,7 +1045,7 @@ export function FinancesPage() {
                         ) : null}
                       </div>
                       <div className="flex flex-wrap gap-2 lg:justify-end">
-                        <span className="inline-flex items-center rounded-full bg-[#fbf7f0] px-4 py-2 text-sm font-semibold text-morga-text">
+                        <span className="inline-flex items-center rounded-full bg-morga-surfaceAlt px-4 py-2 text-sm font-semibold text-morga-text">
                           {formatMoney(income.amount)}
                         </span>
                         {income.status === "expected" ? (
@@ -1116,7 +1116,7 @@ export function FinancesPage() {
                 {finance.expenses.map((expense) => (
                   <article
                     key={expense.id}
-                    className={`rounded-[22px] border bg-white p-4 shadow-soft ${
+                    className={`rounded-[22px] border bg-morga-surface p-4 shadow-soft ${
                       highlightId === expense.id
                         ? "border-morga-accent ring-2 ring-morga-accent/25"
                         : "border-morga-line"
@@ -1145,7 +1145,7 @@ export function FinancesPage() {
                         )}
                       </div>
                       <div className="flex flex-wrap gap-2 lg:justify-end">
-                        <span className="inline-flex items-center rounded-full bg-[#fbf7f0] px-4 py-2 text-sm font-semibold text-morga-text">
+                        <span className="inline-flex items-center rounded-full bg-morga-surfaceAlt px-4 py-2 text-sm font-semibold text-morga-text">
                           {formatMoney(expense.amount)}
                         </span>
                         {expense.status === "pending" ? (
@@ -1211,7 +1211,7 @@ export function FinancesPage() {
                   <select
                     value={selectedMonth}
                     onChange={(event) => setSelectedMonth(event.target.value)}
-                    className="h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text"
+                    className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
                   >
                     {monthOptions.map((month) => (
                       <option key={month} value={month}>
@@ -1316,7 +1316,7 @@ export function FinancesPage() {
             </div>
 
             {monthWarnings.length > 0 ? (
-              <div className="mt-4 rounded-[18px] border border-[#d8c5b2] bg-[#fbf7f0] px-4 py-3 text-sm text-morga-text">
+              <div className="mt-4 rounded-[18px] border border-[#d8c5b2] bg-morga-surfaceAlt px-4 py-3 text-sm text-morga-text">
                 <p className="font-semibold">Advertencias antes del cierre</p>
                 <ul className="mt-2 space-y-1 text-morga-muted">
                   {monthWarnings.map((warning) => (
@@ -1327,7 +1327,7 @@ export function FinancesPage() {
             ) : null}
 
             {monthView.closure ? (
-              <div className="mt-4 rounded-[18px] border border-morga-line bg-white px-4 py-3 text-sm text-morga-text">
+              <div className="mt-4 rounded-[18px] border border-morga-line bg-morga-surface px-4 py-3 text-sm text-morga-text">
                 <p className="font-semibold">Mes cerrado</p>
                 <p className="mt-1 text-morga-muted">
                   Se guardo un cierre con saldo final {formatMoney(monthView.closure.closingBalance)}.
@@ -1398,7 +1398,7 @@ export function FinancesPage() {
                       periodKey: event.target.value
                     }))
                   }
-                  className="h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text"
+                  className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
                 >
                   <option value="all">Todos</option>
                   {historyMonths.map((month) => (
@@ -1424,7 +1424,7 @@ export function FinancesPage() {
                       type: event.target.value as FinanceHistoryType
                     }))
                   }
-                  className="h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text"
+                  className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
                 >
                   {historyTypeOptions.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -1446,7 +1446,7 @@ export function FinancesPage() {
                       direction: event.target.value as FinanceHistoryDirection
                     }))
                   }
-                  className="h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text"
+                  className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
                 >
                   {historyDirectionOptions.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -1468,7 +1468,7 @@ export function FinancesPage() {
                       origin: event.target.value as FinanceHistoryOrigin
                     }))
                   }
-                  className="h-11 rounded-2xl border border-morga-line bg-white px-4 text-sm text-morga-text"
+                  className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
                 >
                   {historyOriginOptions.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -1494,7 +1494,7 @@ export function FinancesPage() {
                     key={entry.id}
                     ref={setHighlightRef(entry.id)}
                     tabIndex={-1}
-                    className={`rounded-[20px] border bg-white p-4 outline-none transition ${
+                    className={`rounded-[20px] border bg-morga-surface p-4 outline-none transition ${
                       highlightId === entry.id
                         ? "border-morga-accent ring-2 ring-morga-accent/25"
                         : "border-morga-line"
@@ -1604,7 +1604,7 @@ export function FinancesPage() {
             ) : (
               <div className="space-y-4">
                 {finance.commitments.map((commitment) => (
-                  <article key={commitment.id} className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+                  <article key={commitment.id} className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap gap-2">
@@ -1625,7 +1625,7 @@ export function FinancesPage() {
                         ) : null}
                       </div>
                       <div className="flex flex-wrap gap-2 lg:justify-end">
-                        <span className="inline-flex items-center rounded-full bg-[#fbf7f0] px-4 py-2 text-sm font-semibold text-morga-text">
+                        <span className="inline-flex items-center rounded-full bg-morga-surfaceAlt px-4 py-2 text-sm font-semibold text-morga-text">
                           {formatMoney(commitment.amount)}
                         </span>
                         {commitment.state === "active" ? (
@@ -1683,7 +1683,7 @@ export function FinancesPage() {
                     key={occurrence.id}
                     ref={setHighlightRef(occurrence.id)}
                     tabIndex={-1}
-                    className={`rounded-[22px] border bg-white p-4 shadow-soft outline-none ${
+                    className={`rounded-[22px] border bg-morga-surface p-4 shadow-soft outline-none ${
                       highlightId === occurrence.id
                         ? "border-morga-accent ring-2 ring-morga-accent/25"
                         : "border-morga-line"
@@ -1709,7 +1709,7 @@ export function FinancesPage() {
                         </p>
                       </div>
                       <div className="flex flex-wrap gap-2 lg:justify-end">
-                        <span className="inline-flex items-center rounded-full bg-[#fbf7f0] px-4 py-2 text-sm font-semibold text-morga-text">
+                        <span className="inline-flex items-center rounded-full bg-morga-surfaceAlt px-4 py-2 text-sm font-semibold text-morga-text">
                           {formatMoney(occurrence.amount)}
                         </span>
                         {occurrence.status === "pending" ? (
@@ -1764,7 +1764,7 @@ export function FinancesPage() {
             ) : (
               <div className="space-y-4">
                 {finance.creditCards.map((card) => (
-                  <article key={card.id} className="rounded-[22px] border border-morga-line bg-white p-4 shadow-soft">
+                  <article key={card.id} className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap gap-2">
@@ -1846,7 +1846,7 @@ export function FinancesPage() {
                 {finance.installmentPlans.map((plan) => (
                   <article
                     key={plan.id}
-                    className={`rounded-[22px] border bg-white p-4 shadow-soft ${
+                    className={`rounded-[22px] border bg-morga-surface p-4 shadow-soft ${
                       highlightId === plan.id
                         ? "border-morga-accent ring-2 ring-morga-accent/25"
                         : "border-morga-line"
@@ -1871,7 +1871,7 @@ export function FinancesPage() {
                         )}
                       </div>
                       <div className="flex flex-wrap gap-2 lg:justify-end">
-                        <span className="inline-flex items-center rounded-full bg-[#fbf7f0] px-4 py-2 text-sm font-semibold text-morga-text">
+                        <span className="inline-flex items-center rounded-full bg-morga-surfaceAlt px-4 py-2 text-sm font-semibold text-morga-text">
                           {formatMoney(plan.installmentAmount)}
                         </span>
                         {plan.status === "active" ? (
@@ -1959,7 +1959,7 @@ export function FinancesPage() {
               {finance.reserves.map((reserve) => (
                 <article
                   key={reserve.id}
-                  className={`rounded-[22px] border bg-white p-4 shadow-soft ${
+                  className={`rounded-[22px] border bg-morga-surface p-4 shadow-soft ${
                     highlightId === reserve.id
                       ? "border-morga-accent ring-2 ring-morga-accent/25"
                       : "border-morga-line"
@@ -2073,7 +2073,7 @@ export function FinancesPage() {
                     key={adjustment.id}
                     ref={setHighlightRef(adjustment.id)}
                     tabIndex={-1}
-                    className={`rounded-[22px] border bg-white p-4 shadow-soft outline-none ${
+                    className={`rounded-[22px] border bg-morga-surface p-4 shadow-soft outline-none ${
                       highlightId === adjustment.id
                         ? "border-morga-accent ring-2 ring-morga-accent/25"
                         : "border-morga-line"
@@ -2100,7 +2100,7 @@ export function FinancesPage() {
                           className={`inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold ${
                             adjustment.direction === "credit"
                               ? "bg-[#eef5ef] text-morga-text"
-                              : "bg-[#fbf7f0] text-morga-text"
+                              : "bg-morga-surfaceAlt text-morga-text"
                           }`}
                         >
                           {formatMoney(

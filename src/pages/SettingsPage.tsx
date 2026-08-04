@@ -128,7 +128,7 @@ export function SettingsPage() {
 
   return (
     <div className="space-y-5">
-      <section className="rounded-panel border border-morga-line bg-white px-5 py-5 shadow-soft md:px-6 md:py-5">
+      <section className="rounded-panel border border-morga-line bg-morga-surface px-5 py-5 shadow-soft md:px-6 md:py-5">
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
           Configuracion
         </p>
@@ -244,7 +244,7 @@ export function SettingsPage() {
             className={`mt-4 rounded-[18px] border px-4 py-3 text-sm ${
               feedback.tone === "error"
                 ? "border-red-200 bg-red-50 text-red-800"
-                : "border-[#d8c5b2] bg-[#fbf7f0] text-morga-text"
+                : "border-[#d8c5b2] bg-morga-surfaceAlt text-morga-text"
             }`}
           >
             {feedback.text}
@@ -266,7 +266,7 @@ export function SettingsPage() {
             </div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-              <article className="rounded-[18px] border border-morga-line bg-white p-3">
+              <article className="rounded-[18px] border border-morga-line bg-morga-surface p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
                   Proyectos
                 </p>
@@ -274,7 +274,7 @@ export function SettingsPage() {
                   {importPreview.summary.projects}
                 </p>
               </article>
-              <article className="rounded-[18px] border border-morga-line bg-white p-3">
+              <article className="rounded-[18px] border border-morga-line bg-morga-surface p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
                   Archivados
                 </p>
@@ -282,7 +282,7 @@ export function SettingsPage() {
                   {importPreview.summary.archivedProjects}
                 </p>
               </article>
-              <article className="rounded-[18px] border border-morga-line bg-white p-3">
+              <article className="rounded-[18px] border border-morga-line bg-morga-surface p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
                   Tareas
                 </p>
@@ -290,7 +290,7 @@ export function SettingsPage() {
                   {importPreview.summary.tasks}
                 </p>
               </article>
-              <article className="rounded-[18px] border border-morga-line bg-white p-3">
+              <article className="rounded-[18px] border border-morga-line bg-morga-surface p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
                   Completadas
                 </p>
@@ -298,7 +298,7 @@ export function SettingsPage() {
                   {importPreview.summary.completedTasks}
                 </p>
               </article>
-              <article className="rounded-[18px] border border-morga-line bg-white p-3">
+              <article className="rounded-[18px] border border-morga-line bg-morga-surface p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
                   Ingresos
                 </p>
@@ -306,7 +306,7 @@ export function SettingsPage() {
                   {importPreview.summary.incomes}
                 </p>
               </article>
-              <article className="rounded-[18px] border border-morga-line bg-white p-3">
+              <article className="rounded-[18px] border border-morga-line bg-morga-surface p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
                   Gastos
                 </p>
@@ -314,7 +314,7 @@ export function SettingsPage() {
                   {importPreview.summary.expenses}
                 </p>
               </article>
-              <article className="rounded-[18px] border border-morga-line bg-white p-3">
+              <article className="rounded-[18px] border border-morga-line bg-morga-surface p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
                   Compromisos
                 </p>
@@ -322,7 +322,7 @@ export function SettingsPage() {
                   {importPreview.summary.commitments}
                 </p>
               </article>
-              <article className="rounded-[18px] border border-morga-line bg-white p-3">
+              <article className="rounded-[18px] border border-morga-line bg-morga-surface p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
                   Tarjetas
                 </p>
@@ -330,7 +330,7 @@ export function SettingsPage() {
                   {importPreview.summary.creditCards}
                 </p>
               </article>
-              <article className="rounded-[18px] border border-morga-line bg-white p-3">
+              <article className="rounded-[18px] border border-morga-line bg-morga-surface p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
                   Planes
                 </p>
@@ -338,7 +338,7 @@ export function SettingsPage() {
                   {importPreview.summary.installmentPlans}
                 </p>
               </article>
-              <article className="rounded-[18px] border border-morga-line bg-white p-3">
+              <article className="rounded-[18px] border border-morga-line bg-morga-surface p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
                   Reservas
                 </p>
@@ -346,7 +346,7 @@ export function SettingsPage() {
                   {importPreview.summary.reserves}
                 </p>
               </article>
-              <article className="rounded-[18px] border border-morga-line bg-white p-3">
+              <article className="rounded-[18px] border border-morga-line bg-morga-surface p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
                   Historial
                 </p>
@@ -354,7 +354,7 @@ export function SettingsPage() {
                   {importPreview.summary.confirmedRecords}
                 </p>
               </article>
-              <article className="rounded-[18px] border border-morga-line bg-white p-3">
+              <article className="rounded-[18px] border border-morga-line bg-morga-surface p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
                   Ocurrencias
                 </p>
@@ -362,7 +362,7 @@ export function SettingsPage() {
                   {importPreview.summary.commitmentOccurrences}
                 </p>
               </article>
-              <article className="rounded-[18px] border border-morga-line bg-white p-3">
+              <article className="rounded-[18px] border border-morga-line bg-morga-surface p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
                   Ajustes
                 </p>
@@ -370,7 +370,7 @@ export function SettingsPage() {
                   {importPreview.summary.manualAdjustments}
                 </p>
               </article>
-              <article className="rounded-[18px] border border-morga-line bg-white p-3">
+              <article className="rounded-[18px] border border-morga-line bg-morga-surface p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
                   Cierres
                 </p>
@@ -378,7 +378,7 @@ export function SettingsPage() {
                   {importPreview.summary.monthlyClosures}
                 </p>
               </article>
-              <article className="rounded-[18px] border border-morga-line bg-white p-3">
+              <article className="rounded-[18px] border border-morga-line bg-morga-surface p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
                   Decisiones
                 </p>
@@ -386,7 +386,7 @@ export function SettingsPage() {
                   {importPreview.summary.decisions}
                 </p>
               </article>
-              <article className="rounded-[18px] border border-morga-line bg-white p-3">
+              <article className="rounded-[18px] border border-morga-line bg-morga-surface p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
                   Archivadas
                 </p>
@@ -394,7 +394,7 @@ export function SettingsPage() {
                   {importPreview.summary.archivedDecisions}
                 </p>
               </article>
-              <article className="rounded-[18px] border border-morga-line bg-white p-3">
+              <article className="rounded-[18px] border border-morga-line bg-morga-surface p-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
                   Aprobadas
                 </p>
