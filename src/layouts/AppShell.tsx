@@ -8,12 +8,14 @@ import {
   Plus,
   Settings2,
   Sparkles,
-  Sun
+  Sun,
+  type LucideIcon
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { MorgaLogo } from "../components/brand/MorgaLogo";
 import { Modal } from "../components/ui/Modal";
+import { QuickAddExpense, QuickAddIncome } from "../components/finance/QuickAdd";
 import { useAuth } from "../features/auth/useAuth";
 import { useTheme } from "../features/theme/useTheme";
 import {
@@ -31,16 +33,20 @@ export function AppShell() {
   const { theme, toggleTheme } = useTheme();
   const [quickMenuOpen, setQuickMenuOpen] = useState(false);
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
+  const [quickExpenseOpen, setQuickExpenseOpen] = useState(false);
+  const [quickIncomeOpen, setQuickIncomeOpen] = useState(false);
 
   const handleSignOut = async () => {
     await signOut();
   };
 
-  const quickActions = useMemo(
+  const quickActions = useMemo<
+    Array<{ label: string; icon: LucideIcon; to?: string; onSelect?: () => void }>
+  >(
     () => [
       { label: "Nueva tarea", to: "/week?compose=1", icon: CalendarPlus2 },
-      { label: "Nuevo gasto", to: "/finances?tab=movements&compose=expense", icon: CircleDollarSign },
-      { label: "Nuevo ingreso", to: "/finances?tab=movements&compose=income", icon: CircleDollarSign },
+      { label: "Nuevo gasto", onSelect: () => setQuickExpenseOpen(true), icon: CircleDollarSign },
+      { label: "Nuevo ingreso", onSelect: () => setQuickIncomeOpen(true), icon: CircleDollarSign },
       { label: "Nueva decision", to: "/decisions?compose=1", icon: Sparkles },
       { label: "Nuevo proyecto", to: "/projects?compose=1", icon: BriefcaseBusiness }
     ],
@@ -227,11 +233,15 @@ export function AppShell() {
             const Icon = action.icon;
             return (
               <button
-                key={action.to}
+                key={action.label}
                 type="button"
                 onClick={() => {
                   setQuickMenuOpen(false);
-                  navigate(action.to);
+                  if (action.onSelect) {
+                    action.onSelect();
+                    return;
+                  }
+                  if (action.to) navigate(action.to);
                 }}
                 className="flex min-h-[44px] items-center gap-3 rounded-2xl border border-morga-line bg-morga-surface px-4 py-3 text-left text-sm font-semibold text-morga-text transition hover:bg-morga-surfaceAlt"
               >
@@ -283,6 +293,9 @@ export function AppShell() {
           ) : null}
         </div>
       </Modal>
+
+      <QuickAddExpense open={quickExpenseOpen} onClose={() => setQuickExpenseOpen(false)} />
+      <QuickAddIncome open={quickIncomeOpen} onClose={() => setQuickIncomeOpen(false)} />
     </div>
   );
 }

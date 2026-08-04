@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
   Check,
+  ChevronDown,
   Pencil,
   Plus,
   RotateCcw,
@@ -21,6 +22,7 @@ import {
   InstallmentPlanFormModal,
   ReserveFormModal
 } from "../components/finance/FinanceModals";
+import { QuickAddExpense, QuickAddIncome } from "../components/finance/QuickAdd";
 import {
   filterFinanceHistory,
   FinanceHistoryDirection,
@@ -37,9 +39,13 @@ import {
   FinancePeriodMode
 } from "../features/finance/financeCalculations";
 import {
+  FinanceMoreSection,
   financeTabs,
+  FinanceMovementsView,
   FinanceTab,
   parseFinanceComposeTarget,
+  parseFinanceMoreSection,
+  parseFinanceMovementsView,
   parseFinanceTab
 } from "../features/finance/financeNavigation";
 import { resolveFinanceHistoryRecord } from "../features/finance/financeHistoryRelations";
@@ -346,13 +352,17 @@ function SettlementModal({
 
 function ManualAdjustmentModal({
   open,
+  currentBalance,
   onClose,
   onConfirm
 }: {
   open: boolean;
+  currentBalance: number;
   onClose: () => void;
   onConfirm: (values: ManualAdjustmentFormValues) => void;
 }) {
+  const [mode, setMode] = useState<"replace" | "delta">("replace");
+  const [targetBalance, setTargetBalance] = useState("");
   const [values, setValues] = useState<ManualAdjustmentFormValues>({
     amount: "",
     direction: "credit",
@@ -364,19 +374,28 @@ function ManualAdjustmentModal({
 
   useEffect(() => {
     if (!open) return;
+    setMode("replace");
+    setTargetBalance("");
     setValues({
       amount: "",
       direction: "credit",
       effectiveDate: new Date().toISOString().slice(0, 10),
-      reason: "correction",
+      reason: "bank-difference",
       note: ""
     });
     setSubmitted(false);
   }, [open]);
 
+  const parsedTarget = Number(targetBalance);
+  const hasTarget = targetBalance.trim().length > 0 && Number.isFinite(parsedTarget);
+  const delta = hasTarget ? parsedTarget - currentBalance : 0;
+  const replaceIsNoOp = hasTarget && delta === 0;
+
   const amount = Number(values.amount);
   const hasAmount = Number.isFinite(amount) && amount > 0;
   const hasDate = values.effectiveDate.trim().length > 0;
+
+  const canSubmit = mode === "replace" ? hasTarget && !replaceIsNoOp && hasDate : hasAmount && hasDate;
 
   return (
     <Modal
@@ -390,44 +409,102 @@ function ManualAdjustmentModal({
         onSubmit={(event) => {
           event.preventDefault();
           setSubmitted(true);
-          if (!hasAmount || !hasDate) return;
-          onConfirm(values);
+          if (!canSubmit) return;
+
+          if (mode === "replace") {
+            onConfirm({
+              ...values,
+              amount: String(Math.abs(delta)),
+              direction: delta > 0 ? "credit" : "debit"
+            });
+          } else {
+            onConfirm(values);
+          }
           onClose();
         }}
       >
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={() => setMode("replace")}
+            className={`rounded-2xl border px-3 py-2.5 text-sm font-semibold transition ${
+              mode === "replace"
+                ? "border-morga-accent bg-morga-accentSoft text-morga-text"
+                : "border-morga-line bg-morga-surface text-morga-muted hover:bg-morga-surfaceAlt"
+            }`}
+          >
+            Poner el saldo real
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode("delta")}
+            className={`rounded-2xl border px-3 py-2.5 text-sm font-semibold transition ${
+              mode === "delta"
+                ? "border-morga-accent bg-morga-accentSoft text-morga-text"
+                : "border-morga-line bg-morga-surface text-morga-muted hover:bg-morga-surfaceAlt"
+            }`}
+          >
+            Sumar o restar un monto
+          </button>
+        </div>
+
+        {mode === "replace" ? (
           <label className="grid gap-2">
-            <span className="text-sm font-semibold text-morga-text">Importe</span>
+            <span className="text-sm font-semibold text-morga-text">Saldo real (segun tu banco)</span>
             <input
               inputMode="numeric"
-              value={values.amount}
-              onChange={(event) =>
-                setValues((current) => ({ ...current, amount: event.target.value }))
-              }
+              placeholder={`Actual en Morga: ${formatMoney(currentBalance)}`}
+              value={targetBalance}
+              onChange={(event) => setTargetBalance(event.target.value)}
               className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
             />
-            {submitted && !hasAmount ? (
-              <span className="text-sm text-red-700">Ingresa un importe mayor a cero.</span>
+            {hasTarget && !replaceIsNoOp ? (
+              <span className="text-sm text-morga-muted">
+                Se va a {delta > 0 ? "sumar" : "restar"} {formatMoney(Math.abs(delta))} para que coincida.
+              </span>
+            ) : null}
+            {submitted && !hasTarget ? (
+              <span className="text-sm text-red-700">Ingresa el saldo que muestra tu banco.</span>
+            ) : null}
+            {submitted && replaceIsNoOp ? (
+              <span className="text-sm text-red-700">Ese ya es el saldo actual, no hace falta ajustar.</span>
             ) : null}
           </label>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2">
+            <label className="grid gap-2">
+              <span className="text-sm font-semibold text-morga-text">Importe</span>
+              <input
+                inputMode="numeric"
+                value={values.amount}
+                onChange={(event) =>
+                  setValues((current) => ({ ...current, amount: event.target.value }))
+                }
+                className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
+              />
+              {submitted && !hasAmount ? (
+                <span className="text-sm text-red-700">Ingresa un importe mayor a cero.</span>
+              ) : null}
+            </label>
 
-          <label className="grid gap-2">
-            <span className="text-sm font-semibold text-morga-text">Direccion</span>
-            <select
-              value={values.direction}
-              onChange={(event) =>
-                setValues((current) => ({
-                  ...current,
-                  direction: event.target.value as typeof current.direction
-                }))
-              }
-              className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
-            >
-              <option value="credit">Suma saldo</option>
-              <option value="debit">Resta saldo</option>
-            </select>
-          </label>
-        </div>
+            <label className="grid gap-2">
+              <span className="text-sm font-semibold text-morga-text">Direccion</span>
+              <select
+                value={values.direction}
+                onChange={(event) =>
+                  setValues((current) => ({
+                    ...current,
+                    direction: event.target.value as typeof current.direction
+                  }))
+                }
+                className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
+              >
+                <option value="credit">Suma saldo</option>
+                <option value="debit">Resta saldo</option>
+              </select>
+            </label>
+          </div>
+        )}
 
         <div className="grid gap-4 md:grid-cols-2">
           <label className="grid gap-2">
@@ -562,6 +639,9 @@ export function FinancesPage() {
   const [reserveModalOpen, setReserveModalOpen] = useState(false);
   const [settlementTarget, setSettlementTarget] = useState<SettlementTarget | null>(null);
   const [adjustmentModalOpen, setAdjustmentModalOpen] = useState(false);
+  const [quickExpenseOpen, setQuickExpenseOpen] = useState(false);
+  const [quickIncomeOpen, setQuickIncomeOpen] = useState(false);
+  const [detailOpen, setDetailOpen] = useState(false);
   const [historyFilters, setHistoryFilters] = useState<{
     periodKey: string;
     type: FinanceHistoryType;
@@ -575,9 +655,67 @@ export function FinancesPage() {
   });
   const highlightId = searchParams.get("highlight") ?? "";
   const composeTarget = parseFinanceComposeTarget(searchParams.get("compose"));
+  const moreSection = useMemo(
+    () => parseFinanceMoreSection(searchParams.get("tab"), searchParams.get("section")),
+    [searchParams]
+  );
+  const movementsView = useMemo(
+    () => parseFinanceMovementsView(searchParams.get("tab"), searchParams.get("view")),
+    [searchParams]
+  );
+  const [openMoreSections, setOpenMoreSections] = useState<Set<FinanceMoreSection>>(
+    () => new Set([moreSection])
+  );
+
+  useEffect(() => {
+    setOpenMoreSections((current) => {
+      if (current.has(moreSection)) return current;
+      const next = new Set(current);
+      next.add(moreSection);
+      return next;
+    });
+  }, [moreSection]);
+
+  const toggleMoreSection = (sectionId: FinanceMoreSection, isOpen: boolean) => {
+    setOpenMoreSections((current) => {
+      const next = new Set(current);
+      if (isOpen) {
+        next.add(sectionId);
+      } else {
+        next.delete(sectionId);
+      }
+      return next;
+    });
+  };
 
   const period = useMemo(() => getFinancePeriod(periodMode), [periodMode]);
   const overview = useMemo(() => getFinanceOverview(finance, period), [finance, period]);
+  const upcomingPreview = useMemo(() => {
+    const items = [
+      ...overview.pendingExpenses.map((expense) => ({
+        id: expense.id,
+        label: expense.name,
+        date: expense.dueDate,
+        amount: expense.amount,
+        tone: "expense" as const
+      })),
+      ...overview.dueCommitments.map((commitment) => ({
+        id: commitment.id,
+        label: commitment.commitmentName,
+        date: commitment.dueDate,
+        amount: commitment.amount,
+        tone: "commitment" as const
+      })),
+      ...overview.currentInstallments.map((installment) => ({
+        id: `${installment.planId}-${installment.installmentNumber}`,
+        label: installment.description,
+        date: installment.dueDate,
+        amount: installment.amount,
+        tone: "installment" as const
+      }))
+    ];
+    return items.sort((a, b) => a.date.localeCompare(b.date)).slice(0, 5);
+  }, [overview]);
   const activeCards = finance.creditCards.filter((card) => card.state === "active");
   const activePlans = finance.installmentPlans.filter((plan) => plan.status !== "archived");
   const monthOptions = useMemo(() => getAvailableMonthlyPeriods(finance), [finance]);
@@ -666,6 +804,10 @@ export function FinancesPage() {
   const setTab = (tab: FinanceTab) => {
     setActiveTab(tab);
     updateFinanceSearchParams({ tab, highlight: null });
+  };
+
+  const setMovementsView = (view: FinanceMovementsView) => {
+    updateFinanceSearchParams({ tab: "movements", view: view === "list" ? null : view, highlight: null });
   };
 
   const clearCompose = () => {
@@ -779,46 +921,13 @@ export function FinancesPage() {
   return (
     <div className="space-y-5">
       <section className="flex flex-col gap-4 rounded-panel border border-morga-line bg-morga-surface px-5 py-5 shadow-soft md:px-6 md:py-5">
-        <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
-              Finanzas
-            </p>
-            <h1 className="mt-2 text-2xl font-semibold tracking-[-0.02em] text-morga-text md:text-[2rem]">
-              Dinero disponible con contexto real
-            </h1>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-morga-muted">
-              Saldo actual, movimientos confirmados, pendientes y cierre mensual en una sola vista.
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <label className="grid gap-2">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
-                Periodo
-              </span>
-              <select
-                value={periodMode}
-                onChange={(event) => setPeriodMode(event.target.value as FinancePeriodMode)}
-                className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
-              >
-                {periods.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <button
-              type="button"
-              onClick={() => setAdjustmentModalOpen(true)}
-              className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-morga-dark px-5 py-3 text-sm font-semibold text-white"
-            >
-              <Plus className="h-4 w-4" />
-              Ajustar saldo
-            </button>
-          </div>
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
+            Finanzas
+          </p>
+          <h1 className="mt-2 text-2xl font-semibold tracking-[-0.02em] text-morga-text md:text-[2rem]">
+            Dinero disponible con contexto real
+          </h1>
         </div>
 
         <div className="flex flex-wrap gap-2">
@@ -839,32 +948,139 @@ export function FinancesPage() {
         </div>
       </section>
 
-      {activeTab === "summary" ? (
+      {activeTab === "home" ? (
         <>
-          <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            <MetricCard label="Saldo actual" value={formatMoney(overview.availableToday)} />
-            <MetricCard
-              label="Disponible para decidir"
-              value={formatMoney(overview.availableToDecide)}
-              tone={overview.availableToDecide < 0 ? "warm" : "default"}
-            />
-            <MetricCard
-              label="Proyeccion fin de mes"
-              value={formatMoney(overview.monthEndProjection)}
-              tone={overview.monthEndProjection < 0 ? "warm" : "default"}
-            />
-            <MetricCard label="Pagos proximos" value={formatMoney(overview.upcomingPayments)} />
-            <MetricCard
-              label="Ingresos esperados"
-              value={formatMoney(overview.expectedIncomeInPeriod)}
-            />
-            <MetricCard
-              label="Deuda futura en cuotas"
-              value={formatMoney(overview.futureInstallmentDebt)}
-            />
+          <section className="rounded-panel border border-morga-line bg-morga-surface px-6 py-8 text-center shadow-soft md:py-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-morga-muted">
+              Disponible para decidir
+            </p>
+            <p
+              className={`mt-3 text-5xl font-semibold tracking-[-0.03em] md:text-6xl ${
+                overview.availableToDecide < 0 ? "text-[#9f5f49]" : "text-morga-text"
+              }`}
+            >
+              {formatMoney(overview.availableToDecide)}
+            </p>
+            <p className="mt-3 text-sm text-morga-muted">
+              Saldo actual {formatMoney(overview.availableToday)} · Reservado{" "}
+              {formatMoney(finance.settings.minimumReserve)}
+            </p>
+
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+              <button
+                type="button"
+                onClick={() => setQuickExpenseOpen(true)}
+                className="inline-flex h-14 min-w-[200px] items-center justify-center gap-2 rounded-full bg-morga-dark px-8 text-sm font-semibold text-white transition hover:translate-y-[-1px]"
+              >
+                <Plus className="h-4 w-4" />
+                Agregar gasto
+              </button>
+              <button
+                type="button"
+                onClick={() => setQuickIncomeOpen(true)}
+                className="inline-flex h-14 min-w-[200px] items-center justify-center gap-2 rounded-full border border-morga-line bg-morga-surface px-8 text-sm font-semibold text-morga-text transition hover:bg-morga-surfaceAlt"
+              >
+                <Plus className="h-4 w-4" />
+                Agregar ingreso
+              </button>
+            </div>
           </section>
 
-          <section className="grid gap-5 xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
+          <SectionCard title="Lo que se viene" description="Los proximos pagos y cobros del periodo, en orden.">
+            {upcomingPreview.length === 0 ? (
+              <EmptyState
+                title="Sin movimientos cercanos"
+                description="Cuando cargues gastos, compromisos o cuotas con vencimiento proximo, aparecen aca."
+              />
+            ) : (
+              <div className="space-y-3">
+                {upcomingPreview.map((item) => (
+                  <article
+                    key={`${item.tone}-${item.id}`}
+                    className="flex flex-wrap items-center justify-between gap-3 rounded-[18px] border border-morga-line bg-morga-surface p-4"
+                  >
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="text-sm font-semibold text-morga-text">{item.label}</p>
+                        {item.tone === "commitment" ? <Badge tone="warning">Compromiso</Badge> : null}
+                        {item.tone === "installment" ? <Badge tone="info">Cuota</Badge> : null}
+                      </div>
+                      <p className="mt-1 text-sm text-morga-muted">
+                        {formatDate(item.date)} · {formatRelativeDeadline(item.date)}
+                      </p>
+                    </div>
+                    <span className="font-semibold text-morga-text">{formatMoney(item.amount)}</span>
+                  </article>
+                ))}
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={() => setTab("movements")}
+              className="mt-4 text-sm font-semibold text-morga-text underline-offset-4 hover:underline"
+            >
+              Ver todo en Movimientos →
+            </button>
+          </SectionCard>
+
+          <details
+            className="group rounded-panel border border-morga-line bg-morga-surface px-5 py-4 shadow-soft md:px-6"
+            open={detailOpen}
+            onToggle={(event) => setDetailOpen(event.currentTarget.open)}
+          >
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-morga-text">
+              Ver detalle completo del periodo
+              <ChevronDown className="h-4 w-4 shrink-0 text-morga-muted transition group-open:rotate-180" />
+            </summary>
+
+            <div className="mt-5 space-y-5">
+              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+                <label className="grid gap-2">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
+                    Periodo
+                  </span>
+                  <select
+                    value={periodMode}
+                    onChange={(event) => setPeriodMode(event.target.value as FinancePeriodMode)}
+                    className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
+                  >
+                    {periods.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <button
+                  type="button"
+                  onClick={() => setAdjustmentModalOpen(true)}
+                  className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-morga-line px-5 py-3 text-sm font-semibold text-morga-text hover:bg-morga-surfaceAlt"
+                >
+                  <Plus className="h-4 w-4" />
+                  Ajustar saldo
+                </button>
+              </div>
+
+              <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                <MetricCard label="Saldo actual" value={formatMoney(overview.availableToday)} />
+                <MetricCard
+                  label="Proyeccion fin de mes"
+                  value={formatMoney(overview.monthEndProjection)}
+                  tone={overview.monthEndProjection < 0 ? "warm" : "default"}
+                />
+                <MetricCard label="Pagos proximos" value={formatMoney(overview.upcomingPayments)} />
+                <MetricCard
+                  label="Ingresos esperados"
+                  value={formatMoney(overview.expectedIncomeInPeriod)}
+                />
+                <MetricCard
+                  label="Deuda futura en cuotas"
+                  value={formatMoney(overview.futureInstallmentDebt)}
+                />
+              </section>
+
+              <section className="grid gap-5 xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
             <SectionCard title="Pagos del periodo" description={`Periodo actual: ${period.label}.`}>
               <div className="space-y-4">
                 {overview.pendingExpenses.length === 0 &&
@@ -998,12 +1214,41 @@ export function FinancesPage() {
                   </div>
                 )}
               </SectionCard>
+                </div>
+              </section>
             </div>
-          </section>
+          </details>
         </>
       ) : null}
 
       {activeTab === "movements" ? (
+        <div className="space-y-5">
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => setMovementsView("list")}
+              className={`min-h-[40px] rounded-full px-4 py-2 text-sm font-semibold transition ${
+                movementsView === "list"
+                  ? "bg-morga-dark text-white"
+                  : "border border-morga-line text-morga-text hover:bg-morga-surfaceAlt"
+              }`}
+            >
+              Ingresos y gastos
+            </button>
+            <button
+              type="button"
+              onClick={() => setMovementsView("history")}
+              className={`min-h-[40px] rounded-full px-4 py-2 text-sm font-semibold transition ${
+                movementsView === "history"
+                  ? "bg-morga-dark text-white"
+                  : "border border-morga-line text-morga-text hover:bg-morga-surfaceAlt"
+              }`}
+            >
+              Historial confirmado
+            </button>
+          </div>
+
+          {movementsView === "list" ? (
         <div className="space-y-5">
           <SectionCard
             title="Ingresos"
@@ -1195,9 +1440,220 @@ export function FinancesPage() {
             )}
           </SectionCard>
         </div>
+          ) : (
+            <SectionCard title="Historial confirmado" description="Movimientos que impactaron saldo con trazabilidad y reversiones.">
+              <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+                <label className="grid gap-2">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
+                    Mes
+                  </span>
+                  <select
+                    value={historyFilters.periodKey}
+                    onChange={(event) =>
+                      setHistoryFilters((current) => ({
+                        ...current,
+                        periodKey: event.target.value
+                      }))
+                    }
+                    className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
+                  >
+                    <option value="all">Todos</option>
+                    {historyMonths.map((month) => (
+                      <option key={month} value={month}>
+                        {new Date(`${month}-01T12:00:00`).toLocaleDateString("es-AR", {
+                          month: "long",
+                          year: "numeric"
+                        })}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="grid gap-2">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
+                    Tipo
+                  </span>
+                  <select
+                    value={historyFilters.type}
+                    onChange={(event) =>
+                      setHistoryFilters((current) => ({
+                        ...current,
+                        type: event.target.value as FinanceHistoryType
+                      }))
+                    }
+                    className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
+                  >
+                    {historyTypeOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="grid gap-2">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
+                    Efecto
+                  </span>
+                  <select
+                    value={historyFilters.direction}
+                    onChange={(event) =>
+                      setHistoryFilters((current) => ({
+                        ...current,
+                        direction: event.target.value as FinanceHistoryDirection
+                      }))
+                    }
+                    className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
+                  >
+                    {historyDirectionOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="grid gap-2">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
+                    Origen
+                  </span>
+                  <select
+                    value={historyFilters.origin}
+                    onChange={(event) =>
+                      setHistoryFilters((current) => ({
+                        ...current,
+                        origin: event.target.value as FinanceHistoryOrigin
+                      }))
+                    }
+                    className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
+                  >
+                    {historyOriginOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+
+              <div className="mt-4 space-y-3">
+                {filteredHistory.length === 0 ? (
+                  <EmptyState
+                    title="Sin movimientos"
+                    description="Todavia no hay registros confirmados para los filtros actuales."
+                  />
+                ) : (
+                  filteredHistory.map((entry) => {
+                    const resolution = resolveFinanceHistoryRecord(store, entry.record);
+
+                    return (
+                    <article
+                      key={entry.id}
+                      ref={setHighlightRef(entry.id)}
+                      tabIndex={-1}
+                      className={`rounded-[20px] border bg-morga-surface p-4 outline-none transition ${
+                        highlightId === entry.id
+                          ? "border-morga-accent ring-2 ring-morga-accent/25"
+                          : "border-morga-line"
+                      }`}
+                    >
+                      <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+                        <div className="min-w-0">
+                          <div className="flex flex-wrap gap-2">
+                            <Badge tone={entry.direction === "credit" ? "success" : "warning"}>
+                              {entry.direction === "credit" ? "Entrada" : "Salida"}
+                            </Badge>
+                            <Badge tone="muted">{entry.originLabel}</Badge>
+                            <Badge tone="info">{entry.statusLabel}</Badge>
+                          </div>
+                          <p className="mt-3 text-lg font-semibold text-morga-text">
+                            {entry.concept}
+                          </p>
+                          <p className="mt-1 text-sm text-morga-muted">
+                            {formatDate(entry.effectiveDate)} · {entry.typeLabel}
+                            {entry.relatedTo ? " · ligado a una reversion" : ""}
+                          </p>
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            {[resolution.primary, ...resolution.related].map((link) =>
+                              link.to ? (
+                                <Link
+                                  key={`${entry.id}-${link.kind}-${link.label}`}
+                                  to={link.to}
+                                  className="inline-flex min-h-[36px] items-center rounded-full border border-morga-line px-3 py-2 text-sm text-morga-text underline-offset-4 hover:bg-morga-surfaceAlt hover:underline"
+                                >
+                                  {link.label}
+                                  {link.state === "archived" ? " (archivada)" : ""}
+                                </Link>
+                              ) : (
+                                <span
+                                  key={`${entry.id}-${link.kind}-${link.label}`}
+                                  className="inline-flex min-h-[36px] items-center rounded-full border border-morga-line border-dashed px-3 py-2 text-sm text-morga-muted"
+                                >
+                                  {link.label}
+                                </span>
+                              )
+                            )}
+                          </div>
+                          {resolution.reversedFrom ? (
+                            <p className="mt-3 text-sm text-morga-muted">
+                              {resolution.reversedFrom.to ? (
+                                <Link
+                                  to={resolution.reversedFrom.to}
+                                  className="font-semibold text-morga-text underline-offset-4 hover:underline"
+                                >
+                                  {resolution.reversedFrom.label}
+                                </Link>
+                              ) : (
+                                resolution.reversedFrom.label
+                              )}
+                            </p>
+                          ) : null}
+                          {resolution.reversedBy ? (
+                            <p className="mt-2 text-sm text-morga-muted">
+                              {resolution.reversedBy.to ? (
+                                <Link
+                                  to={resolution.reversedBy.to}
+                                  className="font-semibold text-morga-text underline-offset-4 hover:underline"
+                                >
+                                  {resolution.reversedBy.label}
+                                </Link>
+                              ) : (
+                                resolution.reversedBy.label
+                              )}
+                            </p>
+                          ) : null}
+                        </div>
+                        <p
+                          className={`text-sm font-semibold ${
+                            entry.signedAmount < 0 ? "text-[#9f5f49]" : "text-morga-text"
+                          }`}
+                        >
+                          {formatMoney(entry.signedAmount)}
+                        </p>
+                      </div>
+                    </article>
+                    );
+                  })
+                )}
+              </div>
+            </SectionCard>
+          )}
+        </div>
       ) : null}
 
-      {activeTab === "month" ? (
+      {activeTab === "more" ? (
+        <div className="space-y-3">
+          <details
+            className="group rounded-panel border border-morga-line bg-morga-surface px-5 py-4 shadow-soft md:px-6"
+            open={openMoreSections.has("month")}
+            onToggle={(event) => toggleMoreSection("month", event.currentTarget.open)}
+          >
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-morga-text">
+              Cierre mensual
+              <ChevronDown className="h-4 w-4 shrink-0 text-morga-muted transition group-open:rotate-180" />
+            </summary>
+
+            <div className="mt-5">
         <div className="space-y-5">
           <SectionCard
             title="Mes consolidado"
@@ -1380,210 +1836,20 @@ export function FinancesPage() {
             />
           </div>
         </div>
-      ) : null}
-
-      {activeTab === "history" ? (
-        <div className="space-y-5">
-          <SectionCard title="Historial confirmado" description="Movimientos que impactaron saldo con trazabilidad y reversiones.">
-            <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-              <label className="grid gap-2">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
-                  Mes
-                </span>
-                <select
-                  value={historyFilters.periodKey}
-                  onChange={(event) =>
-                    setHistoryFilters((current) => ({
-                      ...current,
-                      periodKey: event.target.value
-                    }))
-                  }
-                  className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
-                >
-                  <option value="all">Todos</option>
-                  {historyMonths.map((month) => (
-                    <option key={month} value={month}>
-                      {new Date(`${month}-01T12:00:00`).toLocaleDateString("es-AR", {
-                        month: "long",
-                        year: "numeric"
-                      })}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="grid gap-2">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
-                  Tipo
-                </span>
-                <select
-                  value={historyFilters.type}
-                  onChange={(event) =>
-                    setHistoryFilters((current) => ({
-                      ...current,
-                      type: event.target.value as FinanceHistoryType
-                    }))
-                  }
-                  className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
-                >
-                  {historyTypeOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="grid gap-2">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
-                  Efecto
-                </span>
-                <select
-                  value={historyFilters.direction}
-                  onChange={(event) =>
-                    setHistoryFilters((current) => ({
-                      ...current,
-                      direction: event.target.value as FinanceHistoryDirection
-                    }))
-                  }
-                  className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
-                >
-                  {historyDirectionOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="grid gap-2">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
-                  Origen
-                </span>
-                <select
-                  value={historyFilters.origin}
-                  onChange={(event) =>
-                    setHistoryFilters((current) => ({
-                      ...current,
-                      origin: event.target.value as FinanceHistoryOrigin
-                    }))
-                  }
-                  className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
-                >
-                  {historyOriginOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
             </div>
+          </details>
 
-            <div className="mt-4 space-y-3">
-              {filteredHistory.length === 0 ? (
-                <EmptyState
-                  title="Sin movimientos"
-                  description="Todavia no hay registros confirmados para los filtros actuales."
-                />
-              ) : (
-                filteredHistory.map((entry) => {
-                  const resolution = resolveFinanceHistoryRecord(store, entry.record);
+          <details
+            className="group rounded-panel border border-morga-line bg-morga-surface px-5 py-4 shadow-soft md:px-6"
+            open={openMoreSections.has("commitments")}
+            onToggle={(event) => toggleMoreSection("commitments", event.currentTarget.open)}
+          >
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-morga-text">
+              Compromisos fijos
+              <ChevronDown className="h-4 w-4 shrink-0 text-morga-muted transition group-open:rotate-180" />
+            </summary>
 
-                  return (
-                  <article
-                    key={entry.id}
-                    ref={setHighlightRef(entry.id)}
-                    tabIndex={-1}
-                    className={`rounded-[20px] border bg-morga-surface p-4 outline-none transition ${
-                      highlightId === entry.id
-                        ? "border-morga-accent ring-2 ring-morga-accent/25"
-                        : "border-morga-line"
-                    }`}
-                  >
-                    <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-                      <div className="min-w-0">
-                        <div className="flex flex-wrap gap-2">
-                          <Badge tone={entry.direction === "credit" ? "success" : "warning"}>
-                            {entry.direction === "credit" ? "Entrada" : "Salida"}
-                          </Badge>
-                          <Badge tone="muted">{entry.originLabel}</Badge>
-                          <Badge tone="info">{entry.statusLabel}</Badge>
-                        </div>
-                        <p className="mt-3 text-lg font-semibold text-morga-text">
-                          {entry.concept}
-                        </p>
-                        <p className="mt-1 text-sm text-morga-muted">
-                          {formatDate(entry.effectiveDate)} · {entry.typeLabel}
-                          {entry.relatedTo ? " · ligado a una reversion" : ""}
-                        </p>
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {[resolution.primary, ...resolution.related].map((link) =>
-                            link.to ? (
-                              <Link
-                                key={`${entry.id}-${link.kind}-${link.label}`}
-                                to={link.to}
-                                className="inline-flex min-h-[36px] items-center rounded-full border border-morga-line px-3 py-2 text-sm text-morga-text underline-offset-4 hover:bg-morga-surfaceAlt hover:underline"
-                              >
-                                {link.label}
-                                {link.state === "archived" ? " (archivada)" : ""}
-                              </Link>
-                            ) : (
-                              <span
-                                key={`${entry.id}-${link.kind}-${link.label}`}
-                                className="inline-flex min-h-[36px] items-center rounded-full border border-morga-line border-dashed px-3 py-2 text-sm text-morga-muted"
-                              >
-                                {link.label}
-                              </span>
-                            )
-                          )}
-                        </div>
-                        {resolution.reversedFrom ? (
-                          <p className="mt-3 text-sm text-morga-muted">
-                            {resolution.reversedFrom.to ? (
-                              <Link
-                                to={resolution.reversedFrom.to}
-                                className="font-semibold text-morga-text underline-offset-4 hover:underline"
-                              >
-                                {resolution.reversedFrom.label}
-                              </Link>
-                            ) : (
-                              resolution.reversedFrom.label
-                            )}
-                          </p>
-                        ) : null}
-                        {resolution.reversedBy ? (
-                          <p className="mt-2 text-sm text-morga-muted">
-                            {resolution.reversedBy.to ? (
-                              <Link
-                                to={resolution.reversedBy.to}
-                                className="font-semibold text-morga-text underline-offset-4 hover:underline"
-                              >
-                                {resolution.reversedBy.label}
-                              </Link>
-                            ) : (
-                              resolution.reversedBy.label
-                            )}
-                          </p>
-                        ) : null}
-                      </div>
-                      <p
-                        className={`text-sm font-semibold ${
-                          entry.signedAmount < 0 ? "text-[#9f5f49]" : "text-morga-text"
-                        }`}
-                      >
-                        {formatMoney(entry.signedAmount)}
-                      </p>
-                    </div>
-                  </article>
-                  );
-                })
-              )}
-            </div>
-          </SectionCard>
-        </div>
-      ) : null}
-
-      {activeTab === "commitments" ? (
+            <div className="mt-5">
         <div className="space-y-5">
           <SectionCard
             title="Compromisos"
@@ -1741,9 +2007,20 @@ export function FinancesPage() {
             )}
           </SectionCard>
         </div>
-      ) : null}
+            </div>
+          </details>
 
-      {activeTab === "cards" ? (
+          <details
+            className="group rounded-panel border border-morga-line bg-morga-surface px-5 py-4 shadow-soft md:px-6"
+            open={openMoreSections.has("cards")}
+            onToggle={(event) => toggleMoreSection("cards", event.currentTarget.open)}
+          >
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-morga-text">
+              Tarjetas y cuotas
+              <ChevronDown className="h-4 w-4 shrink-0 text-morga-muted transition group-open:rotate-180" />
+            </summary>
+
+            <div className="mt-5">
         <div className="space-y-5">
           <SectionCard
             title="Tarjetas"
@@ -1935,9 +2212,20 @@ export function FinancesPage() {
             )}
           </SectionCard>
         </div>
-      ) : null}
+            </div>
+          </details>
 
-      {activeTab === "reserves" ? (
+          <details
+            className="group rounded-panel border border-morga-line bg-morga-surface px-5 py-4 shadow-soft md:px-6"
+            open={openMoreSections.has("reserves")}
+            onToggle={(event) => toggleMoreSection("reserves", event.currentTarget.open)}
+          >
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-morga-text">
+              Reservas
+              <ChevronDown className="h-4 w-4 shrink-0 text-morga-muted transition group-open:rotate-180" />
+            </summary>
+
+            <div className="mt-5">
         <SectionCard
           title="Reservas"
           description="Objetivos de dinero separados del disponible para decidir."
@@ -2036,9 +2324,20 @@ export function FinancesPage() {
             </div>
           )}
         </SectionCard>
-      ) : null}
+            </div>
+          </details>
 
-      {activeTab === "settings" ? (
+          <details
+            className="group rounded-panel border border-morga-line bg-morga-surface px-5 py-4 shadow-soft md:px-6"
+            open={openMoreSections.has("settings")}
+            onToggle={(event) => toggleMoreSection("settings", event.currentTarget.open)}
+          >
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-morga-text">
+              Configuracion
+              <ChevronDown className="h-4 w-4 shrink-0 text-morga-muted transition group-open:rotate-180" />
+            </summary>
+
+            <div className="mt-5">
         <div className="space-y-5">
           <SectionCard
             title="Configuracion financiera"
@@ -2121,7 +2420,13 @@ export function FinancesPage() {
             )}
           </SectionCard>
         </div>
+            </div>
+          </details>
+        </div>
       ) : null}
+
+      <QuickAddExpense open={quickExpenseOpen} onClose={() => setQuickExpenseOpen(false)} />
+      <QuickAddIncome open={quickIncomeOpen} onClose={() => setQuickIncomeOpen(false)} />
 
       <IncomeFormModal
         open={incomeModalOpen}
@@ -2221,6 +2526,7 @@ export function FinancesPage() {
 
       <ManualAdjustmentModal
         open={adjustmentModalOpen}
+        currentBalance={finance.settings.currentBalance}
         onClose={() => setAdjustmentModalOpen(false)}
         onConfirm={createManualAdjustment}
       />

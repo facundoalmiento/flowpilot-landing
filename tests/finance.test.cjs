@@ -30,6 +30,8 @@ const {
 } = require("./dist/features/decisions/decisionFilters.js");
 const {
   parseFinanceComposeTarget,
+  parseFinanceMoreSection,
+  parseFinanceMovementsView,
   parseFinanceTab
 } = require("./dist/features/finance/financeNavigation.js");
 const {
@@ -1027,8 +1029,27 @@ const cases = [
   {
     name: "finance tab parser falls back safely for invalid values",
     run() {
-      assert.equal(parseFinanceTab("history"), "history");
-      assert.equal(parseFinanceTab("otra-cosa"), "summary");
+      // "history" era una pestaña propia; ahora vive dentro de "movements" (vista Historial),
+      // asi que el parser la debe seguir aceptando como enlace legado.
+      assert.equal(parseFinanceTab("history"), "movements");
+      assert.equal(parseFinanceTab("cards"), "more");
+      assert.equal(parseFinanceTab("otra-cosa"), "home");
+    }
+  },
+  {
+    name: "finance more-section and movements-view parsers honor legacy deep links",
+    run() {
+      // Enlaces viejos como tab=cards o tab=history siguen abriendo la seccion correcta
+      // dentro de la navegacion nueva de 3 pestañas.
+      assert.equal(parseFinanceMoreSection("cards", null), "cards");
+      assert.equal(parseFinanceMoreSection("more", "reserves"), "reserves");
+      assert.equal(parseFinanceMoreSection(null, null), "month");
+      assert.equal(parseFinanceMoreSection("movements", "no-existe"), "month");
+
+      assert.equal(parseFinanceMovementsView("history", null), "history");
+      assert.equal(parseFinanceMovementsView("movements", "history"), "history");
+      assert.equal(parseFinanceMovementsView("movements", null), "list");
+      assert.equal(parseFinanceMovementsView(null, null), "list");
     }
   },
   {
