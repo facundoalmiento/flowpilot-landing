@@ -314,10 +314,6 @@ export function DecisionsPage() {
     (total, { decision }) => total + decision.totalAmount,
     0
   );
-  const monthlyImpactPotential = activeEntries.reduce(
-    (total, { evaluation }) => total + evaluation.metrics.monthlyInstallmentAmount,
-    0
-  );
 
   const comparisonResult = useMemo(
     () =>
@@ -435,7 +431,8 @@ export function DecisionsPage() {
         </div>
       </section>
 
-      <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+      {activeEntries.length > 0 ? (
+        <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Activas</p>
           <p className="mt-2 text-2xl font-semibold text-morga-text">{activeEntries.length}</p>
@@ -452,11 +449,8 @@ export function DecisionsPage() {
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Monto en evaluacion</p>
           <p className="mt-2 text-2xl font-semibold text-morga-text">{formatMoney(totalInEvaluation)}</p>
         </article>
-        <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Impacto mensual potencial</p>
-          <p className="mt-2 text-2xl font-semibold text-morga-text">{formatMoney(monthlyImpactPotential)}</p>
-        </article>
-      </section>
+        </section>
+      ) : null}
 
       <div className="flex flex-wrap gap-2">
         {tabs.map((item) => (

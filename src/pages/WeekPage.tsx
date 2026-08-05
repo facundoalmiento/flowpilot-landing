@@ -204,7 +204,7 @@ export function WeekPage() {
         {sections.overdue.length === 0 ? (
           <EmptyState
             title="Nada vencido"
-            description="No hay tareas pendientes con fecha pasada en los filtros actuales."
+            description="No tenés tareas atrasadas."
           />
         ) : (
           <div className="space-y-4">
@@ -233,7 +233,7 @@ export function WeekPage() {
         {sections.today.length === 0 ? (
           <EmptyState
             title="Nada para hoy"
-            description="No hay tareas que venzan hoy ni próximas acciones destacadas."
+            description="No hay pendientes para resolver hoy."
           />
         ) : (
           <div className="space-y-4">
@@ -262,7 +262,7 @@ export function WeekPage() {
         {sections.thisWeek.length === 0 ? (
           <EmptyState
             title="Sin pendientes para esta semana"
-            description="Las tareas que quedan en los filtros actuales no vencen dentro de los próximos siete días."
+            description="La semana está despejada."
           />
         ) : (
           <div className="space-y-4">
@@ -291,7 +291,7 @@ export function WeekPage() {
         {sections.noDate.length === 0 ? (
           <EmptyState
             title="Sin tareas abiertas sin fecha"
-            description="Todas las tareas visibles tienen fecha o ya quedaron cerradas."
+            description="Todo lo pendiente ya tiene fecha."
           />
         ) : (
           <div className="space-y-4">

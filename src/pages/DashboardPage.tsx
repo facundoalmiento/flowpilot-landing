@@ -10,8 +10,7 @@ import { usePlanning } from "../features/planning/usePlanning";
 import {
   getDashboardAlerts,
   getUpcomingDeadlines,
-  getWeeklyPriorities,
-  getWeeklyProgress
+  getWeeklyPriorities
 } from "../features/dashboard/dashboardMetrics";
 import { formatDate } from "../utils/dates";
 import { formatMoney, formatTaskPriority } from "../utils/format";
@@ -50,7 +49,6 @@ export function DashboardPage() {
   const weeklyPriorities = getWeeklyPriorities(activeProjects, activeTasks);
   const upcomingDeadlines = getUpcomingDeadlines(activeProjects, activeTasks);
   const alerts = getDashboardAlerts(activeProjects, activeTasks, activeDecisions);
-  const weeklyProgress = getWeeklyProgress(activeTasks);
   const finances = getFinanceOverview(finance, getFinancePeriod("30d"));
   const highPressureProjects = activeProjects.filter(
     (project) => project.priority === "Critica" || project.priority === "Alta"
@@ -154,8 +152,9 @@ export function DashboardPage() {
         </section>
       ) : null}
 
-      <section className="overflow-hidden rounded-[28px] border border-morga-line bg-morga-surface">
-        <div className="grid sm:grid-cols-2 xl:grid-cols-[1.05fr_0.95fr_1.15fr_0.95fr]">
+      {!isFreshAccount ? (
+        <section className="overflow-hidden rounded-[28px] border border-morga-line bg-morga-surface">
+          <div className="grid sm:grid-cols-2 xl:grid-cols-[1.05fr_0.95fr_1.15fr]">
           <article className="border-b border-morga-line px-5 py-5 sm:border-r xl:border-b-0">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
               Prioridades
@@ -174,7 +173,7 @@ export function DashboardPage() {
             </p>
           </article>
 
-          <article className="border-b border-morga-line px-5 py-5 sm:border-r sm:border-b-0">
+          <article className="border-b border-morga-line px-5 py-5 sm:col-span-2 sm:border-r-0 sm:border-b-0 xl:col-span-1 xl:border-r-0">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
               Disponible para decidir
             </p>
@@ -183,16 +182,9 @@ export function DashboardPage() {
             </p>
           </article>
 
-          <article className="px-5 py-5">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
-              Progreso semanal
-            </p>
-            <p className="mt-3 text-4xl font-semibold tracking-[-0.04em] text-morga-text">
-              {weeklyProgress}%
-            </p>
-          </article>
-        </div>
-      </section>
+          </div>
+        </section>
+      ) : null}
 
       <section className="grid gap-8 xl:grid-cols-[minmax(0,1.35fr)_minmax(300px,0.9fr)]">
         <div className="space-y-4">
@@ -206,9 +198,9 @@ export function DashboardPage() {
           </div>
 
           {weeklyPriorities.length === 0 ? (
-            <EmptyState
-              title="No hay prioridades cargadas"
-              description="Cuando agregues tareas pendientes con fechas y prioridad, este bloque se ordena solo."
+              <EmptyState
+                title="No hay prioridades cargadas"
+                description="Agregá una tarea para verla acá."
             />
           ) : (
             <div className="divide-y divide-morga-line rounded-[24px] border border-morga-line bg-morga-surface">
@@ -254,7 +246,7 @@ export function DashboardPage() {
             <div className="pt-4">
               <EmptyState
                 title="Sin alertas criticas"
-                description="Cuando haya vencimientos, bloqueos o tareas fuera de foco, aparecen aca."
+                description="Todo está en orden por ahora."
               />
             </div>
           ) : (
@@ -302,7 +294,7 @@ export function DashboardPage() {
             <div className="pt-4">
               <EmptyState
                 title="No hay vencimientos proximos"
-                description="Define fechas limite en tareas para tener una semana mas clara."
+                description="Agregá una fecha límite cuando haga falta."
               />
             </div>
           ) : (

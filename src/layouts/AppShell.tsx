@@ -150,14 +150,6 @@ export function AppShell() {
                 >
                   {theme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
                 </button>
-                <button
-                  type="button"
-                  onClick={handleQuickAction}
-                  className="inline-flex min-h-[44px] items-center gap-2 rounded-sm border border-morga-line bg-morga-surface px-4 py-2 text-sm font-semibold text-morga-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
-                >
-                  <Plus className="h-4 w-4" />
-                  <span className="hidden sm:inline">Nuevo</span>
-                </button>
               </div>
             </div>
           </header>

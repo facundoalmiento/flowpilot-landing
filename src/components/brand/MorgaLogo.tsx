@@ -8,9 +8,6 @@ export function MorgaLogo() {
         <p className="font-display text-3xl font-semibold leading-none text-morga-text">
           Morga
         </p>
-        <p className="mt-1 text-xs uppercase tracking-[0.2em] text-morga-muted">
-          planner personal
-        </p>
       </div>
     </div>
   );
