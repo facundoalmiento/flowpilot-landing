@@ -6,7 +6,7 @@ interface EmptyStateProps {
 
 export function EmptyState({ title, description, action }: EmptyStateProps) {
   return (
-    <div className="rounded-panel border border-dashed border-morga-line bg-morga-surface/70 p-8 text-center shadow-soft">
+    <div className="border-y border-dashed border-morga-line bg-morga-surface/30 px-5 py-10 text-center">
       <p className="font-display text-3xl font-semibold text-morga-text">{title}</p>
       <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-morga-muted">
         {description}

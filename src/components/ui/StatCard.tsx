@@ -9,7 +9,7 @@ interface StatCardProps {
 
 export function StatCard({ label, value, detail, accent }: StatCardProps) {
   return (
-    <article className="rounded-panel border border-morga-line bg-morga-surface p-5 shadow-soft">
+    <article className="border border-morga-line bg-morga-surface p-5">
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-morga-muted">

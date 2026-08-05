@@ -50,3 +50,33 @@
     @apply bg-morga-accent text-white;
   }
 }
+
+@layer utilities {
+  .morga-editorial main .rounded-panel,
+  .morga-editorial main [class*="rounded-[18px]"],
+  .morga-editorial main [class*="rounded-[20px]"],
+  .morga-editorial main [class*="rounded-[22px]"],
+  .morga-editorial main [class*="rounded-[24px]"],
+  .morga-editorial main [class*="rounded-[26px]"],
+  .morga-editorial main [class*="rounded-[28px]"] {
+    border-radius: 0.125rem !important;
+    box-shadow: none !important;
+  }
+
+  .morga-editorial main button[class*="rounded-full"],
+  .morga-editorial main a[class*="rounded-full"],
+  .morga-editorial main label[class*="rounded-full"] {
+    border-radius: 0.125rem !important;
+  }
+
+  .morga-editorial main input[class*="rounded-"],
+  .morga-editorial main select[class*="rounded-"],
+  .morga-editorial main textarea[class*="rounded-"] {
+    border-radius: 0.125rem !important;
+  }
+
+  .morga-editorial main [class*="shadow-soft"],
+  .morga-editorial main [class*="shadow-panel"] {
+    box-shadow: none !important;
+  }
+}

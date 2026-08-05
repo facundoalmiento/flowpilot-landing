@@ -65,7 +65,7 @@ export function AppShell() {
   const handleQuickAction = () => setQuickMenuOpen(true);
 
   return (
-    <div className="min-h-screen bg-morga-bg font-body text-morga-text">
+    <div className="morga-editorial min-h-screen bg-morga-bg font-body text-morga-text">
       <div className="mx-auto flex min-h-screen w-full max-w-[1680px]">
         <aside className="hidden w-[300px] shrink-0 border-r border-morga-line/80 bg-morga-surface px-5 py-8 lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col">
           <MorgaLogo />
@@ -130,7 +130,7 @@ export function AppShell() {
             <button
               type="button"
               onClick={handleQuickAction}
-              className="w-full rounded-full bg-morga-dark px-5 py-4 text-sm font-semibold text-white transition hover:translate-y-[-1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
+              className="w-full rounded-sm bg-morga-dark px-5 py-4 text-sm font-semibold text-white transition hover:bg-morga-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
             >
               Nuevo proyecto
             </button>
@@ -145,7 +145,7 @@ export function AppShell() {
                 <button
                   type="button"
                   onClick={toggleTheme}
-                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-morga-line bg-morga-surface text-morga-text shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
+                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-sm border border-morga-line bg-morga-surface text-morga-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
                   aria-label="Cambiar tema"
                 >
                   {theme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
@@ -153,7 +153,7 @@ export function AppShell() {
                 <button
                   type="button"
                   onClick={handleQuickAction}
-                  className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-morga-line bg-morga-surface px-4 py-2 text-sm font-semibold text-morga-text shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-sm border border-morga-line bg-morga-surface px-4 py-2 text-sm font-semibold text-morga-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
                 >
                   <Plus className="h-4 w-4" />
                   <span className="hidden sm:inline">Nuevo</span>

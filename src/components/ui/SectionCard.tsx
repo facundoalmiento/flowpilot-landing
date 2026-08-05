@@ -14,7 +14,7 @@ export function SectionCard({
   children
 }: SectionCardProps) {
   return (
-    <section className="rounded-panel border border-morga-line bg-morga-surface p-4 shadow-soft md:p-5">
+    <section className="border-y border-morga-line bg-morga-surface px-4 py-5 md:px-5">
       <div className="flex flex-col gap-3 border-b border-morga-line/70 pb-3 md:flex-row md:items-end md:justify-between">
         <div className="max-w-2xl">
           <h2 className="font-display text-[1.65rem] font-semibold text-morga-text md:text-[1.85rem]">

@@ -412,7 +412,7 @@ export function DecisionsPage() {
             Decisiones
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-morga-muted">
-            Anota una compra que estas pensando hacer, y Morga te dice si conviene pagarla ahora, financiarla o esperar, segun tu plata real.
+            Registra una compra y revisa su impacto antes de pagarla, financiarla o dejarla para mas adelante.
           </p>
         </div>
 
