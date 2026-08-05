@@ -42,31 +42,39 @@ export function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-morga-bg px-4">
-      <div className="w-full max-w-sm rounded-panel border border-morga-line bg-morga-surface p-8 shadow-panel">
+    <main className="flex min-h-screen items-center justify-center bg-morga-bg px-6 py-10">
+      <section className="w-full max-w-md border-y border-morga-line py-10 sm:py-12">
         <MorgaLogo />
 
-        <p className="mt-8 text-sm leading-6 text-morga-muted">
-          Iniciá sesión para ver tus proyectos, tareas y finanzas. Cada cuenta tiene sus propios
-          datos, privados y separados del resto.
-        </p>
+        <div className="mt-12 border-l-2 border-morga-accent pl-5">
+          <h1 className="font-display text-3xl font-semibold leading-tight text-morga-text">
+            Un lugar para llevar lo importante.
+          </h1>
+          <p className="mt-4 max-w-sm text-sm leading-6 text-morga-muted">
+            Proyectos, tareas y finanzas en un espacio privado, hecho para usar todos los días.
+          </p>
+        </div>
 
         <button
           type="button"
           onClick={handleGoogleSignIn}
           disabled={isRedirecting}
-          className="mt-6 inline-flex min-h-[48px] w-full items-center justify-center gap-3 rounded-full border border-morga-line bg-morga-surface px-5 py-3 text-sm font-semibold text-morga-text shadow-soft transition hover:bg-morga-surfaceAlt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent disabled:opacity-60"
+          className="mt-10 inline-flex min-h-[48px] w-full items-center justify-center gap-3 border border-morga-text bg-morga-text px-5 py-3 text-sm font-semibold text-morga-surface transition hover:border-morga-accent hover:bg-morga-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent focus-visible:ring-offset-2 focus-visible:ring-offset-morga-bg disabled:opacity-60"
         >
           <GoogleIcon />
-          {isRedirecting ? "Redirigiendo..." : "Continuar con Google"}
+          {isRedirecting ? "Redirigiendo..." : "Ingresar con Google"}
         </button>
 
+        <p className="mt-4 text-xs leading-5 text-morga-muted">
+          Usamos Google solamente para identificar tu cuenta.
+        </p>
+
         {error ? (
-          <p className="mt-4 rounded-[16px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+          <p className="mt-5 border-l-2 border-red-700 bg-red-50 px-4 py-3 text-sm text-red-800">
             {error}
           </p>
         ) : null}
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
