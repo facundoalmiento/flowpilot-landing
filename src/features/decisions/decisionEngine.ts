@@ -298,13 +298,13 @@ function buildEvaluation(
 
 const recommendationTitleMap: Record<DecisionRecommendationCode, string> = {
   "buy-now": "Comprar ahora",
-  "buy-next-income": "Comprar al proximo ingreso",
-  "finance-carefully": "Financiar con precaucion",
+  "buy-next-income": "Comprar al próximo ingreso",
+  "finance-carefully": "Financiar con precaución",
   "save-first": "Ahorrar primero",
   "create-reserve": "Crear una reserva",
-  "wait-next-month": "Esperar al proximo mes",
+  "wait-next-month": "Esperar al próximo mes",
   postpone: "Posponer",
-  "manual-review": "Requiere revision manual"
+  "manual-review": "Requiere revisión manual"
 };
 
 export function evaluateDecision(
@@ -323,9 +323,9 @@ export function evaluateDecision(
   if (!option || hasIncompleteOption(option)) {
     return buildEvaluation(
       "manual-review",
-      "Faltan datos clave para emitir una recomendacion confiable.",
-      ["La opcion de pago seleccionada esta incompleta o todavia no existe."],
-      ["Completa tarjeta, fechas, cuotas o reserva antes de decidir."],
+      "Faltan datos clave para emitir una recomendación confiable.",
+      ["La opción de pago seleccionada está incompleta o todavía no existe."],
+      ["Completá tarjeta, fechas, cuotas o reserva antes de decidir."],
       decision,
       finance,
       rules,
@@ -351,9 +351,9 @@ export function evaluateDecision(
   if (isSafetyOrHealth(decision.category) && decision.necessity === "essential" &&
       (decision.urgency === "high" || decision.urgency === "critical") &&
       decision.impact === "high") {
-    reasons.push("La decision combina categoria sensible, urgencia alta y necesidad esencial.");
+    reasons.push("La decisión combina categoría sensible, urgencia alta y necesidad esencial.");
     if (reserveProtected) {
-      reasons.push("La compra no rompe la reserva minima ni deja negativa la proyeccion.");
+      reasons.push("La compra no rompe la reserva mínima ni deja negativa la proyección.");
       return buildEvaluation(
         "buy-now",
         "Conviene resolverla ahora porque es prioritaria y la caja actual la soporta.",
@@ -371,7 +371,7 @@ export function evaluateDecision(
       warnings.push("La liquidez actual es ajustada, pero la cuota proyectada sigue siendo sostenible.");
       return buildEvaluation(
         "finance-carefully",
-        "La prioridad es alta y, aunque el contado aprieta la liquidez, una financiacion prudente la vuelve viable.",
+        "La prioridad es alta y, aunque el contado aprieta la liquidez, una financiación prudente la vuelve viable.",
         reasons,
         warnings,
         decision,
@@ -382,10 +382,10 @@ export function evaluateDecision(
         simulation
       );
     }
-    warnings.push("La prioridad es alta pero hoy no hay capacidad clara para cubrirla sin tension.");
+    warnings.push("La prioridad es alta pero hoy no hay capacidad clara para cubrirla sin tensión.");
     return buildEvaluation(
       "manual-review",
-      "La necesidad es urgente, pero hace falta revisar una alternativa minima o una fuente concreta de fondos.",
+      "La necesidad es urgente, pero hace falta revisar una alternativa mínima o una fuente concreta de fondos.",
       reasons,
       warnings,
       decision,
@@ -400,12 +400,12 @@ export function evaluateDecision(
   if (option.type === "one-time" || option.type === "use-reserve" || option.type === "mixed") {
     if (reserveProtected) {
       reasons.push("El pago inicial entra dentro del disponible para decidir.");
-      reasons.push("La proyeccion del mes sigue no negativa despues de simular la compra.");
+      reasons.push("La proyección del mes sigue no negativa después de simular la compra.");
       return buildEvaluation(
         simulation.availableAfterDecision >= 0 ? "buy-now" : "buy-next-income",
         simulation.availableAfterDecision >= 0
-          ? "El costo entra hoy sin comprometer el margen minimo."
-          : "Conviene moverla al proximo ingreso para no ajustar demasiado la caja de hoy.",
+          ? "El costo entra hoy sin comprometer el margen mínimo."
+          : "Conviene moverla al próximo ingreso para no ajustar demasiado la caja de hoy.",
         reasons,
         warnings,
         decision,
@@ -419,10 +419,10 @@ export function evaluateDecision(
   }
 
   if (option.type === "installments" || option.type === "mixed") {
-    reasons.push("La decision propone repartir el impacto en varios meses.");
+    reasons.push("La decisión propone repartir el impacto en varios meses.");
     if (installmentsSustainable) {
       if ((option.installmentCount ?? 0) > rules.longFinancingMonths) {
-        warnings.push("La financiacion es larga y te deja comprometido durante varios meses.");
+        warnings.push("La financiación es larga y te deja comprometido durante varios meses.");
       }
       if ((option.interestAmount ?? 0) > option.totalAmount * 0.2) {
         warnings.push("El costo financiero es significativo respecto del valor base.");
@@ -445,7 +445,7 @@ export function evaluateDecision(
 
   if (option.type === "save-first") {
     const monthlyCapacity = getMonthlySavingsCapacity(finance);
-    reasons.push("La opcion prioriza acumular fondos antes de convertirla en gasto real.");
+    reasons.push("La opción prioriza acumular fondos antes de convertirla en gasto real.");
     if (
       simulation.monthlySavingsNeeded !== null &&
       monthlyCapacity > 0 &&
@@ -458,7 +458,7 @@ export function evaluateDecision(
           : "Hoy no conviene pagarla de golpe; ahorrar primero la vuelve alcanzable.",
         [
           ...reasons,
-          `Con un ahorro mensual aproximado de ${Math.round(simulation.monthlySavingsNeeded)} podrias llegar a tiempo.`
+          `Con un ahorro mensual aproximado de ${Math.round(simulation.monthlySavingsNeeded)} podrías llegar a tiempo.`
         ],
         warnings,
         decision,
@@ -477,8 +477,8 @@ export function evaluateDecision(
       "postpone",
       "No conviene avanzar ahora porque la necesidad es opcional y el mes ya viene tensionado.",
       [
-        "La proyeccion mensual ya es negativa o demasiado ajustada.",
-        "Existen pagos mas importantes por delante."
+        "La proyección mensual ya es negativa o demasiado ajustada.",
+        "Existen pagos más importantes por delante."
       ],
       warnings,
       decision,
@@ -493,9 +493,9 @@ export function evaluateDecision(
   if (overview.monthEndProjection < 0 || simulation.projectedMonthEndAfterDecision < 0) {
     return buildEvaluation(
       "wait-next-month",
-      "Conviene esperar al proximo mes para no empeorar la liquidez actual.",
+      "Conviene esperar al próximo mes para no empeorar la liquidez actual.",
       [
-        "La compra vuelve negativa o demasiado ajustada la proyeccion del periodo actual."
+        "La compra vuelve negativa o demasiado ajustada la proyección del periodo actual."
       ],
       warnings,
       decision,
@@ -509,8 +509,8 @@ export function evaluateDecision(
 
   return buildEvaluation(
     "manual-review",
-    "La decision necesita una revision manual porque las reglas no encuentran un camino claro sin tension.",
-    ["La combinacion de monto, plazos y liquidez actual no deja una recomendacion simple."],
+    "La decisión necesita una revisión manual porque las reglas no encuentran un camino claro sin tensión.",
+    ["La combinación de monto, plazos y liquidez actual no deja una recomendación simple."],
     warnings,
     decision,
     finance,
@@ -589,8 +589,8 @@ export function compareDecisions(
     entries,
     highlights: [
       `${bestViability.name} muestra la mejor viabilidad financiera en el corto plazo.`,
-      `${highestPriority.name} tiene la prioridad personal mas alta segun urgencia, impacto y necesidad.`,
-      `${lowestCost.name} es la opcion de menor costo total.`,
+      `${highestPriority.name} tiene la prioridad personal más alta según urgencia, impacto y necesidad.`,
+      `${lowestCost.name} es la opción de menor costo total.`,
       `${lowestMonthlyImpact.name} tiene el menor impacto mensual comprometido.`
     ]
   };

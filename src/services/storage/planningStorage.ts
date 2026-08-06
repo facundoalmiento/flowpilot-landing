@@ -511,7 +511,7 @@ function migrateDecisionItem(rawDecision: Record<string, unknown>): DecisionItem
             id: crypto.randomUUID(),
             status: (rawDecision.status as DecisionItem["status"]) ?? "evaluating",
             changedAt: toDateString(rawDecision.createdAt, now)!,
-            note: "Decision migrada."
+            note: "Decisión migrada."
           }
         ]
   };
@@ -689,26 +689,26 @@ function migrateDecisionsState(rawDecisions: Record<string, unknown> | undefined
 }
 
 function validateProjectShape(project: unknown) {
-  if (!isRecord(project)) throw new Error("Hay un proyecto con formato invalido.");
+  if (!isRecord(project)) throw new Error("Hay un proyecto con formato inválido.");
   if (typeof project.id !== "string" || typeof project.name !== "string") {
     throw new Error("Cada proyecto debe incluir id y nombre.");
   }
 }
 
 function validateTaskShape(task: unknown) {
-  if (!isRecord(task)) throw new Error("Hay una tarea con formato invalido.");
+  if (!isRecord(task)) throw new Error("Hay una tarea con formato inválido.");
   if (
     typeof task.id !== "string" ||
     typeof task.title !== "string" ||
     typeof task.projectId !== "string"
   ) {
-    throw new Error("Cada tarea debe incluir id, titulo y proyecto asociado.");
+    throw new Error("Cada tarea debe incluir id, título y proyecto asociado.");
   }
 }
 
 function extractStoreCandidate(rawStore: unknown) {
   if (!isRecord(rawStore)) {
-    throw new Error("El archivo no contiene un objeto valido.");
+    throw new Error("El archivo no contiene un objeto válido.");
   }
 
   const hasWrappedData =
@@ -755,21 +755,21 @@ export function validateRelationships(store: PlanningStore) {
     (task) => task.sourceDecisionId && !decisionIds.has(task.sourceDecisionId)
   );
   if (invalidTaskDecision) {
-    throw new Error("Hay tareas con referencias invalidas a decisiones.");
+    throw new Error("Hay tareas con referencias inválidas a decisiones.");
   }
 
   const invalidExpenseCard = store.finance.expenses.find(
     (expense) => expense.creditCardId && !cardIds.has(expense.creditCardId)
   );
   if (invalidExpenseCard) {
-    throw new Error("Hay gastos con referencias invalidas a tarjetas.");
+    throw new Error("Hay gastos con referencias inválidas a tarjetas.");
   }
 
   const invalidExpensePlan = store.finance.expenses.find(
     (expense) => expense.installmentPlanId && !planIds.has(expense.installmentPlanId)
   );
   if (invalidExpensePlan) {
-    throw new Error("Hay gastos con referencias invalidas a planes de cuotas.");
+    throw new Error("Hay gastos con referencias inválidas a planes de cuotas.");
   }
 
   const invalidExpenseDecision = store.finance.expenses.find(
@@ -811,14 +811,14 @@ export function validateRelationships(store: PlanningStore) {
     (occurrence) => occurrence.settledRecordId && !recordIds.has(occurrence.settledRecordId)
   );
   if (invalidOccurrenceRecord) {
-    throw new Error("Hay ocurrencias con historial financiero invalido.");
+    throw new Error("Hay ocurrencias con historial financiero inválido.");
   }
 
   const invalidAdjustmentRecord = store.finance.manualAdjustments.find(
     (adjustment) => adjustment.recordId && !recordIds.has(adjustment.recordId)
   );
   if (invalidAdjustmentRecord) {
-    throw new Error("Hay ajustes manuales con historial invalido.");
+    throw new Error("Hay ajustes manuales con historial inválido.");
   }
 
   const invalidDecisionProject = store.decisions.items.find(
@@ -832,14 +832,14 @@ export function validateRelationships(store: PlanningStore) {
     decision.paymentOptions.some((option) => option.creditCardId && !cardIds.has(option.creditCardId))
   );
   if (invalidDecisionCard) {
-    throw new Error("Hay decisiones con tarjetas invalidas.");
+    throw new Error("Hay decisiones con tarjetas inválidas.");
   }
 
   const invalidDecisionReserve = store.decisions.items.find((decision) =>
     decision.paymentOptions.some((option) => option.reserveId && !reserveIds.has(option.reserveId))
   );
   if (invalidDecisionReserve) {
-    throw new Error("Hay decisiones con reservas invalidas.");
+    throw new Error("Hay decisiones con reservas inválidas.");
   }
 
   const invalidConvertedExpense = store.decisions.items.find(

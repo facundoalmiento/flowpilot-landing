@@ -22,7 +22,7 @@ type FormErrors<T> = Partial<Record<keyof T, string>>;
 
 export const incomeTypeOptions = [
   { value: "salary", label: "Sueldo" },
-  { value: "allowance", label: "Viatico" },
+  { value: "allowance", label: "Viático" },
   { value: "bonus", label: "Aguinaldo" },
   { value: "refund", label: "Reintegro" },
   { value: "extra", label: "Ingreso extra" },
@@ -34,9 +34,9 @@ export const expenseCategoryOptions: Array<{ value: ExpenseCategory; label: stri
   { value: "transport", label: "Transporte" },
   { value: "health", label: "Salud" },
   { value: "training", label: "Entrenamiento" },
-  { value: "food", label: "Alimentacion" },
+  { value: "food", label: "Alimentación" },
   { value: "cards", label: "Tarjetas" },
-  { value: "loan", label: "Prestamo" },
+  { value: "loan", label: "Préstamo" },
   { value: "travel", label: "Viajes" },
   { value: "shopping", label: "Compras" },
   { value: "projects", label: "Proyectos" },
@@ -45,7 +45,7 @@ export const expenseCategoryOptions: Array<{ value: ExpenseCategory; label: stri
 
 export const paymentMethodOptions: Array<{ value: PaymentMethod; label: string }> = [
   { value: "cash", label: "Efectivo" },
-  { value: "debit", label: "Debito" },
+  { value: "debit", label: "Débito" },
   { value: "bank-transfer", label: "Transferencia" },
   { value: "credit-card", label: "Tarjeta" },
   { value: "other", label: "Otro" }
@@ -94,19 +94,19 @@ export function validateFinanceSettings(values: FinanceSettingsFormValues) {
   const errors: FormErrors<FinanceSettingsFormValues> = {};
 
   if (!values.currentBalance.trim() || Number(values.currentBalance) < 0) {
-    errors.currentBalance = "Ingresa un saldo valido.";
+    errors.currentBalance = "Ingresá un saldo válido.";
   }
 
   if (!values.minimumReserve.trim() || Number(values.minimumReserve) < 0) {
-    errors.minimumReserve = "Ingresa una reserva minima valida.";
+    errors.minimumReserve = "Ingresá una reserva mínima válida.";
   }
 
   if (!isValidDay(values.salaryPayday)) {
-    errors.salaryPayday = "El dia debe estar entre 1 y 31.";
+    errors.salaryPayday = "El día debe estar entre 1 y 31.";
   }
 
   if (!isValidDay(values.allowancePayday)) {
-    errors.allowancePayday = "El dia debe estar entre 1 y 31.";
+    errors.allowancePayday = "El día debe estar entre 1 y 31.";
   }
 
   return errors;
@@ -134,7 +134,7 @@ export function validateCreditCard(values: CreditCardFormValues) {
   const errors: FormErrors<CreditCardFormValues> = {};
 
   if (!values.name.trim()) errors.name = "La tarjeta necesita un nombre.";
-  if (values.limit.trim() && Number(values.limit) < 0) errors.limit = "Ingresa un limite valido.";
+  if (values.limit.trim() && Number(values.limit) < 0) errors.limit = "Ingresá un límite válido.";
   if (!isValidDay(values.closeDay)) errors.closeDay = "El cierre debe estar entre 1 y 31.";
   if (!isValidDay(values.dueDay)) errors.dueDay = "El vencimiento debe estar entre 1 y 31.";
 
@@ -169,10 +169,10 @@ export function validateIncome(values: IncomeFormValues) {
   const errors: FormErrors<IncomeFormValues> = {};
 
   if (!values.name.trim()) errors.name = "El ingreso necesita un nombre.";
-  if (!values.amount.trim() || Number(values.amount) < 0) errors.amount = "Ingresa un importe valido.";
-  if (!hasValidDate(values.expectedDate)) errors.expectedDate = "Define una fecha esperada valida.";
+  if (!values.amount.trim() || Number(values.amount) < 0) errors.amount = "Ingresá un importe válido.";
+  if (!hasValidDate(values.expectedDate)) errors.expectedDate = "Definí una fecha esperada válida.";
   if (values.status === "received" && values.receivedDate && !hasValidDate(values.receivedDate)) {
-    errors.receivedDate = "La fecha de cobro no es valida.";
+    errors.receivedDate = "La fecha de cobro no es válida.";
   }
 
   return errors;
@@ -214,14 +214,14 @@ export function validateExpense(
   const errors: FormErrors<ExpenseFormValues> = {};
 
   if (!values.name.trim()) errors.name = "El gasto necesita un nombre.";
-  if (!values.amount.trim() || Number(values.amount) < 0) errors.amount = "Ingresa un importe valido.";
-  if (!hasValidDate(values.dueDate)) errors.dueDate = "Define una fecha de vencimiento valida.";
-  if (values.paidDate && !hasValidDate(values.paidDate)) errors.paidDate = "La fecha de pago no es valida.";
+  if (!values.amount.trim() || Number(values.amount) < 0) errors.amount = "Ingresá un importe válido.";
+  if (!hasValidDate(values.dueDate)) errors.dueDate = "Definí una fecha de vencimiento válida.";
+  if (values.paidDate && !hasValidDate(values.paidDate)) errors.paidDate = "La fecha de pago no es válida.";
   if (values.creditCardId && !validCardIds.includes(values.creditCardId)) {
-    errors.creditCardId = "Selecciona una tarjeta valida.";
+    errors.creditCardId = "Seleccioná una tarjeta válida.";
   }
   if (values.installmentPlanId && !validPlanIds.includes(values.installmentPlanId)) {
-    errors.installmentPlanId = "Selecciona un plan de cuotas valido.";
+    errors.installmentPlanId = "Seleccioná un plan de cuotas válido.";
   }
 
   return errors;
@@ -261,15 +261,15 @@ export function validateCommitment(values: CommitmentFormValues) {
   const currentInstallment = parseOptionalNumber(values.currentInstallment);
 
   if (!values.name.trim()) errors.name = "El compromiso necesita un nombre.";
-  if (!values.amount.trim() || Number(values.amount) < 0) errors.amount = "Ingresa un importe valido.";
-  if (!hasValidDate(values.nextDueDate)) errors.nextDueDate = "Define un proximo vencimiento valido.";
-  if (!hasValidDate(values.startDate)) errors.startDate = "Define una fecha de inicio valida.";
-  if (values.endDate && !hasValidDate(values.endDate)) errors.endDate = "La fecha final no es valida.";
+  if (!values.amount.trim() || Number(values.amount) < 0) errors.amount = "Ingresá un importe válido.";
+  if (!hasValidDate(values.nextDueDate)) errors.nextDueDate = "Definí un próximo vencimiento válido.";
+  if (!hasValidDate(values.startDate)) errors.startDate = "Definí una fecha de inicio válida.";
+  if (values.endDate && !hasValidDate(values.endDate)) errors.endDate = "La fecha final no es válida.";
   if (values.totalInstallments && (!Number.isFinite(totalInstallments) || totalInstallments! < 0)) {
-    errors.totalInstallments = "La cantidad total de cuotas no es valida.";
+    errors.totalInstallments = "La cantidad total de cuotas no es válida.";
   }
   if (values.currentInstallment && (!Number.isFinite(currentInstallment) || currentInstallment! < 0)) {
-    errors.currentInstallment = "La cuota actual no es valida.";
+    errors.currentInstallment = "La cuota actual no es válida.";
   }
   if (
     Number.isFinite(totalInstallments) &&
@@ -316,16 +316,16 @@ export function validateInstallmentPlan(
   const installmentAmount = Number(values.installmentAmount);
   const currentInstallment = Number(values.currentInstallment);
 
-  if (!values.description.trim()) errors.description = "El plan necesita una descripcion.";
-  if (!validCardIds.includes(values.creditCardId)) errors.creditCardId = "Selecciona una tarjeta valida.";
-  if (!values.totalAmount.trim() || totalAmount < 0) errors.totalAmount = "Ingresa un importe total valido.";
+  if (!values.description.trim()) errors.description = "El plan necesita una descripción.";
+  if (!validCardIds.includes(values.creditCardId)) errors.creditCardId = "Seleccioná una tarjeta válida.";
+  if (!values.totalAmount.trim() || totalAmount < 0) errors.totalAmount = "Ingresá un importe total válido.";
   if (!Number.isInteger(totalInstallments) || totalInstallments <= 0) {
     errors.totalInstallments = "La cantidad total de cuotas debe ser mayor a cero.";
   }
   if (!values.installmentAmount.trim() || installmentAmount < 0) {
-    errors.installmentAmount = "Ingresa un valor de cuota valido.";
+    errors.installmentAmount = "Ingresá un valor de cuota válido.";
   }
-  if (!hasValidDate(values.firstDueDate)) errors.firstDueDate = "Define una primera fecha valida.";
+  if (!hasValidDate(values.firstDueDate)) errors.firstDueDate = "Definí una primera fecha válida.";
   if (!Number.isInteger(currentInstallment) || currentInstallment <= 0) {
     errors.currentInstallment = "La cuota actual debe ser mayor a cero.";
   }
@@ -338,7 +338,7 @@ export function validateInstallmentPlan(
     Number.isFinite(installmentAmount) &&
     Math.abs(totalInstallments * installmentAmount - totalAmount) > totalInstallments
   ) {
-    errors.installmentAmount = "Revisa el valor de cuota para que sea coherente con el total.";
+    errors.installmentAmount = "Revisá el valor de cuota para que sea coherente con el total.";
   }
 
   return errors;
@@ -371,13 +371,13 @@ export function validateReserve(values: ReserveFormValues) {
 
   if (!values.name.trim()) errors.name = "La reserva necesita un nombre.";
   if (!values.targetAmount.trim() || Number(values.targetAmount) < 0) {
-    errors.targetAmount = "Ingresa un objetivo valido.";
+    errors.targetAmount = "Ingresá un objetivo válido.";
   }
   if (!values.savedAmount.trim() || Number(values.savedAmount) < 0) {
     errors.savedAmount = "El monto reservado no puede ser negativo.";
   }
   if (values.targetDate && !hasValidDate(values.targetDate)) {
-    errors.targetDate = "La fecha objetivo no es valida.";
+    errors.targetDate = "La fecha objetivo no es válida.";
   }
 
   return errors;

@@ -103,7 +103,7 @@ export function DecisionCard({
             </h3>
 
             <p className="mt-2 text-sm leading-6 text-morga-muted">
-              {decision.description || "Sin descripcion adicional."}
+              {decision.description || "Sin descripción adicional."}
             </p>
 
             <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm text-morga-muted">
@@ -118,7 +118,7 @@ export function DecisionCard({
               to={`/decisions/${decision.id}`}
               className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-morga-dark px-4 py-2 text-sm font-semibold text-white transition hover:translate-y-[-1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
             >
-              Ver decision
+              Ver decisión
               <ChevronRight className="h-4 w-4" />
             </Link>
 
@@ -132,7 +132,7 @@ export function DecisionCard({
 
             <details className="relative">
               <summary className="flex min-h-[44px] min-w-[44px] cursor-pointer list-none items-center justify-center rounded-full border border-morga-line text-morga-muted transition hover:border-morga-accent hover:text-morga-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent">
-                <span className="sr-only">Abrir acciones de la decision</span>
+                <span className="sr-only">Abrir acciones de la decisión</span>
                 <EllipsisVertical className="h-4 w-4" />
               </summary>
               <div className="absolute right-0 top-[calc(100%+0.5rem)] z-10 w-56 rounded-2xl border border-morga-line bg-morga-surface p-2 shadow-panel">
@@ -206,7 +206,7 @@ export function DecisionCard({
           </div>
           <div className="rounded-[18px] border border-morga-line/80 bg-morga-surfaceAlt/45 p-3">
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
-              Recomendacion
+              Recomendación
             </p>
             <p className="mt-2 text-sm font-semibold text-morga-text">
               {formatDecisionRecommendation(evaluation.recommendationCode)}
@@ -224,7 +224,7 @@ export function DecisionCard({
           </div>
           <div
             className="rounded-[18px] border border-morga-line/80 bg-morga-surfaceAlt/45 p-3"
-            title="Un puntaje que combina urgencia, impacto y necesidad para ordenar que mirar primero. Mas puntos, mas prioridad."
+            title="Un puntaje que combina urgencia, impacto y necesidad para ordenar qué mirar primero. Más puntos, más prioridad."
           >
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
               Prioridad
@@ -246,13 +246,13 @@ export function DecisionCard({
 
         <div className="rounded-[18px] border border-morga-line bg-morga-surfaceAlt/55 p-4">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
-            Simulacion
+            Simulación
           </p>
           <p className="mt-2 text-sm text-morga-text">
-            Disponible despues: {formatMoney(simulation.availableAfterDecision)}
+            Disponible después: {formatMoney(simulation.availableAfterDecision)}
           </p>
           <p className="mt-1 text-sm text-morga-text">
-            Proyeccion de mes: {formatMoney(simulation.projectedMonthEndAfterDecision)}
+            Proyección de mes: {formatMoney(simulation.projectedMonthEndAfterDecision)}
           </p>
         </div>
 
@@ -279,7 +279,7 @@ export function DecisionCard({
 
           <div
             className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-[18px] border border-morga-line bg-morga-surface px-4 py-3 text-sm font-semibold text-morga-muted"
-            title="Que tan segura esta la app de esta recomendacion, segun cuantos datos tiene cargados."
+            title="Qué tan segura está la app de esta recomendación, según cuántos datos tiene cargados."
           >
             <Scale className="h-4 w-4" />
             Confianza {evaluation.confidenceLabel}

@@ -84,8 +84,8 @@ export function DecisionDetailPage() {
   if (!decision || !evaluation || !simulation) {
     return (
       <EmptyState
-        title="Decision no encontrada"
-        description="No encontramos esa decision en el almacenamiento local actual."
+        title="Decisión no encontrada"
+        description="No encontramos esa decisión en el almacenamiento local actual."
         action={
           <Link
             to="/decisions"
@@ -131,18 +131,18 @@ export function DecisionDetailPage() {
 
   const handleCreateTask = () => {
     if (!decision.projectId) {
-      window.alert("Asocia primero la decision a un proyecto para crear una tarea.");
+      window.alert("Asociá primero la decisión a un proyecto para crear una tarea.");
       return;
     }
 
     const title = window.prompt(
-      "Escribe el titulo de la tarea que queres crear desde esta decision.",
+      "Escribí el título de la tarea que querés crear desde esta decisión.",
       `Revisar siguiente paso de ${decision.name}`
     );
     if (!title?.trim()) return;
 
     const confirmed = window.confirm(
-      `Se va a crear una tarea en ${project?.name ?? "el proyecto asociado"} con el titulo "${title.trim()}". Queres continuar?`
+      `Se va a crear una tarea en ${project?.name ?? "el proyecto asociado"} con el título "${title.trim()}". ¿Querés continuar?`
     );
     if (!confirmed) return;
 
@@ -151,12 +151,12 @@ export function DecisionDetailPage() {
 
   const handleConvert = () => {
     if (decision.status !== "approved") {
-      window.alert("Primero aproba la decision para convertirla.");
+      window.alert("Primero aprobá la decisión para convertirla.");
       return;
     }
 
     const confirmed = window.confirm(
-      `Se va a convertir "${decision.name}" en una operacion financiera real. Queres continuar?`
+      `Se va a convertir "${decision.name}" en una operación financiera real. ¿Querés continuar?`
     );
     if (!confirmed) return;
 
@@ -184,10 +184,10 @@ export function DecisionDetailPage() {
               {decision.name}
             </h1>
             <p className="mt-3 max-w-3xl text-sm leading-7 text-morga-muted">
-              {decision.description || "Sin descripcion adicional."}
+              {decision.description || "Sin descripción adicional."}
             </p>
             <p className="mt-4 text-sm text-morga-muted">
-              Esta recomendacion es una regla de planificacion personal basada en tus datos cargados. No reemplaza asesoramiento financiero profesional.
+              Esta recomendación es una regla de planificación personal basada en tus datos cargados. No reemplaza asesoramiento financiero profesional.
             </p>
           </div>
 
@@ -210,7 +210,7 @@ export function DecisionDetailPage() {
 
       <section className="grid gap-4 lg:grid-cols-2 xl:grid-cols-4">
         <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Recomendacion</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Recomendación</p>
           <p className="mt-2 text-sm font-semibold text-morga-text">{formatDecisionRecommendation(evaluation.recommendationCode)}</p>
           <p className="mt-1 text-sm text-morga-muted">{evaluation.confidenceLabel} confianza</p>
         </article>
@@ -220,11 +220,11 @@ export function DecisionDetailPage() {
           <p className="mt-1 text-sm text-morga-muted">{formatRelativeDeadline(decision.desiredDate)}</p>
         </article>
         <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Disponible despues</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Disponible después</p>
           <p className="mt-2 text-sm font-semibold text-morga-text">{formatMoney(simulation.availableAfterDecision)}</p>
         </article>
         <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Proyeccion de mes</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Proyección de mes</p>
           <p className="mt-2 text-sm font-semibold text-morga-text">{formatMoney(simulation.projectedMonthEndAfterDecision)}</p>
         </article>
       </section>
@@ -256,26 +256,26 @@ export function DecisionDetailPage() {
             </div>
           </SectionCard>
 
-          <SectionCard title="Opciones de pago" description="Cada alternativa se evalua con los mismos datos financieros actuales.">
+          <SectionCard title="Opciones de pago" description="Cada alternativa se evalúa con los mismos datos financieros actuales.">
             <div className="space-y-4">
               {optionEvaluations.map(({ option, evaluation: optionEvaluation, simulation: optionSimulation, selected }) => (
                 <article key={option.id} className="rounded-[22px] border border-morga-line bg-morga-surface p-4">
                   <div className="flex flex-wrap items-center gap-2">
                     <p className="text-sm font-semibold text-morga-text">{formatDecisionPaymentOptionType(option.type)}</p>
-                    {selected ? <Badge tone="info">Opcion principal</Badge> : null}
+                    {selected ? <Badge tone="info">Opción principal</Badge> : null}
                   </div>
                   <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
                     <p className="text-sm text-morga-text">Total: {formatMoney(option.totalAmount)}</p>
                     <p className="text-sm text-morga-text">Anticipo: {option.upfrontAmount ? formatMoney(option.upfrontAmount) : "No aplica"}</p>
                     <p className="text-sm text-morga-text">Cuota: {option.installmentAmount ? formatMoney(option.installmentAmount) : "No aplica"}</p>
-                    <p className="text-sm text-morga-text">Duracion: {option.installmentCount ? `${option.installmentCount} cuotas` : "Sin cuotas"}</p>
+                    <p className="text-sm text-morga-text">Duración: {option.installmentCount ? `${option.installmentCount} cuotas` : "Sin cuotas"}</p>
                   </div>
                   <div className="mt-3 grid gap-3 md:grid-cols-2">
                     <p className="text-sm text-morga-muted">
-                      Recomendacion: <span className="font-semibold text-morga-text">{formatDecisionRecommendation(optionEvaluation.recommendationCode)}</span>
+                      Recomendación: <span className="font-semibold text-morga-text">{formatDecisionRecommendation(optionEvaluation.recommendationCode)}</span>
                     </p>
                     <p className="text-sm text-morga-muted">
-                      Proyeccion posterior: <span className="font-semibold text-morga-text">{formatMoney(optionSimulation.projectedMonthEndAfterDecision)}</span>
+                      Proyección posterior: <span className="font-semibold text-morga-text">{formatMoney(optionSimulation.projectedMonthEndAfterDecision)}</span>
                     </p>
                   </div>
                 </article>
@@ -283,29 +283,29 @@ export function DecisionDetailPage() {
             </div>
           </SectionCard>
 
-          <SectionCard title="Datos usados por la regla" description="Los calculos salen de tu estado financiero actual, sin modificarlo durante la simulacion.">
+          <SectionCard title="Datos usados por la regla" description="Los cálculos salen de tu estado financiero actual, sin modificarlo durante la simulación.">
             <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               <article className="rounded-[18px] border border-morga-line bg-morga-surfaceAlt/35 p-3"><p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Saldo actual</p><p className="mt-2 text-sm font-semibold text-morga-text">{formatMoney(evaluation.metrics.currentBalance)}</p></article>
               <article className="rounded-[18px] border border-morga-line bg-morga-surfaceAlt/35 p-3"><p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Disponible para decidir</p><p className="mt-2 text-sm font-semibold text-morga-text">{formatMoney(evaluation.metrics.availableToDecide)}</p></article>
-              <article className="rounded-[18px] border border-morga-line bg-morga-surfaceAlt/35 p-3"><p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Proyeccion de fin de mes</p><p className="mt-2 text-sm font-semibold text-morga-text">{formatMoney(evaluation.metrics.monthEndProjection)}</p></article>
+              <article className="rounded-[18px] border border-morga-line bg-morga-surfaceAlt/35 p-3"><p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Proyección de fin de mes</p><p className="mt-2 text-sm font-semibold text-morga-text">{formatMoney(evaluation.metrics.monthEndProjection)}</p></article>
               <article className="rounded-[18px] border border-morga-line bg-morga-surfaceAlt/35 p-3"><p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Deuda futura en cuotas</p><p className="mt-2 text-sm font-semibold text-morga-text">{formatMoney(evaluation.metrics.futureInstallmentDebt)}</p></article>
-              <article className="rounded-[18px] border border-morga-line bg-morga-surfaceAlt/35 p-3"><p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Reserva minima</p><p className="mt-2 text-sm font-semibold text-morga-text">{formatMoney(evaluation.metrics.minimumReserve)}</p></article>
+              <article className="rounded-[18px] border border-morga-line bg-morga-surfaceAlt/35 p-3"><p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Reserva mínima</p><p className="mt-2 text-sm font-semibold text-morga-text">{formatMoney(evaluation.metrics.minimumReserve)}</p></article>
               <article className="rounded-[18px] border border-morga-line bg-morga-surfaceAlt/35 p-3"><p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Prioridad total</p><p className="mt-2 text-sm font-semibold text-morga-text">{evaluation.priorityScore} puntos</p></article>
             </div>
           </SectionCard>
         </div>
 
         <div className="space-y-5">
-          <SectionCard title="Contexto" description="Relaciones y estado actual de la decision.">
+          <SectionCard title="Contexto" description="Relaciones y estado actual de la decisión.">
             <div className="space-y-3 text-sm text-morga-text">
-              <p>Categoria: {formatDecisionCategory(decision.category)}</p>
+              <p>Categoría: {formatDecisionCategory(decision.category)}</p>
               <p>Impacto: {formatDecisionImpact(decision.impact)}</p>
               <p>Necesidad: {formatDecisionNecessity(decision.necessity)}</p>
               <p>Proyecto: {decision.projectId ? project?.name ?? "Proyecto eliminado" : "Sin proyecto asociado"}</p>
-              <p>Tarea creada: {relatedTask ? relatedTask.title : "Todavia no hay tarea creada"}</p>
+              <p>Tarea creada: {relatedTask ? relatedTask.title : "Todavía no hay tarea creada"}</p>
               <p>Creada: {formatDateTime(decision.createdAt)}</p>
-              <p>Ultima actualizacion: {formatDateTime(decision.updatedAt)}</p>
-              <p>Fecha posible segun la regla: {formatDate(evaluation.feasibleFromDate)}</p>
+              <p>Última actualización: {formatDateTime(decision.updatedAt)}</p>
+              <p>Fecha posible según la regla: {formatDate(evaluation.feasibleFromDate)}</p>
             </div>
 
             {project ? (
@@ -323,19 +323,19 @@ export function DecisionDetailPage() {
             ) : null}
 
             <button type="button" onClick={handleCreateTask} className="mt-3 inline-flex rounded-full bg-morga-dark px-4 py-2 text-sm font-semibold text-white">
-              Crear tarea desde esta decision
+              Crear tarea desde esta decisión
             </button>
           </SectionCard>
 
-          <SectionCard title="Operacion relacionada" description="Se completa cuando conviertes la decision en una operacion real.">
+          <SectionCard title="Operación relacionada" description="Se completa cuando convertís la decisión en una operación real.">
             {!decision.convertedEntity ? (
               <EmptyState
-                title="Todavia no fue convertida"
-                description="La simulacion no mueve dinero ni genera movimientos hasta confirmar la conversion."
+                title="Todavía no fue convertida"
+                description="La simulación no mueve dinero ni genera movimientos hasta confirmar la conversión."
               />
             ) : (
               <div className="space-y-3 text-sm text-morga-text">
-                <p>Tipo de conversion: {decision.convertedEntity.kind}</p>
+                <p>Tipo de conversión: {decision.convertedEntity.kind}</p>
                 <p>Convertida el {formatDateTime(decision.convertedEntity.createdAt)}</p>
                 {relatedExpense ? (
                   <p>

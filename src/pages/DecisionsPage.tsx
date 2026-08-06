@@ -98,7 +98,7 @@ function DecisionFiltersForm({
 
       <label className="grid gap-2">
         <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
-          Categoria
+          Categoría
         </span>
         <select
           value={filters.category}
@@ -112,7 +112,7 @@ function DecisionFiltersForm({
           <option value="housing">Vivienda</option>
           <option value="training">Entrenamiento</option>
           <option value="work">Trabajo</option>
-          <option value="technology">Tecnologia</option>
+          <option value="technology">Tecnología</option>
           <option value="travel">Viaje</option>
           <option value="personal-project">Proyecto personal</option>
           <option value="comfort">Comodidad</option>
@@ -150,7 +150,7 @@ function DecisionFiltersForm({
           className={inputClassName}
         >
           <option value="all">Todas</option>
-          <option value="critical">Critica</option>
+          <option value="critical">Crítica</option>
           <option value="high">Alta</option>
           <option value="medium">Media</option>
           <option value="low">Baja</option>
@@ -159,7 +159,7 @@ function DecisionFiltersForm({
 
       <label className="grid gap-2">
         <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
-          Recomendacion
+          Recomendación
         </span>
         <select
           value={filters.recommendation}
@@ -168,19 +168,19 @@ function DecisionFiltersForm({
         >
           <option value="all">Todas</option>
           <option value="buy-now">Comprar ahora</option>
-          <option value="buy-next-income">Proximo ingreso</option>
-          <option value="finance-carefully">Financiar con precaucion</option>
+          <option value="buy-next-income">Próximo ingreso</option>
+          <option value="finance-carefully">Financiar con precaución</option>
           <option value="save-first">Ahorrar primero</option>
           <option value="create-reserve">Crear reserva</option>
-          <option value="wait-next-month">Esperar al proximo mes</option>
+          <option value="wait-next-month">Esperar al próximo mes</option>
           <option value="postpone">Posponer</option>
-          <option value="manual-review">Revision manual</option>
+          <option value="manual-review">Revisión manual</option>
         </select>
       </label>
 
       <label className="grid gap-2">
         <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">
-          Conversion
+          Conversión
         </span>
         <select
           value={filters.converted}
@@ -207,7 +207,7 @@ function DecisionFiltersForm({
           }
           className={inputClassName}
         >
-          <option value="updatedAt">Ultima actualizacion</option>
+          <option value="updatedAt">Última actualización</option>
           <option value="priority">Prioridad</option>
           <option value="amount">Importe</option>
           <option value="desiredDate">Fecha deseada</option>
@@ -354,27 +354,27 @@ export function DecisionsPage() {
 
   const handleConvert = (decision: DecisionItem) => {
     if (decision.status !== "approved") {
-      window.alert("Primero aproba la decision para convertirla en una operacion real.");
+      window.alert("Primero aprobá la decisión para convertirla en una operación real.");
       return;
     }
 
     const option =
       decision.paymentOptions.find((item) => item.id === decision.selectedPaymentOptionId) ??
       decision.paymentOptions[0];
-    const optionLabel = option ? `${option.type} por ${formatMoney(option.totalAmount)}` : "opcion actual";
+    const optionLabel = option ? `${option.type} por ${formatMoney(option.totalAmount)}` : "opción actual";
     const confirmed = window.confirm(
-      `Se va a convertir "${decision.name}" en una operacion real usando ${optionLabel}. Esta accion no duplica registros si ya fue convertida. Queres continuar?`
+      `Se va a convertir "${decision.name}" en una operación real usando ${optionLabel}. Esta acción no duplica registros si ya fue convertida. Querés continuar?`
     );
 
     if (!confirmed) return;
     convertDecision(decision.id);
-    setFeedback("Decision convertida.");
+    setFeedback("Decisión convertida.");
   };
 
   const handleRulesSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     updateDecisionRulesConfig(rulesValues);
-    setFeedback("Reglas de decision actualizadas.");
+    setFeedback("Reglas de decisión actualizadas.");
   };
 
   const visibleEntries = useMemo(
@@ -402,13 +402,13 @@ export function DecisionsPage() {
       <section className="flex flex-col gap-4 rounded-panel border border-morga-line bg-morga-surface px-5 py-5 shadow-soft md:px-6 md:py-5 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
-            Planificacion
+            Planificación
           </p>
           <h1 className="mt-2 font-display text-4xl font-semibold text-morga-text md:text-5xl">
             Decisiones
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-morga-muted">
-            Registra una compra y revisa su impacto antes de pagarla, financiarla o dejarla para mas adelante.
+            Registra una compra y revisa su impacto antes de pagarla, financiarla o dejarla para más adelante.
           </p>
         </div>
 
@@ -426,7 +426,7 @@ export function DecisionsPage() {
             className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-morga-dark px-5 py-3 text-sm font-semibold text-white"
           >
             <Plus className="h-4 w-4" />
-            Nueva decision
+            Nueva decisión
           </button>
         </div>
       </section>
@@ -446,7 +446,7 @@ export function DecisionsPage() {
           <p className="mt-2 text-2xl font-semibold text-morga-text">{viableEntries.length}</p>
         </article>
         <article className="rounded-[22px] border border-morga-line bg-morga-surface p-4 shadow-soft">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Monto en evaluacion</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-morga-muted">Monto en evaluación</p>
           <p className="mt-2 text-2xl font-semibold text-morga-text">{formatMoney(totalInEvaluation)}</p>
         </article>
         </section>
@@ -500,7 +500,7 @@ export function DecisionsPage() {
               {urgentEntries.length === 0 ? (
                 <EmptyState
                   title="Sin urgentes en este momento"
-                  description="Cuando aparezcan decisiones con urgencia alta o critica, las vas a ver aca primero."
+                  description="Cuando aparezcan decisiones con urgencia alta o crítica, las vas a ver acá primero."
                 />
               ) : (
                 <div className="space-y-4">
@@ -523,9 +523,9 @@ export function DecisionsPage() {
                       onArchive={archiveDecision}
                       onRestore={restoreDecision}
                       onDelete={(decisionId) => {
-                        if (window.confirm("Esta decision se eliminara definitivamente. Queres continuar?")) {
+                        if (window.confirm("Esta decisión se eliminará definitivamente. ¿Querés continuar?")) {
                           deleteDecision(decisionId);
-                          setFeedback("Decision eliminada.");
+                          setFeedback("Decisión eliminada.");
                         }
                       }}
                     />
@@ -534,11 +534,11 @@ export function DecisionsPage() {
               )}
             </SectionCard>
 
-            <SectionCard title="Decisiones pospuestas" description="Aca quedan visibles las que decidiste esperar o descartar.">
+            <SectionCard title="Decisiones pospuestas" description="Acá quedan visibles las que decidiste esperar o descartar.">
               {postponedEntries.length === 0 ? (
                 <EmptyState
                   title="Sin decisiones pospuestas"
-                  description="Todavia no hay decisiones marcadas para mas adelante."
+                  description="Todavía no hay decisiones marcadas para más adelante."
                 />
               ) : (
                 <div className="space-y-3">
@@ -559,11 +559,11 @@ export function DecisionsPage() {
           </div>
 
           <div className="space-y-5">
-            <SectionCard title="Comparaciones guardadas" description="Quedan persistidas para revisarlas despues sin volver a seleccionar todo.">
+            <SectionCard title="Comparaciones guardadas" description="Quedan persistidas para revisarlas después sin volver a seleccionar todo.">
               {decisions.comparisons.length === 0 ? (
                 <EmptyState
-                  title="Todavia no guardaste comparaciones"
-                  description="Selecciona entre dos y cuatro decisiones y guarda una comparacion."
+                  title="Todavía no guardaste comparaciones"
+                  description="Seleccioná entre dos y cuatro decisiones y guardá una comparación."
                 />
               ) : (
                 <div className="space-y-3">
@@ -596,8 +596,8 @@ export function DecisionsPage() {
             </SectionCard>
 
             <SectionCard
-              title="Reglas de recomendacion"
-              description="Como de estricta es la recomendacion automatica. No hace falta tocar esto para usar Morga."
+              title="Reglas de recomendación"
+              description="Qué tan estricta es la recomendación automática. No hace falta tocar esto para usar Morga."
             >
               <details className="group">
                 <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between rounded-2xl border border-morga-line bg-morga-surfaceAlt/40 px-4 text-sm font-semibold text-morga-text">
@@ -608,23 +608,23 @@ export function DecisionsPage() {
                 <form className="mt-4 grid gap-4" onSubmit={handleRulesSubmit}>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <label className="grid gap-2">
-                      <span className="text-sm font-semibold text-morga-text">Margen minimo despues de comprar</span>
-                      <span className="text-xs text-morga-muted">Cuanta plata queres que te quede si o si despues de cualquier compra.</span>
+                      <span className="text-sm font-semibold text-morga-text">Margen mínimo después de comprar</span>
+                      <span className="text-xs text-morga-muted">Cuánta plata querés que te quede sí o sí después de cualquier compra.</span>
                       <input value={rulesValues.minimumPostPurchaseMargin} onChange={(event) => setRulesValues((current) => ({ ...current, minimumPostPurchaseMargin: event.target.value }))} className={inputClassName} />
                     </label>
                     <label className="grid gap-2">
-                      <span className="text-sm font-semibold text-morga-text">Maximo de ingreso para nuevas cuotas</span>
-                      <span className="text-xs text-morga-muted">Que porcentaje de tu ingreso mensual aceptas comprometer en cuotas nuevas.</span>
+                      <span className="text-sm font-semibold text-morga-text">Máximo de ingreso para nuevas cuotas</span>
+                      <span className="text-xs text-morga-muted">Qué porcentaje de tu ingreso mensual aceptás comprometer en cuotas nuevas.</span>
                       <input value={rulesValues.maxNewInstallmentIncomeRatio} onChange={(event) => setRulesValues((current) => ({ ...current, maxNewInstallmentIncomeRatio: event.target.value }))} className={inputClassName} />
                     </label>
                     <label className="grid gap-2">
-                      <span className="text-sm font-semibold text-morga-text">Maximo de deuda futura</span>
-                      <span className="text-xs text-morga-muted">El techo total de cuotas pendientes que estas dispuesto a acumular.</span>
+                      <span className="text-sm font-semibold text-morga-text">Máximo de deuda futura</span>
+                      <span className="text-xs text-morga-muted">El techo total de cuotas pendientes que estás dispuesto a acumular.</span>
                       <input value={rulesValues.maxFutureInstallmentDebt} onChange={(event) => setRulesValues((current) => ({ ...current, maxFutureInstallmentDebt: event.target.value }))} className={inputClassName} />
                     </label>
                     <label className="grid gap-2">
-                      <span className="text-sm font-semibold text-morga-text">Financiacion extensa desde</span>
-                      <span className="text-xs text-morga-muted">A partir de cuantos meses de cuotas se considera "financiacion larga".</span>
+                      <span className="text-sm font-semibold text-morga-text">Financiación extensa desde</span>
+                      <span className="text-xs text-morga-muted">A partir de cuántos meses de cuotas se considera "financiación larga".</span>
                       <input value={rulesValues.longFinancingMonths} onChange={(event) => setRulesValues((current) => ({ ...current, longFinancingMonths: event.target.value }))} className={inputClassName} />
                     </label>
                   </div>
@@ -651,10 +651,10 @@ export function DecisionsPage() {
             title={tab === "archived" ? "No hay archivadas" : "Sin resultados para estos filtros"}
             description={
               tab === "archived"
-                ? "Cuando archives decisiones, van a aparecer aca sin perderse del almacenamiento."
+                ? "Cuando archives decisiones, van a aparecer acá sin perderse del almacenamiento."
                 : hasActiveDecisionFilters(filters)
-                  ? "Prueba limpiar filtros o cambiar el orden actual."
-                  : "Crea la primera decision para empezar a evaluar alternativas reales."
+                  ? "Probá limpiar filtros o cambiar el orden actual."
+                  : "Creá la primera decisión para empezar a evaluar alternativas reales."
             }
             action={
               hasActiveDecisionFilters(filters) ? (
@@ -693,9 +693,9 @@ export function DecisionsPage() {
                 onArchive={archiveDecision}
                 onRestore={restoreDecision}
                 onDelete={(decisionId) => {
-                  if (window.confirm("Esta decision se eliminara definitivamente. Queres continuar?")) {
+                  if (window.confirm("Esta decisión se eliminará definitivamente. ¿Querés continuar?")) {
                     deleteDecision(decisionId);
-                    setFeedback("Decision eliminada.");
+                    setFeedback("Decisión eliminada.");
                   }
                 }}
               />
@@ -707,8 +707,8 @@ export function DecisionsPage() {
       {tab === "compare" ? (
         <div className="space-y-5">
           <SectionCard
-            title="Seleccion para comparar"
-            description="Marca entre dos y cuatro decisiones. La comparacion no modifica tus finanzas."
+            title="Selección para comparar"
+            description="Marca entre dos y cuatro decisiones. La comparación no modifica tus finanzas."
             action={
               selectedIds.length >= 2 ? (
                 <button
@@ -716,7 +716,7 @@ export function DecisionsPage() {
                   onClick={() => saveDecisionComparison(selectedIds)}
                   className="rounded-full border border-morga-line px-4 py-2 text-sm font-semibold text-morga-text transition hover:bg-morga-surfaceAlt"
                 >
-                  Guardar comparacion
+                  Guardar comparación
                 </button>
               ) : null
             }
@@ -751,10 +751,10 @@ export function DecisionsPage() {
           {comparisonResult.entries.length < 2 ? (
             <EmptyState
               title="Selecciona al menos dos decisiones"
-              description="La comparacion aparece automaticamente cuando hay suficiente contexto."
+              description="La comparación aparece automáticamente cuando hay suficiente contexto."
             />
           ) : (
-            <SectionCard title="Resultado de la comparacion" description="En movil se mantienen como bloques apilados para evitar scroll horizontal.">
+            <SectionCard title="Resultado de la comparación" description="En móvil se mantienen como bloques apilados para evitar scroll horizontal.">
               <div className="flex flex-wrap gap-2">
                 {compareMetrics.map((metric) => (
                   <button
@@ -762,7 +762,7 @@ export function DecisionsPage() {
                     type="button"
                     title={
                       metric.id === "viability"
-                        ? "Cuanto te queda disponible ese mes si la elegis."
+                        ? "Cuánto te queda disponible ese mes si la elegís."
                         : undefined
                     }
                     onClick={() => setCompareMetric(metric.id)}
@@ -796,11 +796,11 @@ export function DecisionsPage() {
                     <div className="mt-3 grid gap-2 text-sm text-morga-text">
                       <p>Pago inicial: {formatMoney(entry.upfrontAmount)}</p>
                       <p>Cuota: {entry.installmentAmount ? formatMoney(entry.installmentAmount) : "Sin cuota"}</p>
-                      <p>Duracion: {entry.installmentCount ? `${entry.installmentCount} cuotas` : "Sin financiacion"}</p>
-                      <p>Disponible despues: {formatMoney(entry.effectOnAvailableToDecide)}</p>
+                      <p>Duración: {entry.installmentCount ? `${entry.installmentCount} cuotas` : "Sin financiación"}</p>
+                      <p>Disponible después: {formatMoney(entry.effectOnAvailableToDecide)}</p>
                       <p>Deuda futura: {formatMoney(entry.futureDebtGenerated)}</p>
                       <p>Fecha posible: {formatDate(entry.possiblePurchaseDate)}</p>
-                      <p>Recomendacion: {entry.recommendationTitle}</p>
+                      <p>Recomendación: {entry.recommendationTitle}</p>
                     </div>
                   </article>
                 ))}
@@ -830,18 +830,18 @@ export function DecisionsPage() {
         onSubmit={(decisionId, values) => {
           if (decisionId) {
             updateDecision(decisionId, values);
-            setFeedback("Decision actualizada.");
+            setFeedback("Decisión actualizada.");
             return;
           }
           createDecision(values);
-          setFeedback("Decision creada.");
+          setFeedback("Decisión creada.");
         }}
       />
 
       <Modal
         open={filtersOpen}
         title="Filtros de decisiones"
-        description="Ajusta estado, categoria, recomendacion y orden sin dejar la pantalla."
+        description="Ajusta estado, categoría, recomendación y orden sin dejar la pantalla."
         onClose={() => setFiltersOpen(false)}
       >
         <DecisionFiltersForm

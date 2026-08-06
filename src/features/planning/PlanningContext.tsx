@@ -733,7 +733,7 @@ function convertDecisionInState(state: PlanningStore, decisionId: string): Plann
                 }
               },
               "completed",
-              "Decision convertida en operacion real."
+              "Decisión convertida en operación real."
             )
           : item
       )
@@ -1231,7 +1231,7 @@ function planningReducer(state: PlanningStore, action: PlanningAction): Planning
           ...state.decisions,
           items: state.decisions.items.map((decision) =>
             decision.id === action.payload.decisionId
-              ? appendDecisionStatus(decision, "archived", "Decision archivada.")
+              ? appendDecisionStatus(decision, "archived", "Decisión archivada.")
               : decision
           )
         }
@@ -1243,7 +1243,7 @@ function planningReducer(state: PlanningStore, action: PlanningAction): Planning
           ...state.decisions,
           items: state.decisions.items.map((decision) =>
             decision.id === action.payload.decisionId
-              ? appendDecisionStatus(decision, "evaluating", "Decision restaurada.")
+              ? appendDecisionStatus(decision, "evaluating", "Decisión restaurada.")
               : decision
           )
         }

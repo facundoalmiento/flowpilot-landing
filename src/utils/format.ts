@@ -40,7 +40,7 @@ const taskPriorityOrder: Record<TaskPriority, number> = {
 };
 
 const taskPriorityLabels: Record<TaskPriority, string> = {
-  critical: "Critica",
+  critical: "Crítica",
   high: "Alta",
   medium: "Media",
   low: "Baja"
@@ -54,7 +54,7 @@ const taskStatusLabels: Record<TaskStatus, string> = {
 
 const incomeTypeLabels: Record<IncomeType, string> = {
   salary: "Sueldo",
-  allowance: "Viatico",
+  allowance: "Viático",
   bonus: "Aguinaldo",
   refund: "Reintegro",
   extra: "Ingreso extra",
@@ -71,9 +71,9 @@ const expenseCategoryLabels: Record<ExpenseCategory, string> = {
   transport: "Transporte",
   health: "Salud",
   training: "Entrenamiento",
-  food: "Alimentacion",
+  food: "Alimentación",
   cards: "Tarjetas",
-  loan: "Prestamo",
+  loan: "Préstamo",
   travel: "Viajes",
   shopping: "Compras",
   projects: "Proyectos",
@@ -82,7 +82,7 @@ const expenseCategoryLabels: Record<ExpenseCategory, string> = {
 
 const paymentMethodLabels: Record<PaymentMethod, string> = {
   cash: "Efectivo",
-  debit: "Debito",
+  debit: "Débito",
   "bank-transfer": "Transferencia",
   "credit-card": "Tarjeta",
   other: "Otro"
@@ -107,7 +107,7 @@ const decisionCategoryLabels: Record<DecisionCategory, string> = {
   housing: "Vivienda",
   training: "Entrenamiento",
   work: "Trabajo",
-  technology: "Tecnologia",
+  technology: "Tecnología",
   travel: "Viaje",
   "personal-project": "Proyecto personal",
   comfort: "Comodidad",
@@ -119,7 +119,7 @@ const decisionUrgencyLabels: Record<DecisionUrgency, string> = {
   low: "Baja",
   medium: "Media",
   high: "Alta",
-  critical: "Critica"
+  critical: "Crítica"
 };
 
 const decisionImpactLabels: Record<DecisionImpact, string> = {
@@ -135,7 +135,7 @@ const decisionNecessityLabels: Record<DecisionNecessity, string> = {
 };
 
 const decisionStatusLabels: Record<DecisionStatus, string> = {
-  evaluating: "En evaluacion",
+  evaluating: "En evaluación",
   planned: "Planificada",
   saving: "Ahorrando",
   approved: "Aprobada",
@@ -146,7 +146,7 @@ const decisionStatusLabels: Record<DecisionStatus, string> = {
 };
 
 const decisionPaymentOptionTypeLabels: Record<DecisionPaymentOptionType, string> = {
-  "one-time": "Pago unico",
+  "one-time": "Pago único",
   installments: "Cuotas",
   "save-first": "Ahorro previo",
   mixed: "Anticipo y cuotas",
@@ -155,13 +155,13 @@ const decisionPaymentOptionTypeLabels: Record<DecisionPaymentOptionType, string>
 
 const decisionRecommendationLabels: Record<DecisionRecommendationCode, string> = {
   "buy-now": "Comprar ahora",
-  "buy-next-income": "Comprar al proximo ingreso",
-  "finance-carefully": "Financiar con precaucion",
+  "buy-next-income": "Comprar al próximo ingreso",
+  "finance-carefully": "Financiar con precaución",
   "save-first": "Ahorrar primero",
   "create-reserve": "Crear una reserva",
-  "wait-next-month": "Esperar al proximo mes",
+  "wait-next-month": "Esperar al próximo mes",
   postpone: "Posponer",
-  "manual-review": "Requiere revision manual"
+  "manual-review": "Requiere revisión manual"
 };
 
 export function projectPriorityWeight(priority: ProjectPriority) {

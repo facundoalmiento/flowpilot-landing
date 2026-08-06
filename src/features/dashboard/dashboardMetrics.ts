@@ -101,7 +101,7 @@ export function getDashboardAlerts(
   if (projectWithoutAction) {
     alerts.push({
       id: "missing-action",
-      title: "Un proyecto no tiene proxima accion",
+      title: "Un proyecto no tiene próxima acción",
       description: `${projectWithoutAction.name} necesita un siguiente paso concreto.`,
       severity: "info"
     });
@@ -115,7 +115,7 @@ export function getDashboardAlerts(
     alerts.push({
       id: "missing-tasks",
       title: "Hay un proyecto sin tareas",
-      description: `${projectWithoutTasks.name} todavia no tiene tareas asociadas.`,
+      description: `${projectWithoutTasks.name} todavía no tiene tareas asociadas.`,
       severity: "warning"
     });
   }
@@ -130,7 +130,7 @@ export function getDashboardAlerts(
   if (criticalDecision) {
     alerts.push({
       id: "critical-decision",
-      title: "Hay una decision critica sin cierre",
+      title: "Hay una decisión crítica sin cierre",
       description: `${criticalDecision.name} necesita un plan financiero definido.`,
       severity: "warning"
     });

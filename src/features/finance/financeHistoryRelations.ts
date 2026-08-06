@@ -92,7 +92,7 @@ function getDecisionLink(decision: DecisionItem | null): FinanceHistoryLink {
 
   return {
     kind: "decision",
-    label: `Creado desde la decision ${decision.name}`,
+    label: `Creado desde la decisión ${decision.name}`,
     to: `/decisions/${decision.id}`,
     state: decision.status === "archived" ? "archived" : "active"
   };

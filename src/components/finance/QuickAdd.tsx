@@ -46,7 +46,7 @@ function UndoToast({
 }
 
 const paymentMethods: Array<{ value: PaymentMethod; label: string }> = [
-  { value: "debit", label: "Debito" },
+  { value: "debit", label: "Débito" },
   { value: "cash", label: "Efectivo" },
   { value: "bank-transfer", label: "Transferencia" },
   { value: "credit-card", label: "Tarjeta" }
@@ -141,7 +141,7 @@ export function QuickAddExpense({ open, onClose }: { open: boolean; onClose: () 
               className="h-16 rounded-2xl border border-morga-line bg-morga-surface px-5 text-3xl font-semibold text-morga-text outline-none transition focus:border-morga-accent"
             />
             {submitted && !hasAmount ? (
-              <span className="text-sm text-red-600">Ingresa un monto mayor a cero.</span>
+              <span className="text-sm text-red-600">Ingresá un monto mayor a cero.</span>
             ) : null}
           </label>
 
@@ -168,7 +168,7 @@ export function QuickAddExpense({ open, onClose }: { open: boolean; onClose: () 
               </div>
             ) : null}
             {submitted && !hasConcept ? (
-              <span className="text-sm text-red-600">Conta en pocas palabras en que fue.</span>
+              <span className="text-sm text-red-600">Contá en pocas palabras en qué fue.</span>
             ) : null}
           </label>
 
@@ -209,7 +209,7 @@ export function QuickAddExpense({ open, onClose }: { open: boolean; onClose: () 
             }}
             className="text-center text-sm font-medium text-morga-muted underline-offset-4 hover:underline"
           >
-            Cargar con mas detalle
+            Cargar con más detalle
           </button>
         </div>
       </Modal>
@@ -321,7 +321,7 @@ export function QuickAddIncome({ open, onClose }: { open: boolean; onClose: () =
               className="h-16 rounded-2xl border border-morga-line bg-morga-surface px-5 text-3xl font-semibold text-morga-text outline-none transition focus:border-morga-accent"
             />
             {submitted && !hasAmount ? (
-              <span className="text-sm text-red-600">Ingresa un monto mayor a cero.</span>
+              <span className="text-sm text-red-600">Ingresá un monto mayor a cero.</span>
             ) : null}
           </label>
 
@@ -348,7 +348,7 @@ export function QuickAddIncome({ open, onClose }: { open: boolean; onClose: () =
               </div>
             ) : null}
             {submitted && !hasConcept ? (
-              <span className="text-sm text-red-600">Conta en pocas palabras de que ingreso se trata.</span>
+              <span className="text-sm text-red-600">Contá en pocas palabras de qué ingreso se trata.</span>
             ) : null}
           </label>
 
@@ -389,7 +389,7 @@ export function QuickAddIncome({ open, onClose }: { open: boolean; onClose: () =
             }}
             className="text-center text-sm font-medium text-morga-muted underline-offset-4 hover:underline"
           >
-            Cargar con mas detalle
+            Cargar con más detalle
           </button>
         </div>
       </Modal>

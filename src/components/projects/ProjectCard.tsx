@@ -87,9 +87,11 @@ export function ProjectCard({
               {hasNextAction ? nextActionText : "Todavía no definiste una próxima acción."}
             </p>
 
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-morga-muted">
-              {project.description}
-            </p>
+            {project.description.trim() ? (
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-morga-muted">
+                {project.description}
+              </p>
+            ) : null}
           </div>
 
           <div className="flex items-center gap-2 self-start">

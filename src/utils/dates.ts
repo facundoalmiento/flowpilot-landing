@@ -97,8 +97,8 @@ export function formatRelativeDeadline(dateString: string | null) {
   if (!dateString) return "Sin fecha definida";
   const remaining = daysUntil(dateString);
 
-  if (remaining < 0) return `Vencido hace ${Math.abs(remaining)} dia${Math.abs(remaining) === 1 ? "" : "s"}`;
+  if (remaining < 0) return `Vencido hace ${Math.abs(remaining)} día${Math.abs(remaining) === 1 ? "" : "s"}`;
   if (remaining === 0) return "Vence hoy";
-  if (remaining === 1) return "Vence manana";
-  return `Faltan ${remaining} dias`;
+  if (remaining === 1) return "Vence mañana";
+  return `Faltan ${remaining} días`;
 }

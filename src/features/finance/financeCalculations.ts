@@ -316,7 +316,7 @@ export function getFinancePeriod(mode: FinancePeriodMode, reference = new Date()
   end.setDate(end.getDate() + days);
 
   return {
-    label: `Proximos ${days} dias`,
+    label: `Próximos ${days} días`,
     start,
     end
   };

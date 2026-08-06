@@ -943,7 +943,7 @@ const cases = [
       assert.match(resolution.primary.label, /Gasto/i);
       assert.match(resolution.primary.to, /tab=movements/);
       assert.equal(
-        resolution.related.some((link) => /decision/i.test(link.label) && /\/decisions\//.test(link.to)),
+        resolution.related.some((link) => /decisi[oó]n/i.test(link.label) && /\/decisions\//.test(link.to)),
         true
       );
     }

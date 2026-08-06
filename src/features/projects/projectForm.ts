@@ -33,16 +33,6 @@ export function validateProject(values: ProjectFormValues) {
   const errors: Partial<Record<keyof ProjectFormValues, string>> = {};
 
   if (!values.name.trim()) errors.name = "El proyecto necesita un nombre.";
-  if (!values.description.trim()) errors.description = "Sumá una descripción corta.";
-  if (!values.targetDate.trim()) errors.targetDate = "Definí una fecha objetivo.";
-
-  if (
-    values.status !== "Completado" &&
-    values.status !== "Archivado" &&
-    !values.nextAction.trim()
-  ) {
-    errors.nextAction = "Indicá la próxima acción concreta.";
-  }
 
   if (values.status === "Bloqueado" && !values.blockedReason.trim()) {
     errors.blockedReason = "Contá por qué está bloqueado.";

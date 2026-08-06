@@ -70,7 +70,7 @@ export function DashboardPage() {
   const gettingStartedSteps = [
     {
       label: "Cargar un proyecto",
-      description: "Algo que quieras avanzar: un tramite, un curso, una reparacion.",
+      description: "Algo que quieras avanzar: un trámite, un curso, una reparación.",
       to: "/projects?compose=1",
       icon: BriefcaseBusiness
     },
@@ -82,7 +82,7 @@ export function DashboardPage() {
     },
     {
       label: "Cargar tu sueldo o ingreso",
-      description: "Para que Morga sepa con cuanto contas.",
+      description: "Para que Morga sepa con cuánto contás.",
       to: "/finances?tab=movements&compose=income",
       icon: CircleDollarSign
     },
@@ -106,8 +106,8 @@ export function DashboardPage() {
             style={{ textWrap: "balance" }}
           >
             {isFreshAccount
-              ? "Tu cuenta esta vacia. Empecemos a cargar tus datos."
-              : "Un panorama sereno para decidir que mover primero."}
+              ? "Tu cuenta está vacía. Empecemos a cargar tus datos."
+              : "Un panorama sereno para decidir qué mover primero."}
           </h1>
         </div>
       </section>
@@ -166,7 +166,7 @@ export function DashboardPage() {
 
           <article className="border-b border-morga-line px-5 py-5 xl:border-b-0 xl:border-r">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
-              Proximos vencimientos
+              Próximos vencimientos
             </p>
             <p className="mt-3 text-4xl font-semibold tracking-[-0.04em] text-morga-text">
               {upcomingDeadlines.length}
@@ -235,7 +235,7 @@ export function DashboardPage() {
         <div className="rounded-[26px] border border-morga-line bg-morga-surfaceAlt px-5 py-5">
           <div className="border-b border-morga-line/70 pb-3">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
-              Atencion
+              Atención
             </p>
             <h2 className="mt-2 font-display text-[1.9rem] font-semibold leading-none text-morga-text">
               Alertas importantes
@@ -245,7 +245,7 @@ export function DashboardPage() {
           {alerts.length === 0 ? (
             <div className="pt-4">
               <EmptyState
-                title="Sin alertas criticas"
+                title="Sin alertas críticas"
                 description="Todo está en orden por ahora."
               />
             </div>
@@ -286,14 +286,14 @@ export function DashboardPage() {
               Agenda
             </p>
             <h2 className="mt-2 font-display text-[1.9rem] font-semibold leading-none text-morga-text">
-              Proximos vencimientos
+              Próximos vencimientos
             </h2>
           </div>
 
           {upcomingDeadlines.length === 0 ? (
             <div className="pt-4">
               <EmptyState
-                title="No hay vencimientos proximos"
+                title="No hay vencimientos próximos"
                 description="Agregá una fecha límite cuando haga falta."
               />
             </div>
@@ -334,7 +334,7 @@ export function DashboardPage() {
               Contexto
             </p>
             <h2 className="mt-2 font-display text-[1.9rem] font-semibold leading-none text-morga-text">
-              Presion actual
+              Presión actual
             </h2>
           </div>
 
@@ -348,7 +348,7 @@ export function DashboardPage() {
                   {activeProjects.length}
                 </p>
                 <p className="mt-3 text-sm leading-6 text-morga-muted">
-                  {highPressureProjects.length} con prioridad critica o alta.
+                  {highPressureProjects.length} con prioridad crítica o alta.
                 </p>
               </article>
 
@@ -361,15 +361,15 @@ export function DashboardPage() {
                 </p>
                 <p className="mt-3 text-sm leading-6 text-morga-muted">
                   {urgentDecision
-                    ? `La mas urgente hoy es ${urgentDecision.name}.`
-                    : `${formatMoney(finances.upcomingPayments)} comprometidos en los proximos 30 dias.`}
+                    ? `La más urgente hoy es ${urgentDecision.name}.`
+                    : `${formatMoney(finances.upcomingPayments)} comprometidos en los próximos 30 días.`}
                 </p>
               </article>
             </div>
 
             <div className="mt-5 border-t border-morga-line pt-4">
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-morga-muted">
-                Proximo movimiento relevante
+                Próximo movimiento relevante
               </p>
               {approvedDecision ? (
                 <div className="mt-2 flex flex-col gap-1">
@@ -377,7 +377,7 @@ export function DashboardPage() {
                     {approvedDecision.name}
                   </p>
                   <p className="text-sm text-morga-muted">
-                    Decision aprobada por {formatMoney(approvedDecision.totalAmount)}
+                    Decisión aprobada por {formatMoney(approvedDecision.totalAmount)}
                   </p>
                   <p className="text-sm text-morga-muted">
                     Fecha objetivo: {formatDate(approvedDecision.desiredDate)}

@@ -106,7 +106,7 @@ export function ProjectsPage() {
 
       <SectionCard
         title="Listado de proyectos"
-        description={`Mostrando ${filteredProjects.length} proyecto${filteredProjects.length === 1 ? "" : "s"} segun la vista actual y tus filtros.`}
+        description={`Mostrando ${filteredProjects.length} proyecto${filteredProjects.length === 1 ? "" : "s"} según la vista actual y tus filtros.`}
         action={
           <div className="flex flex-wrap gap-2">
             {[
@@ -137,8 +137,8 @@ export function ProjectsPage() {
             title="No hay proyectos para mostrar"
             description={
               archiveScope === "archived"
-                ? "Todavia no archivaste proyectos en este almacenamiento local."
-                : "Proba cambiar los filtros o crear uno nuevo. El dashboard se alimenta de lo que cargues aca."
+                ? "Todavía no archivaste proyectos en este almacenamiento local."
+                : "Probá cambiar los filtros o crear uno nuevo. El dashboard se alimenta de lo que cargues acá."
             }
             action={
               archiveScope === "archived" ? null : (

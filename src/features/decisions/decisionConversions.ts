@@ -239,7 +239,7 @@ export function convertDecisionInStore(state: PlanningStore, decisionId: string)
                 }
               },
               "completed",
-              "Decision convertida en operacion real."
+              "Decisión convertida en operación real."
             )
           : item
       )

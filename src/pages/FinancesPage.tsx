@@ -111,9 +111,9 @@ type SettlementTarget =
     };
 
 const periods: Array<{ value: FinancePeriodMode; label: string }> = [
-  { value: "7d", label: "7 dias" },
-  { value: "14d", label: "14 dias" },
-  { value: "30d", label: "30 dias" },
+  { value: "7d", label: "7 días" },
+  { value: "14d", label: "14 días" },
+  { value: "30d", label: "30 días" },
   { value: "month", label: "Fin de mes" }
 ];
 
@@ -311,7 +311,7 @@ function SettlementModal({
             className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
           />
           {submitted && !hasDate ? (
-            <span className="text-sm text-red-700">Defini una fecha valida.</span>
+            <span className="text-sm text-red-700">Definí una fecha válida.</span>
           ) : null}
         </label>
 
@@ -326,7 +326,7 @@ function SettlementModal({
             className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
           />
           {submitted && !hasAmount ? (
-            <span className="text-sm text-red-700">Ingresa un importe mayor a cero.</span>
+            <span className="text-sm text-red-700">Ingresá un importe mayor a cero.</span>
           ) : null}
         </label>
 
@@ -450,7 +450,7 @@ function ManualAdjustmentModal({
 
         {mode === "replace" ? (
           <label className="grid gap-2">
-            <span className="text-sm font-semibold text-morga-text">Saldo real (segun tu banco)</span>
+            <span className="text-sm font-semibold text-morga-text">Saldo real (según tu banco)</span>
             <input
               inputMode="numeric"
               placeholder={`Actual en Morga: ${formatMoney(currentBalance)}`}
@@ -464,7 +464,7 @@ function ManualAdjustmentModal({
               </span>
             ) : null}
             {submitted && !hasTarget ? (
-              <span className="text-sm text-red-700">Ingresa el saldo que muestra tu banco.</span>
+              <span className="text-sm text-red-700">Ingresá el saldo que muestra tu banco.</span>
             ) : null}
             {submitted && replaceIsNoOp ? (
               <span className="text-sm text-red-700">Ese ya es el saldo actual, no hace falta ajustar.</span>
@@ -483,7 +483,7 @@ function ManualAdjustmentModal({
                 className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
               />
               {submitted && !hasAmount ? (
-                <span className="text-sm text-red-700">Ingresa un importe mayor a cero.</span>
+                <span className="text-sm text-red-700">Ingresá un importe mayor a cero.</span>
               ) : null}
             </label>
 
@@ -518,7 +518,7 @@ function ManualAdjustmentModal({
               className="h-11 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text outline-none transition focus:border-morga-accent"
             />
             {submitted && !hasDate ? (
-              <span className="text-sm text-red-700">Define una fecha valida.</span>
+              <span className="text-sm text-red-700">Definí una fecha válida.</span>
             ) : null}
           </label>
 
@@ -888,7 +888,7 @@ export function FinancesPage() {
 
     return (
       <p className="mt-2 text-sm text-morga-muted">
-        Creado desde la decision:{" "}
+        Creado desde la decisión:{" "}
         <Link
           to={`/decisions/${decision.id}`}
           className="font-semibold text-morga-text underline-offset-4 hover:underline"
@@ -986,11 +986,11 @@ export function FinancesPage() {
             </div>
           </section>
 
-          <SectionCard title="Lo que se viene" description="Los proximos pagos y cobros del periodo, en orden.">
+          <SectionCard title="Lo que se viene" description="Los próximos pagos y cobros del periodo, en orden.">
             {upcomingPreview.length === 0 ? (
               <EmptyState
                 title="Sin movimientos cercanos"
-                description="Cuando cargues gastos, compromisos o cuotas con vencimiento proximo, aparecen aca."
+                description="Cuando cargues gastos, compromisos o cuotas con vencimiento próximo, aparecen acá."
               />
             ) : (
               <div className="space-y-3">
@@ -1069,7 +1069,7 @@ export function FinancesPage() {
                   value={formatMoney(overview.monthEndProjection)}
                   tone={overview.monthEndProjection < 0 ? "warm" : "default"}
                 />
-                <MetricCard label="Pagos proximos" value={formatMoney(overview.upcomingPayments)} />
+                <MetricCard label="Pagos próximos" value={formatMoney(overview.upcomingPayments)} />
                 <MetricCard
                   label="Ingresos esperados"
                   value={formatMoney(overview.expectedIncomeInPeriod)}
@@ -1088,7 +1088,7 @@ export function FinancesPage() {
                 overview.currentInstallments.length === 0 ? (
                   <EmptyState
                     title="Sin pagos cercanos"
-                    description="Cuando cargues gastos, compromisos o cuotas dentro del periodo, aparecen aca."
+                    description="Cuando cargues gastos, compromisos o cuotas dentro del periodo, aparecen acá."
                   />
                 ) : (
                   <>
@@ -1571,7 +1571,7 @@ export function FinancesPage() {
                           </p>
                           <p className="mt-1 text-sm text-morga-muted">
                             {formatDate(entry.effectiveDate)} · {entry.typeLabel}
-                            {entry.relatedTo ? " · ligado a una reversion" : ""}
+                            {entry.relatedTo ? " · ligado a una reversión" : ""}
                           </p>
                           <div className="mt-3 flex flex-wrap gap-2">
                             {[resolution.primary, ...resolution.related].map((link) =>
@@ -1940,7 +1940,7 @@ export function FinancesPage() {
             {monthOccurrences.length === 0 ? (
               <EmptyState
                 title="Sin ocurrencias"
-                description="Cuando un compromiso venza en este periodo, aparece aca una sola vez."
+                description="Cuando un compromiso venza en este periodo, aparece acá una sola vez."
               />
             ) : (
               <div className="space-y-4">
@@ -2170,7 +2170,7 @@ export function FinancesPage() {
                         {plan.currentInstallment > 1 ? (
                           <ActionButton onClick={() => revertInstallmentPlan(plan.id)}>
                             <RotateCcw className="h-4 w-4" />
-                            Revertir ultima
+                            Revertir última
                           </ActionButton>
                         ) : null}
                         {plan.status === "archived" ? (
@@ -2333,22 +2333,22 @@ export function FinancesPage() {
             onToggle={(event) => toggleMoreSection("settings", event.currentTarget.open)}
           >
             <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-morga-text">
-              Configuracion
+              Configuración
               <ChevronDown className="h-4 w-4 shrink-0 text-morga-muted transition group-open:rotate-180" />
             </summary>
 
             <div className="mt-5">
         <div className="space-y-5">
           <SectionCard
-            title="Configuracion financiera"
-            description="Saldo actual, reserva minima y dias estimados de cobro."
+            title="Configuración financiera"
+            description="Saldo actual, reserva mínima y días estimados de cobro."
           >
             <FinanceSettingsForm settings={finance.settings} onSubmit={updateFinanceSettings} />
           </SectionCard>
 
           <SectionCard
             title="Ajustes manuales"
-            description="Correcciones puntuales de saldo con posibilidad de reversion."
+            description="Correcciones puntuales de saldo con posibilidad de reversión."
             action={
               <button
                 type="button"
@@ -2363,7 +2363,7 @@ export function FinancesPage() {
             {finance.manualAdjustments.length === 0 ? (
               <EmptyState
                 title="Sin ajustes manuales"
-                description="Cuando registres una correccion de saldo, aparece aca."
+                description="Cuando registres una corrección de saldo, aparece acá."
               />
             ) : (
               <div className="space-y-4">

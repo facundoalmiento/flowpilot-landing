@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import {
   Project,
   ProjectCategory,
@@ -77,12 +78,14 @@ export function ProjectFormModal({
 }: ProjectFormModalProps) {
   const [values, setValues] = useState(emptyProjectForm);
   const [submitted, setSubmitted] = useState(false);
+  const [expanded, setExpanded] = useState(mode === "edit");
 
   useEffect(() => {
     if (!open) return;
     setValues(project ? projectToFormValues(project) : emptyProjectForm);
     setSubmitted(false);
-  }, [open, project]);
+    setExpanded(mode === "edit");
+  }, [mode, open, project]);
 
   const errors = useMemo(() => validateProject(values), [values]);
 
@@ -106,179 +109,197 @@ export function ProjectFormModal({
           onClose();
         }}
       >
-        <div className="grid gap-4 md:grid-cols-2">
-          <InputField label="Nombre" error={showError("name")}>
-            <input
-              value={values.name}
-              placeholder="Ej: Terminar el portfolio"
-              onChange={(event) =>
-                setValues((current) => ({ ...current, name: event.target.value }))
-              }
-              className={inputClassName}
-            />
-          </InputField>
-
-          <InputField label="Categoría">
-            <select
-              value={values.category}
-              onChange={(event) =>
-                setValues((current) => ({
-                  ...current,
-                  category: event.target.value as ProjectCategory
-                }))
-              }
-              className={inputClassName}
-            >
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
-          </InputField>
-        </div>
-
-        <InputField label="Descripción" error={showError("description")}>
-          <textarea
-            value={values.description}
-            placeholder="En pocas palabras, de que se trata este proyecto."
+        <InputField label="Nombre" error={showError("name")}>
+          <input
+            value={values.name}
+            placeholder="Ej: Terminar el portfolio"
             onChange={(event) =>
-              setValues((current) => ({
-                ...current,
-                description: event.target.value
-              }))
+              setValues((current) => ({ ...current, name: event.target.value }))
             }
-            className={textareaClassName}
+            className={inputClassName}
           />
         </InputField>
-
-        <div className="grid gap-4 md:grid-cols-3">
-          <InputField label="Estado">
-            <select
-              value={values.status}
-              onChange={(event) =>
-                setValues((current) => ({
-                  ...current,
-                  status: event.target.value as ProjectStatus
-                }))
-              }
-              className={inputClassName}
-            >
-              {statuses.map((status) => (
-                <option key={status} value={status}>
-                  {status}
-                </option>
-              ))}
-            </select>
-          </InputField>
-
-          <InputField label="Prioridad">
-            <select
-              value={values.priority}
-              onChange={(event) =>
-                setValues((current) => ({
-                  ...current,
-                  priority: event.target.value as ProjectPriority
-                }))
-              }
-              className={inputClassName}
-            >
-              {priorities.map((priority) => (
-                <option key={priority} value={priority}>
-                  {priority}
-                </option>
-              ))}
-            </select>
-          </InputField>
-
-          <InputField
-            label="Fecha objetivo"
-            error={showError("targetDate")}
-            hint="Opcional. Para cuando te gustaria tenerlo resuelto."
-          >
-            <input
-              type="date"
-              value={values.targetDate}
-              onChange={(event) =>
-                setValues((current) => ({
-                  ...current,
-                  targetDate: event.target.value
-                }))
-              }
-              className={inputClassName}
-            />
-          </InputField>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-2">
-          <InputField
-            label="Costo estimado"
-            error={showError("costEstimated")}
-            hint="Opcional. Cuanto pensas que te va a costar en total."
-          >
-            <input
-              inputMode="numeric"
-              value={values.costEstimated}
-              onChange={(event) =>
-                setValues((current) => ({
-                  ...current,
-                  costEstimated: event.target.value
-                }))
-              }
-              placeholder="Ej: 45000"
-              className={inputClassName}
-            />
-          </InputField>
-
-          <InputField label={`Avance (${values.progress}%)`} error={showError("progress")}>
-            <input
-              type="range"
-              min={0}
-              max={100}
-              step={1}
-              value={values.progress}
-              onChange={(event) =>
-                setValues((current) => ({
-                  ...current,
-                  progress: Number(event.target.value)
-                }))
-              }
-              className="accent-morga-dark"
-            />
-          </InputField>
-        </div>
 
         <InputField
-          label="Próxima acción"
-          error={showError("nextAction")}
-          hint="Lo primero y mas concreto que hay que hacer para avanzar. Ej: Pedir tres presupuestos."
+          label="Costo estimado"
+          error={showError("costEstimated")}
+          hint="Opcional. Cuanto pensas que te va a costar en total."
         >
-          <textarea
-            value={values.nextAction}
-            placeholder="Ej: Pedir tres presupuestos"
+          <input
+            inputMode="numeric"
+            value={values.costEstimated}
             onChange={(event) =>
               setValues((current) => ({
                 ...current,
-                nextAction: event.target.value
+                costEstimated: event.target.value
               }))
             }
-            className={textareaClassName}
+            placeholder="Ej: 45000"
+            className={inputClassName}
           />
         </InputField>
 
-        <InputField label="Motivo de bloqueo" error={showError("blockedReason")}>
-          <textarea
-            value={values.blockedReason}
-            onChange={(event) =>
-              setValues((current) => ({
-                ...current,
-                blockedReason: event.target.value
-              }))
-            }
-            placeholder="Solo es obligatorio si el proyecto está bloqueado."
-            className={textareaClassName}
-          />
-        </InputField>
+        <button
+          type="button"
+          onClick={() => setExpanded((current) => !current)}
+          className="inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-morga-accent transition hover:text-morga-text"
+        >
+          {expanded ? (
+            <>
+              <ChevronUp className="h-4 w-4" />
+              Ocultar detalles
+            </>
+          ) : (
+            <>
+              <ChevronDown className="h-4 w-4" />
+              Agregar más detalles (opcional)
+            </>
+          )}
+        </button>
+
+        {expanded ? (
+          <>
+            <InputField label="Categoría">
+              <select
+                value={values.category}
+                onChange={(event) =>
+                  setValues((current) => ({
+                    ...current,
+                    category: event.target.value as ProjectCategory
+                  }))
+                }
+                className={inputClassName}
+              >
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </InputField>
+
+            <InputField label="Descripción" error={showError("description")}>
+              <textarea
+                value={values.description}
+                placeholder="En pocas palabras, de que se trata este proyecto."
+                onChange={(event) =>
+                  setValues((current) => ({
+                    ...current,
+                    description: event.target.value
+                  }))
+                }
+                className={textareaClassName}
+              />
+            </InputField>
+
+            <div className="grid gap-4 md:grid-cols-3">
+              <InputField label="Estado">
+                <select
+                  value={values.status}
+                  onChange={(event) =>
+                    setValues((current) => ({
+                      ...current,
+                      status: event.target.value as ProjectStatus
+                    }))
+                  }
+                  className={inputClassName}
+                >
+                  {statuses.map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
+              </InputField>
+
+              <InputField label="Prioridad">
+                <select
+                  value={values.priority}
+                  onChange={(event) =>
+                    setValues((current) => ({
+                      ...current,
+                      priority: event.target.value as ProjectPriority
+                    }))
+                  }
+                  className={inputClassName}
+                >
+                  {priorities.map((priority) => (
+                    <option key={priority} value={priority}>
+                      {priority}
+                    </option>
+                  ))}
+                </select>
+              </InputField>
+
+              <InputField
+                label="Fecha objetivo"
+                error={showError("targetDate")}
+                hint="Opcional. Para cuando te gustaria tenerlo resuelto."
+              >
+                <input
+                  type="date"
+                  value={values.targetDate}
+                  onChange={(event) =>
+                    setValues((current) => ({
+                      ...current,
+                      targetDate: event.target.value
+                    }))
+                  }
+                  className={inputClassName}
+                />
+              </InputField>
+            </div>
+
+            <InputField label={`Avance (${values.progress}%)`} error={showError("progress")}>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                step={1}
+                value={values.progress}
+                onChange={(event) =>
+                  setValues((current) => ({
+                    ...current,
+                    progress: Number(event.target.value)
+                  }))
+                }
+                className="accent-morga-dark"
+              />
+            </InputField>
+
+            <InputField
+              label="Próxima acción"
+              error={showError("nextAction")}
+              hint="Lo primero y mas concreto que hay que hacer para avanzar. Ej: Pedir tres presupuestos."
+            >
+              <textarea
+                value={values.nextAction}
+                placeholder="Ej: Pedir tres presupuestos"
+                onChange={(event) =>
+                  setValues((current) => ({
+                    ...current,
+                    nextAction: event.target.value
+                  }))
+                }
+                className={textareaClassName}
+              />
+            </InputField>
+
+            <InputField label="Motivo de bloqueo" error={showError("blockedReason")}>
+              <textarea
+                value={values.blockedReason}
+                onChange={(event) =>
+                  setValues((current) => ({
+                    ...current,
+                    blockedReason: event.target.value
+                  }))
+                }
+                placeholder="Solo es obligatorio si el proyecto está bloqueado."
+                className={textareaClassName}
+              />
+            </InputField>
+          </>
+        ) : null}
 
         <div className="flex flex-col gap-3 border-t border-morga-line pt-4 sm:flex-row sm:justify-end">
           <button

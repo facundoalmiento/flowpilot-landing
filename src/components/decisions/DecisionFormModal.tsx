@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
 import { Modal } from "../ui/Modal";
 import {
   DecisionCategory,
@@ -94,9 +94,9 @@ function InputField({
 const paymentOptionTypeHints: Record<DecisionPaymentOptionType, string> = {
   "one-time": "Pagas todo de una vez, en una sola fecha.",
   installments: "Lo financias con tarjeta en varias cuotas.",
-  "save-first": "Juntas la plata antes de comprarlo, todavia no sale de tu bolsillo.",
+  "save-first": "Juntas la plata antes de comprarlo, todavía no sale de tu bolsillo.",
   mixed: "Pagas una parte ahora (anticipo) y financias el resto en cuotas.",
-  "use-reserve": "Lo pagas con una reserva que ya tenias armada."
+  "use-reserve": "Lo pagas con una reserva que ya tenías armada."
 };
 
 interface DecisionFormModalProps {
@@ -122,14 +122,32 @@ export function DecisionFormModal({
 }: DecisionFormModalProps) {
   const [values, setValues] = useState<DecisionFormValues>(emptyDecisionForm);
   const [submitted, setSubmitted] = useState(false);
+  const [expanded, setExpanded] = useState(mode === "edit");
 
   useEffect(() => {
     if (!open) return;
     setValues(decision ? decisionToFormValues(decision) : emptyDecisionForm);
     setSubmitted(false);
-  }, [decision, open]);
+    setExpanded(mode === "edit");
+  }, [decision, mode, open]);
 
-  const errors = useMemo(() => validateDecision(values), [values]);
+  // En modo rápido (colapsado, alta nueva) solo se cargan nombre e importe;
+  // acá se sincroniza ese importe con la primera opción de pago (al contado)
+  // para que la decisión quede válida sin tocar el resto de los campos.
+  const valuesForValidation = useMemo(() => {
+    if (expanded || mode === "edit") return values;
+    return {
+      ...values,
+      paymentOptions: [
+        { ...emptyDecisionPaymentOption, totalAmount: values.totalAmount }
+      ]
+    };
+  }, [expanded, mode, values]);
+
+  const errors = useMemo(
+    () => validateDecision(valuesForValidation),
+    [valuesForValidation]
+  );
 
   const showError = (field: string) => (submitted ? errors[field] : undefined);
 
@@ -146,8 +164,8 @@ export function DecisionFormModal({
   return (
     <Modal
       open={open}
-      title={mode === "create" ? "Nueva decision" : "Editar decision"}
-      description="Carga el contexto, las alternativas de pago y deja lista la simulacion sin mover todavia las finanzas reales."
+      title={mode === "create" ? "Nueva decisión" : "Editar decisión"}
+      description="Carga el contexto, las alternativas de pago y deja lista la simulación sin mover todavía las finanzas reales."
       onClose={onClose}
     >
       <form
@@ -156,179 +174,204 @@ export function DecisionFormModal({
           event.preventDefault();
           setSubmitted(true);
           if (Object.keys(errors).length > 0) return;
-          onSubmit(decision?.id ?? null, values);
+          onSubmit(decision?.id ?? null, valuesForValidation);
           onClose();
         }}
       >
-        <div className="grid gap-4 md:grid-cols-2">
-          <InputField label="Nombre" error={showError("name")}>
-            <input
-              value={values.name}
-              onChange={(event) =>
-                setValues((current) => ({ ...current, name: event.target.value }))
-              }
-              className={inputClassName}
-            />
-          </InputField>
-
-          <InputField label="Proyecto relacionado">
-            <select
-              value={values.projectId}
-              onChange={(event) =>
-                setValues((current) => ({ ...current, projectId: event.target.value }))
-              }
-              className={inputClassName}
-            >
-              <option value="">Sin proyecto</option>
-              {projects.map((project) => (
-                <option key={project.id} value={project.id}>
-                  {project.name}
-                </option>
-              ))}
-            </select>
-          </InputField>
-        </div>
-
-        <InputField label="Motivo o contexto">
-          <textarea
-            value={values.description}
+        <InputField label="Nombre" error={showError("name")}>
+          <input
+            value={values.name}
             onChange={(event) =>
-              setValues((current) => ({ ...current, description: event.target.value }))
+              setValues((current) => ({ ...current, name: event.target.value }))
             }
-            className={textareaClassName}
+            className={inputClassName}
           />
         </InputField>
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <InputField label="Categoria">
-            <select
-              value={values.category}
-              onChange={(event) =>
-                setValues((current) => ({
-                  ...current,
-                  category: event.target.value as DecisionCategory
-                }))
-              }
-              className={inputClassName}
-            >
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {formatDecisionCategory(category)}
-                </option>
-              ))}
-            </select>
-          </InputField>
+        <InputField label="Importe total" error={showError("totalAmount")}>
+          <input
+            inputMode="numeric"
+            value={values.totalAmount}
+            onChange={(event) =>
+              setValues((current) => ({ ...current, totalAmount: event.target.value }))
+            }
+            className={inputClassName}
+            placeholder="Ej: 250000"
+          />
+        </InputField>
 
-          <InputField label="Urgencia" hint="Que tan pronto hace falta resolver esto.">
-            <select
-              value={values.urgency}
-              onChange={(event) =>
-                setValues((current) => ({
-                  ...current,
-                  urgency: event.target.value as DecisionUrgency
-                }))
-              }
-              className={inputClassName}
-            >
-              {urgencies.map((urgency) => (
-                <option key={urgency} value={urgency}>
-                  {formatDecisionUrgency(urgency)}
-                </option>
-              ))}
-            </select>
-          </InputField>
+        <button
+          type="button"
+          onClick={() => setExpanded((current) => !current)}
+          className="inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-morga-accent transition hover:text-morga-text"
+        >
+          {expanded ? (
+            <>
+              <ChevronUp className="h-4 w-4" />
+              Ocultar detalles
+            </>
+          ) : (
+            <>
+              <ChevronDown className="h-4 w-4" />
+              Agregar más detalles (categoría, urgencia, opciones de pago...)
+            </>
+          )}
+        </button>
 
-          <InputField label="Impacto" hint="Cuanto mejora tu vida o tu bienestar si lo haces.">
-            <select
-              value={values.impact}
-              onChange={(event) =>
-                setValues((current) => ({
-                  ...current,
-                  impact: event.target.value as DecisionImpact
-                }))
-              }
-              className={inputClassName}
-            >
-              {impacts.map((impact) => (
-                <option key={impact} value={impact}>
-                  {formatDecisionImpact(impact)}
-                </option>
-              ))}
-            </select>
-          </InputField>
+        {!expanded ? (
+          <p className="text-xs text-morga-muted">
+            Se va a guardar como pago al contado por el importe total. Podés completar el resto
+            despues, editando la decisión.
+          </p>
+        ) : null}
 
-          <InputField label="Necesidad" hint="Que tan imprescindible es, comparado con un gusto.">
-            <select
-              value={values.necessity}
-              onChange={(event) =>
-                setValues((current) => ({
-                  ...current,
-                  necessity: event.target.value as DecisionNecessity
-                }))
-              }
-              className={inputClassName}
-            >
-              {necessities.map((necessity) => (
-                <option key={necessity} value={necessity}>
-                  {formatDecisionNecessity(necessity)}
-                </option>
-              ))}
-            </select>
-          </InputField>
-        </div>
+        {expanded ? (
+          <>
+            <div className="grid gap-4 md:grid-cols-2">
+              <InputField label="Proyecto relacionado">
+                <select
+                  value={values.projectId}
+                  onChange={(event) =>
+                    setValues((current) => ({ ...current, projectId: event.target.value }))
+                  }
+                  className={inputClassName}
+                >
+                  <option value="">Sin proyecto</option>
+                  {projects.map((project) => (
+                    <option key={project.id} value={project.id}>
+                      {project.name}
+                    </option>
+                  ))}
+                </select>
+              </InputField>
 
-        <div className="grid gap-4 md:grid-cols-3">
-          <InputField label="Importe total" error={showError("totalAmount")}>
-            <input
-              inputMode="numeric"
-              value={values.totalAmount}
-              onChange={(event) =>
-                setValues((current) => ({ ...current, totalAmount: event.target.value }))
-              }
-              className={inputClassName}
-              placeholder="Ej: 250000"
-            />
-          </InputField>
+              <InputField label="Fecha deseada" error={showError("desiredDate")}>
+                <input
+                  type="date"
+                  value={values.desiredDate}
+                  onChange={(event) =>
+                    setValues((current) => ({ ...current, desiredDate: event.target.value }))
+                  }
+                  className={inputClassName}
+                />
+              </InputField>
+            </div>
 
-          <InputField label="Fecha deseada" error={showError("desiredDate")}>
-            <input
-              type="date"
-              value={values.desiredDate}
-              onChange={(event) =>
-                setValues((current) => ({ ...current, desiredDate: event.target.value }))
-              }
-              className={inputClassName}
-            />
-          </InputField>
+            <InputField label="Motivo o contexto">
+              <textarea
+                value={values.description}
+                onChange={(event) =>
+                  setValues((current) => ({ ...current, description: event.target.value }))
+                }
+                className={textareaClassName}
+              />
+            </InputField>
 
-          <InputField label="Estado">
-            <select
-              value={values.status}
-              onChange={(event) =>
-                setValues((current) => ({
-                  ...current,
-                  status: event.target.value as DecisionStatus
-                }))
-              }
-              className={inputClassName}
-            >
-              {statuses.map((status) => (
-                <option key={status} value={status}>
-                  {formatDecisionStatus(status)}
-                </option>
-              ))}
-            </select>
-          </InputField>
-        </div>
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              <InputField label="Categoría">
+                <select
+                  value={values.category}
+                  onChange={(event) =>
+                    setValues((current) => ({
+                      ...current,
+                      category: event.target.value as DecisionCategory
+                    }))
+                  }
+                  className={inputClassName}
+                >
+                  {categories.map((category) => (
+                    <option key={category} value={category}>
+                      {formatDecisionCategory(category)}
+                    </option>
+                  ))}
+                </select>
+              </InputField>
 
-        <section className="space-y-4 rounded-[24px] border border-morga-line bg-morga-surfaceAlt/35 p-4">
+              <InputField label="Urgencia" hint="Que tan pronto hace falta resolver esto.">
+                <select
+                  value={values.urgency}
+                  onChange={(event) =>
+                    setValues((current) => ({
+                      ...current,
+                      urgency: event.target.value as DecisionUrgency
+                    }))
+                  }
+                  className={inputClassName}
+                >
+                  {urgencies.map((urgency) => (
+                    <option key={urgency} value={urgency}>
+                      {formatDecisionUrgency(urgency)}
+                    </option>
+                  ))}
+                </select>
+              </InputField>
+
+              <InputField label="Impacto" hint="Cuanto mejora tu vida o tu bienestar si lo haces.">
+                <select
+                  value={values.impact}
+                  onChange={(event) =>
+                    setValues((current) => ({
+                      ...current,
+                      impact: event.target.value as DecisionImpact
+                    }))
+                  }
+                  className={inputClassName}
+                >
+                  {impacts.map((impact) => (
+                    <option key={impact} value={impact}>
+                      {formatDecisionImpact(impact)}
+                    </option>
+                  ))}
+                </select>
+              </InputField>
+
+              <InputField label="Necesidad" hint="Que tan imprescindible es, comparado con un gusto.">
+                <select
+                  value={values.necessity}
+                  onChange={(event) =>
+                    setValues((current) => ({
+                      ...current,
+                      necessity: event.target.value as DecisionNecessity
+                    }))
+                  }
+                  className={inputClassName}
+                >
+                  {necessities.map((necessity) => (
+                    <option key={necessity} value={necessity}>
+                      {formatDecisionNecessity(necessity)}
+                    </option>
+                  ))}
+                </select>
+              </InputField>
+            </div>
+
+            <InputField label="Estado">
+              <select
+                value={values.status}
+                onChange={(event) =>
+                  setValues((current) => ({
+                    ...current,
+                    status: event.target.value as DecisionStatus
+                  }))
+                }
+                className={`${inputClassName} w-full md:w-64`}
+              >
+                {statuses.map((status) => (
+                  <option key={status} value={status}>
+                    {formatDecisionStatus(status)}
+                  </option>
+                ))}
+              </select>
+            </InputField>
+
+            <section className="space-y-4 rounded-[24px] border border-morga-line bg-morga-surfaceAlt/35 p-4">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h3 className="font-display text-2xl font-semibold text-morga-text">
                 Opciones de pago
               </h3>
               <p className="mt-1 text-sm text-morga-muted">
-                Podes cargar entre una y varias alternativas para compararlas con datos reales.
+                Podés cargar entre una y varias alternativas para compararlas con datos reales.
               </p>
             </div>
             <button
@@ -337,7 +380,7 @@ export function DecisionFormModal({
               className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-morga-line px-4 py-2 text-sm font-semibold text-morga-text transition hover:bg-morga-surface"
             >
               <Plus className="h-4 w-4" />
-              Agregar opcion
+              Agregar opción
             </button>
           </div>
 
@@ -371,10 +414,10 @@ export function DecisionFormModal({
                       />
                       <div>
                         <p className="text-sm font-semibold text-morga-text">
-                          Opcion {index + 1}
+                          Opción {index + 1}
                         </p>
                         <p className="text-sm text-morga-muted">
-                          Marca una opcion principal para evaluar y convertir.
+                          Marca una opción principal para evaluar y convertir.
                         </p>
                       </div>
                     </label>
@@ -428,7 +471,7 @@ export function DecisionFormModal({
                     </InputField>
 
                     <InputField
-                      label="Total de la opcion"
+                      label="Total de la opción"
                       error={showError(`paymentOptions.${index}.totalAmount`)}
                       hint="El costo completo de esto, sin importar como lo pagues."
                     >
@@ -475,7 +518,7 @@ export function DecisionFormModal({
                       <InputField
                         label="Interes"
                         error={showError(`paymentOptions.${index}.interestAmount`)}
-                        hint="Opcional, solo si la financiacion tiene recargo."
+                        hint="Opcional, solo si la financiación tiene recargo."
                       >
                         <input
                           inputMode="numeric"
@@ -599,7 +642,7 @@ export function DecisionFormModal({
                           }
                           className={inputClassName}
                         >
-                          <option value="">Elegi una tarjeta</option>
+                          <option value="">Elegí una tarjeta</option>
                           {creditCards.map((card) => (
                             <option key={card.id} value={card.id}>
                               {card.name}
@@ -629,7 +672,7 @@ export function DecisionFormModal({
                           }
                           className={inputClassName}
                         >
-                          <option value="">Elegi una reserva</option>
+                          <option value="">Elegí una reserva</option>
                           {reserves.map((reserve) => (
                             <option key={reserve.id} value={reserve.id}>
                               {reserve.name}
@@ -662,6 +705,8 @@ export function DecisionFormModal({
             })}
           </div>
         </section>
+          </>
+        ) : null}
 
         <div className="flex flex-col gap-3 border-t border-morga-line pt-4 sm:flex-row sm:justify-end">
           <button
@@ -675,7 +720,7 @@ export function DecisionFormModal({
             type="submit"
             className="rounded-full bg-morga-dark px-5 py-3 text-sm font-semibold text-white transition hover:translate-y-[-1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
           >
-            {mode === "create" ? "Guardar decision" : "Guardar cambios"}
+            {mode === "create" ? "Guardar decisión" : "Guardar cambios"}
           </button>
         </div>
       </form>

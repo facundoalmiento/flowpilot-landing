@@ -29,12 +29,16 @@ function downloadJsonFile(fileName: string, content: string) {
   window.URL.revokeObjectURL(url);
 }
 
+const RESET_CONFIRM_WORD = "VACIAR";
+
 export function SettingsPage() {
   const { store, replaceStore, resetStore } = usePlanning();
   const [importPreview, setImportPreview] = useState<ImportPreview | null>(null);
   const [feedback, setFeedback] = useState<{ tone: "error" | "success"; text: string } | null>(
     null
   );
+  const [resetConfirmOpen, setResetConfirmOpen] = useState(false);
+  const [resetConfirmText, setResetConfirmText] = useState("");
 
   const currentSummary = useMemo(
     () => ({
@@ -49,11 +53,17 @@ export function SettingsPage() {
     [store]
   );
 
-  const handleExport = () => {
+  const exportBackup = () => {
     const now = new Date();
     const timestamp = now.toISOString().slice(0, 19).replace(/[:T]/g, "-");
+    const fileName = `morga-backup-${timestamp}.json`;
 
-    downloadJsonFile(`morga-backup-${timestamp}.json`, createPlanningBackup(store));
+    downloadJsonFile(fileName, createPlanningBackup(store));
+    return fileName;
+  };
+
+  const handleExport = () => {
+    exportBackup();
     setFeedback({
       tone: "success",
       text: "Se exporto un respaldo JSON con el estado persistido actual."
@@ -107,22 +117,28 @@ export function SettingsPage() {
     setImportPreview(null);
   };
 
-  const handleReset = () => {
-    const firstCheck = window.confirm(
-      "Vas a borrar todos tus proyectos, tareas y datos financieros de Morga. Queres seguir?"
-    );
-    if (!firstCheck) return;
+  const handleOpenResetConfirm = () => {
+    setResetConfirmText("");
+    setResetConfirmOpen(true);
+    setFeedback(null);
+  };
 
-    const secondCheck = window.confirm(
-      "Ultima confirmacion: esto vacia tu cuenta por completo y no se puede deshacer."
-    );
-    if (!secondCheck) return;
+  const handleCancelReset = () => {
+    setResetConfirmOpen(false);
+    setResetConfirmText("");
+  };
 
+  const handleConfirmReset = () => {
+    if (resetConfirmText.trim().toUpperCase() !== RESET_CONFIRM_WORD) return;
+
+    const fileName = exportBackup();
     resetStore();
     setImportPreview(null);
+    setResetConfirmOpen(false);
+    setResetConfirmText("");
     setFeedback({
       tone: "success",
-      text: "Se vacio tu cuenta. Podes volver a cargar todo desde cero."
+      text: `Se descargo un respaldo (${fileName}) antes de vaciar la cuenta. Podes volver a cargar todo desde cero, o importar ese archivo para recuperarlo.`
     });
   };
 
@@ -231,13 +247,56 @@ export function SettingsPage() {
 
           <button
             type="button"
-            onClick={handleReset}
-            className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-morga-line px-5 py-3 text-sm font-semibold text-morga-text transition hover:bg-morga-surfaceAlt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
+            onClick={handleOpenResetConfirm}
+            className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-red-200 px-5 py-3 text-sm font-semibold text-red-700 transition hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
           >
             <RotateCcw className="h-4 w-4" />
             Vaciar todos los datos
           </button>
         </div>
+
+        {resetConfirmOpen ? (
+          <div className="mt-4 rounded-[22px] border border-red-200 bg-red-50 p-4">
+            <p className="text-sm font-semibold text-red-800">
+              Esto va a borrar todos tus proyectos, tareas y datos financieros de Morga. No se puede
+              deshacer.
+            </p>
+            <p className="mt-2 text-sm text-red-800">
+              Antes de vaciar, se va a descargar automáticamente un respaldo JSON con el estado
+              actual, por si necesitás recuperarlo despues importándolo.
+            </p>
+            <label className="mt-4 grid gap-2">
+              <span className="text-sm font-semibold text-red-800">
+                Para confirmar, escribí <span className="font-mono">{RESET_CONFIRM_WORD}</span> acá
+                abajo:
+              </span>
+              <input
+                autoFocus
+                value={resetConfirmText}
+                onChange={(event) => setResetConfirmText(event.target.value)}
+                placeholder={RESET_CONFIRM_WORD}
+                className="h-11 rounded-2xl border border-red-300 bg-white px-4 text-sm text-morga-text outline-none transition focus:border-red-500"
+              />
+            </label>
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+              <button
+                type="button"
+                onClick={handleConfirmReset}
+                disabled={resetConfirmText.trim().toUpperCase() !== RESET_CONFIRM_WORD}
+                className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-red-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-800 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Descargar respaldo y vaciar
+              </button>
+              <button
+                type="button"
+                onClick={handleCancelReset}
+                className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-morga-line px-5 py-3 text-sm font-semibold text-morga-text transition hover:bg-morga-surfaceAlt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        ) : null}
 
         {feedback ? (
           <div

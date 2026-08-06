@@ -60,26 +60,26 @@ export function validateDecision(values: DecisionFormValues) {
   const errors: Record<string, string> = {};
 
   if (!values.name.trim()) {
-    errors.name = "Escribi un nombre claro para la decision.";
+    errors.name = "Escribí un nombre claro para la decisión.";
   }
 
   const totalAmount = toNumber(values.totalAmount);
   if (totalAmount === null || totalAmount <= 0) {
-    errors.totalAmount = "Ingresa un importe total mayor a cero.";
+    errors.totalAmount = "Ingresá un importe total mayor a cero.";
   }
 
   if (values.desiredDate.trim() && !isValidDate(values.desiredDate)) {
-    errors.desiredDate = "La fecha objetivo no es valida.";
+    errors.desiredDate = "La fecha objetivo no es válida.";
   }
 
   if (values.paymentOptions.length === 0) {
-    errors.paymentOptions = "Agrega al menos una opcion de pago.";
+    errors.paymentOptions = "Agregá al menos una opción de pago.";
   }
 
   values.paymentOptions.forEach((option, index) => {
     const optionTotal = toNumber(option.totalAmount);
     if (optionTotal === null || optionTotal < 0) {
-      errors[`paymentOptions.${index}.totalAmount`] = "El total de la opcion no es valido.";
+      errors[`paymentOptions.${index}.totalAmount`] = "El total de la opción no es válido.";
     }
 
     const upfrontAmount = toNumber(option.upfrontAmount);
@@ -92,7 +92,7 @@ export function validateDecision(values: DecisionFormValues) {
     }
 
     if (interestAmount !== null && interestAmount < 0) {
-      errors[`paymentOptions.${index}.interestAmount`] = "El interes no puede ser negativo.";
+      errors[`paymentOptions.${index}.interestAmount`] = "El interés no puede ser negativo.";
     }
 
     if (
@@ -100,7 +100,7 @@ export function validateDecision(values: DecisionFormValues) {
       (!option.creditCardId.trim() || !option.firstDueDate.trim())
     ) {
       errors[`paymentOptions.${index}.creditCardId`] =
-        "Selecciona tarjeta y primer vencimiento para esta financiacion.";
+        "Seleccioná tarjeta y primer vencimiento para esta financiación.";
     }
 
     if (
@@ -120,11 +120,11 @@ export function validateDecision(values: DecisionFormValues) {
     }
 
     if (option.firstDueDate.trim() && !isValidDate(option.firstDueDate)) {
-      errors[`paymentOptions.${index}.firstDueDate`] = "La fecha del primer vencimiento no es valida.";
+      errors[`paymentOptions.${index}.firstDueDate`] = "La fecha del primer vencimiento no es válida.";
     }
 
     if (option.type === "use-reserve" && !option.reserveId.trim()) {
-      errors[`paymentOptions.${index}.reserveId`] = "Selecciona la reserva a utilizar.";
+      errors[`paymentOptions.${index}.reserveId`] = "Seleccioná la reserva a utilizar.";
     }
 
     if (
@@ -147,7 +147,7 @@ export function validateDecision(values: DecisionFormValues) {
       const financed = installmentCount * installmentAmount;
       if (Math.abs(upfrontAmount + financed - optionTotal) > 1) {
         errors[`paymentOptions.${index}.installmentAmount`] =
-          "Anticipo y financiacion no coinciden con el total informado.";
+          "Anticipo y financiación no coinciden con el total informado.";
       }
     }
   });

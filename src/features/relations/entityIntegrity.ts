@@ -35,7 +35,7 @@ export function getCreditCardDeletionGuard(store: PlanningStore, cardId: string)
 
   const reasons = [
     activePlans.length > 0 ? `${activePlans.length} plan(es) de cuotas activos` : null,
-    activeDecisions.length > 0 ? `${activeDecisions.length} decision(es) activas` : null,
+    activeDecisions.length > 0 ? `${activeDecisions.length} decisión(es) activas` : null,
     pendingExpenses.length > 0 ? `${pendingExpenses.length} gasto(s) pendientes` : null
   ].filter(Boolean) as string[];
 
@@ -59,7 +59,7 @@ export function getReserveDeletionGuard(store: PlanningStore, reserveId: string)
     allowed: activeDecisions.length === 0,
     reasons:
       activeDecisions.length > 0
-        ? [`${activeDecisions.length} decision(es) activas dependen de esta reserva`]
+        ? [`${activeDecisions.length} decisión(es) activas dependen de esta reserva`]
         : [],
     activeDecisionsCount: activeDecisions.length
   };

@@ -39,14 +39,14 @@ export function DeleteProjectDialog({
     <Modal
       open={open}
       title="Eliminar proyecto"
-      description="La eliminacion es definitiva. Si solo queres sacarlo de la vista principal, conviene archivarlo."
+      description="La eliminación es definitiva. Si solo querés sacarlo de la vista principal, conviene archivarlo."
       onClose={onClose}
     >
       <div className="space-y-5">
         <p className="text-sm leading-7 text-morga-muted">
           {project
-            ? `Vas a eliminar "${project.name}". Esta accion tambien eliminara sus tareas asociadas y desvinculara las decisiones relacionadas.`
-            : "Selecciona un proyecto para continuar."}
+            ? `Vas a eliminar "${project.name}". Esta acción también eliminará sus tareas asociadas y desvinculará las decisiones relacionadas.`
+            : "Seleccioná un proyecto para continuar."}
         </p>
 
         {summary ? (
@@ -54,7 +54,7 @@ export function DeleteProjectDialog({
             <p className="font-semibold">Relaciones detectadas</p>
             <ul className="mt-2 space-y-1 text-morga-muted">
               <li>{summary.tasksCount} tarea(s) asociada(s)</li>
-              <li>{summary.decisionsCount} decision(es) asociada(s)</li>
+              <li>{summary.decisionsCount} decisión(es) asociada(s)</li>
               <li>{summary.linkedExpensesCount} gasto(s) vinculados por decisiones</li>
               <li>{summary.linkedInstallmentPlansCount} plan(es) de cuotas vinculados</li>
               <li>{summary.linkedReservesCount} reserva(s) vinculadas</li>
@@ -64,7 +64,7 @@ export function DeleteProjectDialog({
 
         {hasDependencies ? (
           <p className="text-sm leading-7 text-morga-muted">
-            Recomendacion: archivar primero para conservar el contexto y evitar una eliminacion innecesaria.
+            Recomendación: archivar primero para conservar el contexto y evitar una eliminación innecesaria.
           </p>
         ) : null}
 

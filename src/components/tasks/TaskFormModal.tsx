@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { Modal } from "../ui/Modal";
 import { Task, TaskFormValues } from "../../types/domain";
 import {
@@ -60,6 +61,7 @@ export function TaskFormModal({
 }: TaskFormModalProps) {
   const [values, setValues] = useState<TaskFormValues>(emptyTaskForm);
   const [submitted, setSubmitted] = useState(false);
+  const [expanded, setExpanded] = useState(mode === "edit");
 
   useEffect(() => {
     if (!open) return;
@@ -72,7 +74,8 @@ export function TaskFormModal({
       });
     }
     setSubmitted(false);
-  }, [defaultProjectId, open, projects, task]);
+    setExpanded(mode === "edit");
+  }, [defaultProjectId, mode, open, projects, task]);
 
   const errors = useMemo(
     () => validateTaskForm(values, projects.map((project) => project.id)),
@@ -128,105 +131,125 @@ export function TaskFormModal({
           </InputField>
         </div>
 
-        <InputField label="Descripción">
-          <textarea
-            value={values.description}
+        <InputField label="Costo estimado" error={showError("estimatedCost")}>
+          <input
+            inputMode="numeric"
+            value={values.estimatedCost}
             onChange={(event) =>
-              setValues((current) => ({ ...current, description: event.target.value }))
+              setValues((current) => ({
+                ...current,
+                estimatedCost: event.target.value
+              }))
             }
-            className={textareaClassName}
+            placeholder="Ej: 35000"
+            className={inputClassName}
           />
         </InputField>
 
-        <div className="grid gap-4 md:grid-cols-3">
-          <InputField label="Estado">
-            <select
-              value={values.status}
-              onChange={(event) =>
-                setValues((current) => ({
-                  ...current,
-                  status: event.target.value as TaskFormValues["status"]
-                }))
-              }
-              className={inputClassName}
+        <button
+          type="button"
+          onClick={() => setExpanded((current) => !current)}
+          className="inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-morga-accent transition hover:text-morga-text"
+        >
+          {expanded ? (
+            <>
+              <ChevronUp className="h-4 w-4" />
+              Ocultar detalles
+            </>
+          ) : (
+            <>
+              <ChevronDown className="h-4 w-4" />
+              Agregar más detalles (opcional)
+            </>
+          )}
+        </button>
+
+        {expanded ? (
+          <>
+            <InputField label="Descripción">
+              <textarea
+                value={values.description}
+                onChange={(event) =>
+                  setValues((current) => ({ ...current, description: event.target.value }))
+                }
+                className={textareaClassName}
+              />
+            </InputField>
+
+            <div className="grid gap-4 md:grid-cols-3">
+              <InputField label="Estado">
+                <select
+                  value={values.status}
+                  onChange={(event) =>
+                    setValues((current) => ({
+                      ...current,
+                      status: event.target.value as TaskFormValues["status"]
+                    }))
+                  }
+                  className={inputClassName}
+                >
+                  {taskStatuses.map((status) => (
+                    <option key={status} value={status}>
+                      {formatTaskStatus(status)}
+                    </option>
+                  ))}
+                </select>
+              </InputField>
+
+              <InputField label="Prioridad">
+                <select
+                  value={values.priority}
+                  onChange={(event) =>
+                    setValues((current) => ({
+                      ...current,
+                      priority: event.target.value as TaskFormValues["priority"]
+                    }))
+                  }
+                  className={inputClassName}
+                >
+                  {taskPriorities.map((priority) => (
+                    <option key={priority} value={priority}>
+                      {formatTaskPriority(priority)}
+                    </option>
+                  ))}
+                </select>
+              </InputField>
+
+              <InputField
+                label="Fecha límite"
+                error={showError("dueDate")}
+                hint="Opcional. Si no tiene fecha, va a aparecer en 'Sin fecha'."
+              >
+                <input
+                  type="date"
+                  value={values.dueDate}
+                  onChange={(event) =>
+                    setValues((current) => ({ ...current, dueDate: event.target.value }))
+                  }
+                  className={inputClassName}
+                />
+              </InputField>
+            </div>
+
+            <label
+              className="flex min-h-[44px] w-fit items-center gap-3 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
+              title="Solo puede haber una por proyecto; es la que se destaca como la mas urgente de resolver."
             >
-              {taskStatuses.map((status) => (
-                <option key={status} value={status}>
-                  {formatTaskStatus(status)}
-                </option>
-              ))}
-            </select>
-          </InputField>
-
-          <InputField label="Prioridad">
-            <select
-              value={values.priority}
-              onChange={(event) =>
-                setValues((current) => ({
-                  ...current,
-                  priority: event.target.value as TaskFormValues["priority"]
-                }))
-              }
-              className={inputClassName}
-            >
-              {taskPriorities.map((priority) => (
-                <option key={priority} value={priority}>
-                  {formatTaskPriority(priority)}
-                </option>
-              ))}
-            </select>
-          </InputField>
-
-          <InputField
-            label="Fecha límite"
-            error={showError("dueDate")}
-            hint="Opcional. Si no tiene fecha, va a aparecer en 'Sin fecha'."
-          >
-            <input
-              type="date"
-              value={values.dueDate}
-              onChange={(event) =>
-                setValues((current) => ({ ...current, dueDate: event.target.value }))
-              }
-              className={inputClassName}
-            />
-          </InputField>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
-          <InputField label="Costo estimado" error={showError("estimatedCost")}>
-            <input
-              inputMode="numeric"
-              value={values.estimatedCost}
-              onChange={(event) =>
-                setValues((current) => ({
-                  ...current,
-                  estimatedCost: event.target.value
-                }))
-              }
-              placeholder="Ej: 35000"
-              className={inputClassName}
-            />
-          </InputField>
-
-          <label
-            className="flex min-h-[44px] items-center gap-3 rounded-2xl border border-morga-line bg-morga-surface px-4 text-sm text-morga-text"
-            title="Solo puede haber una por proyecto; es la que se destaca como la mas urgente de resolver."
-          >
-            <input
-              type="checkbox"
-              checked={values.isNextAction}
-              onChange={(event) =>
-                setValues((current) => ({
-                  ...current,
-                  isNextAction: event.target.checked
-                }))
-              }
-              className="h-4 w-4 accent-morga-dark"
-            />
-            Marcar como próxima acción
-          </label>
-        </div>
+              <input
+                type="checkbox"
+                checked={values.isNextAction}
+                onChange={(event) =>
+                  setValues((current) => ({
+                    ...current,
+                    isNextAction: event.target.checked
+                  }))
+                }
+                className="h-4 w-4 accent-morga-dark"
+              />
+              Marcar como próxima acción
+            </label>
+          </>
+        ) : null}
 
         <div className="flex flex-col gap-3 border-t border-morga-line pt-4 sm:flex-row sm:justify-end">
           <button

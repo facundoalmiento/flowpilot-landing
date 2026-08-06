@@ -99,7 +99,7 @@ export function FinanceSettingsForm({
         <InputField
           label="Saldo actual"
           error={submitted ? errors.currentBalance : undefined}
-          hint="Cuanta plata tenes disponible hoy en total."
+          hint="Cuánta plata tenés disponible hoy en total."
         >
           <input
             inputMode="numeric"
@@ -112,9 +112,9 @@ export function FinanceSettingsForm({
           />
         </InputField>
         <InputField
-          label="Reserva minima"
+          label="Reserva mínima"
           error={submitted ? errors.minimumReserve : undefined}
-          hint="Un colchon que no queres gastar; se resta de lo disponible."
+          hint="Un colchón que no querés gastar; se resta de lo disponible."
         >
           <input
             inputMode="numeric"
@@ -127,9 +127,9 @@ export function FinanceSettingsForm({
           />
         </InputField>
         <InputField
-          label="Dia de sueldo"
+          label="Día de sueldo"
           error={submitted ? errors.salaryPayday : undefined}
-          hint="Solo el numero del dia del mes (1 a 31)."
+          hint="Solo el número del día del mes (1 a 31)."
         >
           <input
             type="number"
@@ -148,9 +148,9 @@ export function FinanceSettingsForm({
 
       <div className="grid gap-4 md:grid-cols-2">
         <InputField
-          label="Dia de viatico"
+          label="Día de viático"
           error={submitted ? errors.allowancePayday : undefined}
-          hint="Solo el numero del dia del mes (1 a 31), si cobras viatico aparte."
+          hint="Solo el número del día del mes (1 a 31), si cobras viático aparte."
         >
           <input
             type="number"
@@ -172,7 +172,7 @@ export function FinanceSettingsForm({
           type="submit"
           className="rounded-full bg-morga-dark px-5 py-3 text-sm font-semibold text-white transition hover:translate-y-[-1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-morga-accent"
         >
-          Guardar configuracion
+          Guardar configuración
         </button>
       </div>
     </form>
@@ -228,7 +228,7 @@ export function CreditCardFormModal({
               className={inputClassName}
             />
           </InputField>
-          <InputField label="Limite opcional" error={submitted ? errors.limit : undefined}>
+          <InputField label="Límite opcional" error={submitted ? errors.limit : undefined}>
             <input
               inputMode="numeric"
               value={values.limit}
@@ -241,9 +241,9 @@ export function CreditCardFormModal({
         </div>
         <div className="grid gap-4 md:grid-cols-3">
           <InputField
-            label="Dia de cierre"
+            label="Día de cierre"
             error={submitted ? errors.closeDay : undefined}
-            hint="Solo el numero del dia del mes (1 a 31). Ej: 23"
+            hint="Solo el número del día del mes (1 a 31). Ej: 23"
           >
             <input
               type="number"
@@ -259,9 +259,9 @@ export function CreditCardFormModal({
             />
           </InputField>
           <InputField
-            label="Dia de vencimiento"
+            label="Día de vencimiento"
             error={submitted ? errors.dueDay : undefined}
-            hint="Tambien es solo el numero del dia. Puede caer en el mes siguiente. Ej: 3"
+            hint="También es solo el número del día. Puede caer en el mes siguiente. Ej: 3"
           >
             <input
               type="number"
@@ -368,7 +368,7 @@ export function IncomeFormModal({
           </InputField>
           <InputField
             label="Estado"
-            hint="'Cobrado' actualiza tu saldo real al instante. 'Esperado' todavia no."
+            hint="'Cobrado' actualiza tu saldo real al instante. 'Esperado' todavía no."
           >
             <select
               value={values.status}
@@ -412,7 +412,7 @@ export function IncomeFormModal({
           <InputField
             label="Fecha esperada"
             error={submitted ? errors.expectedDate : undefined}
-            hint="Cuando pensas que te lo van a pagar."
+            hint="Cuándo pensás que te lo van a pagar."
           >
             <input
               type="date"
@@ -589,7 +589,7 @@ export function ExpenseFormModal({
               <option value="paid">Pagado</option>
             </select>
           </InputField>
-          <InputField label="Categoria">
+          <InputField label="Categoría">
             <select
               value={values.category}
               onChange={(event) =>
@@ -609,7 +609,7 @@ export function ExpenseFormModal({
           </InputField>
         </div>
         <div className="grid gap-4 md:grid-cols-3">
-          <InputField label="Metodo de pago">
+          <InputField label="Método de pago">
             <select
               value={values.paymentMethod}
               onChange={(event) =>
@@ -732,7 +732,7 @@ export function CommitmentFormModal({
           <InputField label="Nombre" error={submitted ? errors.name : undefined}>
             <input
               value={values.name}
-              placeholder="Ej: Prestamo personal"
+              placeholder="Ej: Préstamo personal"
               onChange={(event) =>
                 setValues((current) => ({ ...current, name: event.target.value }))
               }
@@ -756,9 +756,9 @@ export function CommitmentFormModal({
             <input value="Mensual" disabled className={`${inputClassName} bg-morga-surfaceAlt/50`} />
           </InputField>
           <InputField
-            label="Proximo vencimiento"
+            label="Próximo vencimiento"
             error={submitted ? errors.nextDueDate : undefined}
-            hint="La proxima fecha en que hay que pagarlo."
+            hint="La próxima fecha en que hay que pagarlo."
           >
             <input
               type="date"
@@ -782,7 +782,7 @@ export function CommitmentFormModal({
           <InputField
             label="Fin"
             error={submitted ? errors.endDate : undefined}
-            hint="Opcional. Dejalo vacio si no tiene fecha de fin (ej: un servicio)."
+            hint="Opcional. Dejalo vacío si no tiene fecha de fin (ej: un servicio)."
           >
             <input
               type="date"
@@ -798,7 +798,7 @@ export function CommitmentFormModal({
           <InputField
             label="Cantidad total de cuotas"
             error={submitted ? errors.totalInstallments : undefined}
-            hint="Opcional. Solo si tiene un final conocido, ej: prestamo a 12 meses."
+            hint="Opcional. Solo si tiene un final conocido, ej: préstamo a 12 meses."
           >
             <input
               inputMode="numeric"
@@ -813,7 +813,7 @@ export function CommitmentFormModal({
           <InputField
             label="Cuota actual"
             error={submitted ? errors.currentInstallment : undefined}
-            hint="Opcional. En que cuota vas si ya empezaste a pagarlo."
+            hint="Opcional. En qué cuota vas si ya empezaste a pagarlo."
           >
             <input
               inputMode="numeric"
@@ -914,7 +914,7 @@ export function InstallmentPlanFormModal({
         }}
       >
         <div className="grid gap-4 md:grid-cols-2">
-          <InputField label="Descripcion" error={submitted ? errors.description : undefined}>
+          <InputField label="Descripción" error={submitted ? errors.description : undefined}>
             <input
               value={values.description}
               placeholder="Ej: Notebook en 6 cuotas"
@@ -987,7 +987,7 @@ export function InstallmentPlanFormModal({
           <InputField
             label="Primera fecha"
             error={submitted ? errors.firstDueDate : undefined}
-            hint="Cuando vence la primera cuota."
+            hint="Cuándo vence la primera cuota."
           >
             <input
               type="date"
@@ -1101,7 +1101,7 @@ export function ReserveFormModal({
           <InputField
             label="Objetivo"
             error={submitted ? errors.targetAmount : undefined}
-            hint="Cuanto queres juntar en total."
+            hint="Cuánto querés juntar en total."
           >
             <input
               inputMode="numeric"
@@ -1118,7 +1118,7 @@ export function ReserveFormModal({
           <InputField
             label="Guardado"
             error={submitted ? errors.savedAmount : undefined}
-            hint="Cuanto ya juntaste para esto (es informativo, no toca tu saldo)."
+            hint="Cuánto ya juntaste para esto (es informativo, no toca tu saldo)."
           >
             <input
               inputMode="numeric"
@@ -1133,7 +1133,7 @@ export function ReserveFormModal({
           <InputField
             label="Fecha objetivo"
             error={submitted ? errors.targetDate : undefined}
-            hint="Opcional. Para cuando queres tenerlo listo."
+            hint="Opcional. Para cuándo querés tenerlo listo."
           >
             <input
               type="date"

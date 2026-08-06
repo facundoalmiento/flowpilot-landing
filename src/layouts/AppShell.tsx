@@ -47,7 +47,7 @@ export function AppShell() {
       { label: "Nueva tarea", to: "/week?compose=1", icon: CalendarPlus2 },
       { label: "Nuevo gasto", onSelect: () => setQuickExpenseOpen(true), icon: CircleDollarSign },
       { label: "Nuevo ingreso", onSelect: () => setQuickIncomeOpen(true), icon: CircleDollarSign },
-      { label: "Nueva decision", to: "/decisions?compose=1", icon: Sparkles },
+      { label: "Nueva decisión", to: "/decisions?compose=1", icon: Sparkles },
       { label: "Nuevo proyecto", to: "/projects?compose=1", icon: BriefcaseBusiness }
     ],
     []
@@ -57,7 +57,7 @@ export function AppShell() {
     () => [
       { label: "Proyectos", to: "/projects", icon: FolderKanban },
       { label: "Decisiones", to: "/decisions", icon: Sparkles },
-      { label: "Configuracion", to: "/settings", icon: Settings2 }
+      { label: "Configuración", to: "/settings", icon: Settings2 }
     ],
     []
   );

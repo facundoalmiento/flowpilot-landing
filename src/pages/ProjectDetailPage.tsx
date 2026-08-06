@@ -135,7 +135,7 @@ export function ProjectDetailPage() {
               {project.name}
             </h1>
             <p className="mt-3 max-w-3xl text-sm leading-7 text-morga-muted">
-              {project.description}
+              {project.description.trim() ? project.description : "Todavía no cargaste una descripción."}
             </p>
           </div>
 
@@ -264,7 +264,7 @@ export function ProjectDetailPage() {
         {projectDecisions.length === 0 ? (
           <EmptyState
             title="Sin decisiones vinculadas"
-            description="Cuando asocies decisiones de compra o planificacion a este proyecto, van a aparecer aca."
+            description="Cuando asocies decisiones de compra o planificación a este proyecto, van a aparecer acá."
           />
         ) : (
           <div className="space-y-3">
@@ -287,7 +287,7 @@ export function ProjectDetailPage() {
                       {decision.name}
                     </p>
                     <p className="mt-1 text-sm text-morga-muted">
-                      {decision.description || "Sin descripcion adicional."}
+                      {decision.description || "Sin descripción adicional."}
                     </p>
                   </div>
                   <div className="shrink-0">
@@ -295,7 +295,7 @@ export function ProjectDetailPage() {
                       to={`/decisions/${decision.id}`}
                       className="inline-flex min-h-[44px] items-center rounded-full border border-morga-line px-4 py-2 text-sm font-semibold text-morga-text transition hover:bg-morga-surfaceAlt"
                     >
-                      Ver decision
+                      Ver decisión
                     </Link>
                   </div>
                 </div>
@@ -330,7 +330,7 @@ export function ProjectDetailPage() {
         linkedFinance.reserves.length === 0 ? (
           <EmptyState
             title="Sin operaciones vinculadas"
-            description="Cuando una decision de este proyecto se convierta en gasto, cuotas o reserva, aparecera aca."
+            description="Cuando una decisión de este proyecto se convierta en gasto, cuotas o reserva, aparecerá acá."
           />
         ) : (
           <div className="grid gap-4 xl:grid-cols-3">
